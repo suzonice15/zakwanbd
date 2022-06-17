@@ -1,0 +1,74 @@
+
+#search .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    max-height: 365px;
+    overflow: auto;
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+#search .dropdown-menu .search-item {
+    border-bottom: 1px solid #e1e4e7;
+}
+#search .dropdown-menu .search-item:hover {
+    background-color: #f1f5f7;
+}
+#search .dropdown-menu .search-item a {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    white-space: normal;
+}
+#search .dropdown-menu .search-item .image {
+    float: left;
+    width: 60px;
+    background: #fafafa;
+}
+#search .dropdown-menu .search-item .image img {
+    max-width: 60px;
+}
+#search .dropdown-menu .search-item .name {
+    margin-left: 70px;
+    font-size: 12px;
+    line-height: 14px;
+    padding-bottom: 5px;
+    color: #2b2828;
+}
+#search .dropdown-menu .search-item:hover .name {
+    color: #000;
+}
+#search .dropdown-menu .search-item .price {
+    font-size: 14px;
+    margin-left: 70px;
+    font-weight: 600;
+    color: #222;
+}
+#search .dropdown-menu .search-item:hover .price {
+    color: #0084c9;
+}
+#search .dropdown-menu .search-item.remainder-count a {
+    text-align: center;
+    background: #f1f5f7;
+    font-size: 13px;
+    color: #777;
+}
+#search .dropdown-menu .search-item.remainder-count:hover a {
+    background: #0084c9;
+    color: #fff;
+}

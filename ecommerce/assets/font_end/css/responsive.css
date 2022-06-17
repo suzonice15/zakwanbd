@@ -1,0 +1,11 @@
+@media (max-width: 570px){
+    .desktop-search-menu li a {
+        display: block;
+        background-color: white;
+        padding: 5px 11px;
+        border-bottom: 1px solid #ddd;
+        width: 324px;
+        margin-left: 7px;
+    }
+
+}
