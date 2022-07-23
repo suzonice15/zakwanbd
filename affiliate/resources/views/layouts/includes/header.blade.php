@@ -148,6 +148,15 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+
+                @if($status=='super-admin' || session::get('email')=='suzonice15@gmail.com')
+                    <li class="dropdown messages-menu">
+                        <a   id="show_admin_note" style="color: white;font-weight: bold;" target="_blank"   >
+                            <i class="fa fa-plus"></i>
+                        </a>
+
+                    </li>
+                    @endif
                     
                      <li class="dropdown messages-menu">
                         <a  style="color: yellow;font-weight: bold;" target="_blank" class="padding_class_a blink_me" href="https://zakwanbd.com/customer/login/affiliate/{{Session::get('id')}}" >
@@ -252,6 +261,7 @@
                             <li class="user-header">
                                 <?php
                                 $image= Session::get('picture');
+
                                 if($image){
                                 ?>
                                 <img src="{{url('public/uploads/')}}/{{ Session::get('picture') }}" class="img-circle"
@@ -271,9 +281,11 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                            @if($status !='super-admin')
                                 <div class="pull-left">
                                     <a href="{{ url('/profile') }}" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                @endif
                                 <div class="pull-right">
                                     <a href="{{ url('/affilite/logout') }}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
@@ -293,4 +305,40 @@
 
         </nav>
     </header>
+
+    <div class="modal fade" id="admin_note" style="z-index:999999999;">
+        <div class="modal-dialog m model-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Admin Note </h4>
+                </div>
+                <div class="modal-body" id="show_html">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script type="text/javascript">
+        $("#show_admin_note").on('click', function() {
+            $('#admin_note').modal('show');
+            $.ajax({
+                url:"{{url('/')}}/admin/note",
+                success:function(data){
+
+                    $("#show_html").html(data)
+                }
+            })
+        });
+    </script>
+
+
 

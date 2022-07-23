@@ -34,7 +34,7 @@
             ?>
 
             <td><?php if($product->status==1) {echo "Publised" ;}else{ echo "Unpublished";} ?> </td>
-            <td>{{ $product->product_stock }}</td>
+            <td>{{  optional(getSingleProductStock($product->product_id))->stock }}</td>
             <td>{{ $product->product_order_count }}</td>
             <td>{{date('d-m-Y H:m s',strtotime($product->created_time))}}</td>
             <td>
@@ -45,11 +45,11 @@
                 $admin_user=Session::get('status');
                 if($admin_user !='editor' && $admin_user !='office-staff') {
                 ?>
-
-
-                    <a title="delete" href="{{ url('admin/product/delete') }}/{{ $product->product_id }}" onclick="return confirm('Are you want to delete this Product')">
+                    <!-- <a title="delete" href="{{ url('admin/product/delete') }}/{{ $product->product_id }}" onclick="return confirm('Are you want to delete this Product')">
                         <span class="glyphicon glyphicon-trash btn btn-danger"></span>
-                    </a>
+                    </a> -->
+                    <button type="button" class="btn btn-info" data-toggle="modal" onclick="StockUpdate({{ $product->product_id }})"  data-target="#modal-default">
+Stock</button>
 
                 <?php } ?>
 

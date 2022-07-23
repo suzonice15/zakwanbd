@@ -216,11 +216,8 @@ class OrderController extends Controller
         $data['order_total'] = $request->order_total;
         $data['products'] = serialize($request->products);
         $data['customer_name'] = $request->customer_name;
-        $data['customer_phone'] = $request->customer_phone;
-        $data['customer_email'] = $request->customer_email;
-        $data['customer_address'] = $request->customer_address;
-        $data['courier_service'] = $request->courier_service;
-        $data['order_from'] = "sohojbuy.com";
+        $data['customer_phone'] = $request->customer_phone;        
+         $data['order_from'] = "adminpanel";
         $data['staff_id'] = Session::get('id');
         //$data['delevery_address'] = $request->delevery;
         $data['shipping_charge'] = $request->shipping_charge;
@@ -268,9 +265,25 @@ class OrderController extends Controller
 
             return redirect('admin/orders/')->with('error', 'Error to Create this order');
         }
+    }
 
+    public function affiliateCheckByMobile($mobile){
+
+       $affiliate= DB::table('users_public')->where('phone',$mobile)->first();
+       $data=array();
+       $data['success']="no";
+       if($affiliate){
+        $data['name']=$affiliate->name;
+        $data['phone']=$affiliate->phone;
+        $data['id']=$affiliate->id;
+        $data['success']="ok";
+       
+       }
+       return $data;
 
     }
+
+
 
     /**
      * Display the specified resource.

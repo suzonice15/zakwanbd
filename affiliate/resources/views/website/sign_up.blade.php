@@ -212,6 +212,17 @@ font-size: 23px;">
               <option value="Female">Female</option>
           </select>
         </div>
+        <div class="input-container fieldHiden">
+            <i class="fa fa-user icon"></i>
+          <select required name="religion" id="religion" style="height: 49px;margin-top: 8px;"  class="input-field">
+              <option value="">Select Religion</option>
+              <option value="Islam">Islam</option>
+              <option value="Christian">Christian</option>
+              <option value="Hindu">Hindu </option>
+              <option value="Buddhist">Buddhist </option>
+          </select>
+        </div>
+        
         <div class="fieldHiden" style="margin-top: 10px;">
             <input  required type="checkbox" name="checkbox" value="1" /><span style="color:black">  I have read and agree with the </span><a style="color:black" href="{{url('/')}}/terms-condition" target="_blank">Terms & Conditions</a>
 
@@ -240,6 +251,14 @@ font-size: 23px;">
      <script>
 
 
+jQuery('#religion').on('change', function () {
+   var religion= $("#religion").val();
+           if(religion =='Islam'){
+            $("#form_submit").show();
+           }else{
+            $("#form_submit").hide();
+           }
+        });
 jQuery('#gender').on('change', function () {
    var gender= $("#gender").val();
            if(gender =='Female'){

@@ -10,6 +10,9 @@ use Image;
 use AdminHelper;
 use URL;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Zone;
+use App\Models\ProductDemand;
+use App\Models\ProductDemandDetail;
 
 class ReportController extends Controller
 {
@@ -20,7 +23,48 @@ class ReportController extends Controller
         $this->middleware('Admin');
     }
 
-     
+    
+    public function userProductDemand()
+    {         
+        $data['main'] = 'User Demand';
+        $data['active'] = 'User Demand';
+        $data['title'] = '  '; 
+        $today=date('Y-m-d');
+        $zone_id= Session::get('zone_id');
+        $shop_id= Session::get('shop_id'); 
+        $data['products']= ProductDemand::where('shop_id',$shop_id)->orderBy('id','desc')->get();
+        return view('admin.report.userDemand',$data);
+    }
+
+    public function userProductDemandView($id)
+    {         
+        $data['main'] = 'Product Demand View ';
+        $data['active'] = 'Product Demand View';
+        $data['title'] = '  ';  
+        $data['product_row']= ProductDemand::find($id);
+        $data['products']= ProductDemandDetail::join('product','product.product_id','=','product_demand_details.product_id')->where('product_demand_id',$id)->get();
+        return view('admin.report.userProductDemandView',$data);
+    }
+    public function userProductDemandViewUpdate(Request $request,$id)
+    {    
+      $demand=ProductDemand::find($id);   
+      $demand->status=$request->status;
+      $demand->save();      
+      foreach($request->product_id as $key=>$given){
+       $data['given']=$given;
+       $product_id=ProductDemandDetail::where('id',$key)->value('product_id');
+       stockReduceofZone($demand->zone_id,$product_id,$given);
+       
+        ProductDemandDetail::where('id',$key)->update($data);
+
+      }  
+ 
+        return redirect('/admin/report/userProductDemand')->with('success','Updated successfully');
+    }
+
+    
+    
+
 
     public function order_report()
     {
@@ -44,30 +88,91 @@ class ReportController extends Controller
         return view('admin.report.order_report',$data);
     }
 
-    public function limited_product()
+    public function stockReport(Request $request)
     {
-        $user_id=AdminHelper::Admin_user_autherntication();
-        $url=  URL::current();
+        $data['selected_product_status']=$data['selected_zone_id']=$data['selected_shop_id']='';
+        $data['zones']= Zone::latest()->get();
+        
+        if($request->zone_id){
+            $data['selected_product_status']=$request->product_status;
+            $shop_id=$request->shop_id;
+            $data['selected_shop_id']= $shop_id;
+            $data['selected_zone_id']= $request->zone_id;
+            if($request->product_status==1){
+                $data['products']=DB::table('product_stocks')
+                ->join('product','product_stocks.product_id','=','product.product_id')
+                ->where('shop_id', $shop_id)->get();
+               
 
-        if($user_id < 1){
-            //  return redirect('admin');
-            Redirect::to('admin')->with('redirect',$url)->send();
+            }else if($request->product_status==2){
+                // limited stock
+                $data['products']=DB::table('product_stocks')->join('product','product_stocks.product_id','=','product.product_id')
+                ->where('shop_id', $shop_id)
+                ->where('stock', '<=',20)
+                ->get();
+
+            }
+              else{ 
+                $product_ids=DB::table('product_stocks')->where('shop_id', $shop_id)->where('stock', '>',0)->pluck('product_id')->toArray(); 
+                $data['products']=DB::table('product')->whereNotIn('product_id', $product_ids)->get();
+            }
 
         }
 
-        $data['main'] = 'Limited Products';
-        $data['active'] = 'Limited Products';
-        $data['title'] = '';         
-     
-        $data['products']= DB::table('product')->where('product_stock','=',0)->orderBy('product_id', 'desc')->get();
-         return view('admin.report.stock_product',$data);
+
+        $data['reports']= Zone::latest()->get();
+        return view('admin.report.stockReport',$data);
     }
+    
+
+    public function ProductDemand(Request $request)
+    {
+        $zone_id= Session::get('zone_id');
+        $shop_id= Session::get('shop_id');
+        $today=date("Y-m-d");
+        $product_id=$request->product_id;
+        $demand=$request->demand; 
+       $demandCheck= ProductDemand::where('shop_id',$shop_id)->where('date',  $today)->first();
+       if($demandCheck){
+         // update
+         $data_demand['quantity']=$demandCheck->quantity+ $demand;          
+         ProductDemand::where('id',$demandCheck->id)->update($data_demand);
+
+          $data_demand_details['product_demand_id']=$demandCheck->id;
+          $data_demand_details['zone_id']=$zone_id;
+          $data_demand_details['shop_id']= $shop_id;
+          $data_demand_details['product_id']= $product_id;
+          $data_demand_details['demand']= $demand;         
+          $data_demand_details['created_at']=date('Y-m-d H:i:s');         
+          $data_demand_details['updated_at']= date('Y-m-d H:i:s');      
+          ProductDemandDetail::insert($data_demand_details);
+
+       } else{
+        // insert 
+
+     $product_demand=  new ProductDemand();
+     $product_demand->zone_id=$zone_id;
+     $product_demand->shop_id=$shop_id;
+     $product_demand->date=date('Y-m-d');
+     $product_demand->status=0;
+     $product_demand->quantity=$demand; 
+      $product_demand->save(); 
+
+     $data_demand_details['product_demand_id']=$product_demand->id;
+     $data_demand_details['zone_id']=$zone_id;
+     $data_demand_details['shop_id']= $shop_id;
+     $data_demand_details['product_id']= $product_id;
+     $data_demand_details['demand']= $demand;         
+     $data_demand_details['created_at']=date('Y-m-d H:i:s');         
+     $data_demand_details['updated_at']= date('Y-m-d H:i:s');  
+
+     ProductDemandDetail::insert($data_demand_details);
 
 
-
+       }
+    } 
 
     public function order_report_by_ajax(Request $request){
-
 
         if($request->ajax())
         {
@@ -100,217 +205,6 @@ class ReportController extends Controller
         // $today=order_status;
            }
 
-    public  function  fetch_data(Request $request){
-        if($request->ajax())
-        {
-
-            $query = $request->get('query');
-            $query = str_replace(" ", "%", $query);
-            $Reports = DB::table('category')
-                ->orWhere('category_title', 'like', '%'.$query.'%')->paginate(10);
-            return view('admin.category.pagination', compact('Reports'));
-        }
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $user_id=AdminHelper::Admin_user_autherntication();
-        $url=  URL::current();
-
-        if($user_id < 1){
-            //  return redirect('admin');
-            Redirect::to('admin')->with('redirect',$url)->send();
-
-        }
-
-        $data['main'] = 'Reports';
-        $data['active'] = 'All Reports';
-        $data['title'] = '  ';
-        $data['Reports']=DB::table('category')->orderBy('category_title','ASC')->get();
-        return view('admin.category.create', $data);
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $data['category_title']=$request->category_title;
-        $data['category_name']=$request->category_name;
-        $data['parent_id']=$request->parent_id;
-        $data['rank_order']=$request->rank_order;
-        $data['status']=$request->status;
-        $data['seo_title']=$request->seo_title;
-        $data['seo_meta_title']=$request->seo_meta_title;
-        $data['seo_keywords']=$request->seo_keywords;
-        $data['seo_content']=$request->seo_content;
-        $data['seo_meta_content']=$request->seo_meta_content;
-
-        $image = $request->file('featured_image');
-        if ($image) {
-
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('/uploads/category');
-
-            $resize_image = Image::make($image->getRealPath());
-
-            $resize_image->resize(200, 200, function ($constraint) {
-
-            })->save($destinationPath . '/' . $image_name);
-            $data['medium_banner']=$image_name;
-
-        }
-
-
-            $data['registered_date']=date('Y-m-d');
-        $result =DB::table('category')->insert($data);
-        if ($result) {
-            return redirect('admin/Reports')
-                ->with('success', 'created successfully.');
-        } else {
-            return redirect('admin/Reports')
-                ->with('error', 'No successfully.');
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $user_id=AdminHelper::Admin_user_autherntication();
-        $url=  URL::current();
-
-        if($user_id < 1){
-            //  return redirect('admin');
-            Redirect::to('admin')->with('redirect',$url)->send();
-
-        }
-
-        $data['category']=DB::table('category')->where('category_id',$id)->first();
-        $data['main'] = 'Users';
-        $data['active'] = 'Update user';
-        $data['title'] = 'Update User Registration Form';
-        $data['Reports']=DB::table('category')->orderBy('category_title','ASC')->get();
-        return view('admin.category.edit', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $data['category_title']=$request->category_title;
-        $data['category_name']=$request->category_name;
-        $data['parent_id']=$request->parent_id;
-        $data['rank_order']=$request->rank_order;
-        $data['status']=$request->status;
-        $data['seo_title']=$request->seo_title;
-        $data['seo_meta_title']=$request->seo_meta_title;
-        $data['seo_keywords']=$request->seo_keywords;
-        $data['seo_content']=$request->seo_content;
-        $data['seo_meta_content']=$request->seo_meta_content;
-
-        $data['registered_date']=date('Y-m-d');
-
-        $image = $request->file('featured_image');
-        if ($image) {
-
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('/uploads/category');
-
-            $resize_image = Image::make($image->getRealPath());
-
-            $resize_image->resize(200, 200, function ($constraint) {
-
-            })->save($destinationPath . '/' . $image_name);
-            $data['medium_banner']=$image_name;
-
-        }
-
-        $result= DB::table('category')->where('category_id',$id)->update($data);
-        if ($result) {
-            return redirect('admin/Reports')
-                ->with('success', 'Updated successfully.');
-        } else {
-            return redirect('admin/Reports')
-                ->with('error', 'No successfully.');
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    public function delete($id)
-    {
-        $user_id=AdminHelper::Admin_user_autherntication();
-        $url=  URL::current();
-
-        if($user_id < 1){
-            //  return redirect('admin');
-            Redirect::to('admin')->with('redirect',$url)->send();
-
-        }
-
-        $result=DB::table('category')->where('category_id',$id)->delete();
-        if ($result) {
-            return redirect('admin/Reports')
-                ->with('success', 'Deleted successfully.');
-        } else {
-            return redirect('admin/Reports')
-                ->with('error', 'No successfully.');
-        }
-
-    }
-    public function destroy($id)
-    {
-        //
-    }
-    public  function  urlCheck(Request $request){
-        $category_name = $request->get('url');
-      $result= DB::table('category')->where('category_name',$category_name)->first();
-        if($result){
-            echo 'This category exit';
-        } else {
-            echo '';
-        }
-
-
-    }
-
-
+    
+ 
 }

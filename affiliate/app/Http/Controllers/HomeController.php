@@ -1104,13 +1104,10 @@ class HomeController extends Controller
         }
         if ($nation_id_number) {
             return redirect('registration')->with('error', "This National Id already exist try with other");
-        }
-        
-        
+        } 
         if ($phone_id) {
             return redirect('registration')->with('error', "This Phone  already exist try with other");
-        }
-
+        } 
 
         $code = $request->varify_code;
         if ($code != $session_code) {           
@@ -1160,6 +1157,8 @@ class HomeController extends Controller
         $data['password'] = md5($request->password);
         $data['token'] = 'ok';
         $data['referrer'] = $request->referrer;
+        $data['religion'] = $request->religion;
+        $data['parent_id'] = 2;
 
         $user_id = DB::table('users_public')->insertGetId($data);
 

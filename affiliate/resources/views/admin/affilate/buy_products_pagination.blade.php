@@ -6,8 +6,8 @@
 
 
                 <img src="{{ env('APP_ECOMMERCE') }}public/uploads/{{ $product->folder }}/thumb/{{ $product->feasured_image }}">
-            <br/><p class="name"> <a href="{{url('/')}}/product/{{$product->product_name}}"> {{$product->product_title}} </a>
-            </p>
+            <br/>
+            <p class="name"> <a href="{{url('/')}}/product/{{$product->product_name}}"> {{$product->product_title}} </a></p>
             <p>Price :
                 <?php
 
@@ -18,17 +18,9 @@
                 }
 
                 echo $sell_price;
-
-
                 ?>
-
-
-
-
             </p>
-
             <p>Point :{{$product->product_point}}</p>
-
             <div class="">
 
                 <?php

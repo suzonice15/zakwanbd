@@ -128,18 +128,16 @@
                     $admin_user_status=Session::get('status');
                     if($admin_user_status !='office-staff' || $admin_user_status !='editor') {
                         ?>
-
                     <input type="checkbox" name="all_select" id="checkAll"/>
                     <?php } ?>
-
                 </th>
                 <th width="15%">Customer</th>
-                <th>Product</th>
-                <th>Affiliate</th>
-                <th>History</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th width="15%">Product</th>
+                <th width="20%">Affiliate</th>
+                <th width="18%">History</th>
+                <th width="10%">Amount</th>
+                <th width="5%">Status</th>
+                <th width="5%">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -147,7 +145,6 @@
             </tbody>
         </table>
     </div>
-
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -165,8 +162,6 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
-
     <div class="modal fade" id="orderEditModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -176,15 +171,12 @@
                     <h4 class="modal-title">Order Edit History </h4>
                 </div>
                 <div class="modal-body ordereditshow" >
-
                 </div>
-
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-
     <div class="modal fade" id="modal-exchange">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -194,7 +186,6 @@
                     <h4 class="modal-title">Order Exchange To Other Stuff </h4>
                 </div>
                 <div class="modal-body">
-
                     <form role="form" action="{{url('/')}}/order/exchange">
                         @csrf
                         <div class="box-body">
@@ -205,35 +196,23 @@
                                     @foreach($stuffInfo as $stuff)
                                     <option value="{{$stuff->admin_id}}">{{$stuff->name}}</option>
                                    @endforeach
-
                                 </select>
                             </div>
-
                         </div>
-
                         <div class="box-footer">
                             <button type="button" id="exchange_now" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
-
-                </div>
-
+                 </div>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-
-
-
-
     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
     <input type="hidden" name="status" id="status" value="{{$order_status}}" />
-
 </div>
-
 <script>
-
     $("#exchange_now").click(function () {
       var staff_id=  $("#staff_id").val()
         var order_id = new Array();
@@ -244,7 +223,6 @@
         });
         if (order_id.length > 0 && staff_id !='') {
             $.ajax({
-
                 url: '{{url('/')}}/admin/orderExchange',
                 data: {
                     order_id: order_id,
@@ -263,15 +241,11 @@
     });
 
     $(document).on("change", "#checkAll", function (event) {
-
         if ($(this).is(":checked")) {
-
             $('.checkAll').prop('checked', true);
 
         } else if ($(this).is(":not(:checked)")) {
-
             $('.checkAll').prop('checked', false);
-
         }
 
     });

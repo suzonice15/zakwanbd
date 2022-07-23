@@ -1,15 +1,9 @@
 @extends('website.master')
 @section('mainContent')
 <?php
-
-                                            $items = \Cart::getContent();
-
-
-
+ $items = \Cart::getContent(); 
 $indhaka=array();
-$outdhaka=array();
-
-
+$outdhaka=array();  
 $items = \Cart::getContent();
 //Cart::clear();
 $count=0;
@@ -128,8 +122,6 @@ if(Session::get('email')){
 
                             <table class="table  text-end table-bordered review_cost">
                                 <tbody>
-
-
                                 <tr >
                                     <td>
                                         <span class="extra bold ">Sub-Total</span>
@@ -170,9 +162,7 @@ if(Session::get('email')){
                                                 <span class="bold totalamout">৳  <span id="total_cost">
 
                                                          {{$total}}
-                                                    </span></span>
-
-
+                                                    </span></span> 
                                         <input type="hidden" name="payment_type" value="cash_on_delivery">
                                         <input type="hidden"  id="order_total" name="order_total" value="{{$total}}">
 
@@ -226,22 +216,66 @@ if(Session::get('email')){
 
 
                             </select>
-                        </div>
-
-
-
+                        </div> 
                         <div class="form-group">
                             <label for="billing_name"><b>Delivery Address</b></label>
                             <span style="color:red;font-size: 18px;margin-top: -7px;position: absolute;">*</span>
                             <textarea  required=""  name="customer_address"  class="form-control" placeholder="Type Your Address">{{$customer_address}}</textarea>
 
                         </div>
-
                         <div class="form-group">
                             <label for="customer_order_note"><b>Order Note</b></label>
                             <textarea    name="customer_order_note"  class="form-control" placeholder="Order Note"></textarea>
-
                         </div>
+
+                        <div class="form-group">
+                            <label for="billing_name"><b>Payment</b></label>
+                            <span style="color:red;font-size: 18px;margin-top: -7px;position: absolute;">*</span>
+                            <select required=""  name="payment_method" id="payment_method" class="form-control">
+                                <option value="">Select Payment Method</option>
+                                <option value="Bkash">Bkash</option>
+                                <option value="Nagod">Nagod</option>
+                                <option value="Bank">Bank</option>  
+                            </select>
+                        </div>
+                        <div class="form-group mobile-payment-section">
+                            <p style="color:red;margin-bottom: -2px;">Please Pay Total Bill To This <span id="bkah_number_id"></span></p>  
+                            <h5 style="color:green" id="mobile_number">01571133188</h5> 
+                        </div>
+                        <div class='mobile-payment-section'> 
+
+                                <div class="form-group">
+                                <label for="billing_name" id="bkash_nagod_number"></label> 
+                                <input type='text' class='form-control' name="account_number_mobile"  id="account_number_mobile"/>
+                                </div> 
+
+                                <div class="form-group">
+                                <label for="billing_name">Transaction ID</label> 
+                                <input   type='text' class='form-control'  name="transaction_id_mobile"  id="transaction_id_mobile"/>
+                                </div> 
+                         
+                        </div>
+
+
+                        <div class="form-group bank-payment-section">
+                            <p style="color:red;margin-bottom: -2px;">Please Pay Total Bill To This Bank</p>  
+                            <h5 style="color:green" id="bank_name"></h5> 
+                            <h5 style="color:green" id="bank_account_number"></h5> 
+                        </div>
+                        <div class='bank-payment-section'> 
+
+                                <div class="form-group">
+                                <label for="billing_name" id="bkash_nagod_number">Account Number</label> 
+                                <input type='text' class='form-control' name="account_number"  id="account_number"/>
+                                </div> 
+
+                                <div class="form-group">
+                                <label for="billing_name">Transaction ID</label> 
+                               <input type='text' class='form-control'  name="transaction_id"  id="transaction_id" /> 
+                                </div> 
+                         
+                        </div>
+                      
                         <div class="form-group row mt-3">
                           <div class="col-lg-3 col-12">
                               <label for="customer_order_note"><b>Coupon Code</b></label>
@@ -257,14 +291,9 @@ if(Session::get('email')){
 
                         </div>
 
-                        <div class="form-group">
-
+                        <div class="form-group">  
                             <p id="coupon_message"></p>
-                        </div>
-
-
-
-
+                        </div> 
                     </div>
                     <button type="submit" class="btn btn-info text-white">Confirm Order</button>
                     <a href="{{url('/')}}" style="background-color:#FF6061;border: none" class="btn btn-info text-white">Continue   Shopping</a>
@@ -282,11 +311,51 @@ if(Session::get('email')){
 
 </div>
 
+<?php
 
+function getTransactionId(){
+    echo '<input required type="text" class="form-control"  name="transaction_id"  id="transaction_id"/>';
+}
+
+?>
 
 
 <script>
     $(".couponclassHide").hide();
+    $(".mobile-payment-section").hide();
+    $(".bank-payment-section").hide();
+    $("#payment_method").change(function(){
+        let method;
+        method=this.value;
+       
+      if(method=="Bkash" || method=="Nagod"){
+        $("#bkah_number_id").text(method+" Number")
+        $("#bkash_nagod_number").text(method+" Number")
+        $(".mobile-payment-section").show();
+        $(".bank-payment-section").hide();
+        $.ajax({
+            url:"{{url('/')}}/checkoutMethod",
+            data:{method:method,system:'mobile'},
+            success:function (data){ 
+                $("#mobile_number").text(data.number) 
+            }
+        })
+
+      }else{
+        $(".mobile-payment-section").hide();
+        $(".bank-payment-section").show();
+        $.ajax({
+            url:"{{url('/')}}/checkoutMethod",
+            data:{method:method,system:'bank'},
+            success:function (data){ 
+                $("#bank_name").text(data.bank_name) 
+                $("#bank_account_number").text("Account Number: "+data.bank_account_number) 
+            }
+        })
+      }
+      
+
+    })
 
     jQuery('#coupon_submit').on('click', function () {
      let coupon_code=$("#coupon_code").val();
@@ -318,8 +387,6 @@ console.log(data)
                     } else {
                         $("#coupon_message").html("<strong style='color:red'>"+data.message+"</strong>")
                     }
-
-
                 }
             })
         }
@@ -358,17 +425,12 @@ console.log(data)
             jQuery('.shipping_charge_out_of_dhaka').each(function () {
                 charge = Number(jQuery(this).val());
             });
-
-
-
             var total_cost = jQuery('#subtotal_price').val();
             var total = parseFloat(charge) + parseFloat(total_cost.replace(/,/g, ''));
              jQuery('#delivery_cost').text(charge);
             jQuery('#total_cost').text(total.toFixed(2));
             jQuery('input[name=order_total]').val(total);
             jQuery('#shipping_charge').val(charge);
-
-
 
         } else {
             var charge = 0;

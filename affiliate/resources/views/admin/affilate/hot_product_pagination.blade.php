@@ -28,6 +28,7 @@
                 <img class="img-responsive" style="width: 100%" src="{{ env('APP_ECOMMERCE') }}public/uploads/{{ $product->folder }}/thumb/{{ $product->feasured_image }}">
                 <br/><p class="product-title"> <a href="{{url('/product')}}/{{$product->product_name}}"> {{$product->product_title}} </a>
                 </p>
+                <p> {{$product->product_subtitle}}</p>
                 <style type="text/css">
                     @media(max-width: 375px) and (min-width: 335px){
                         .code{

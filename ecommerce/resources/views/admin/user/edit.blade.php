@@ -30,6 +30,27 @@
                   enctype="multipart/form-data">
                 @csrf
 
+                     <div class="form-group">
+                                <label for="zone_id">Zone</label>
+                                <select onchange="getShopData(this.value)" required class="form-control select2 " name="zone_id"
+                                        tabindex="-1"
+                                        aria-hidden="true">
+                                    <option value="" >Select Option</option>
+                                    @foreach($zones as $zone)
+                                        <option @if($zone->id==$user->zone_id) selected @endif value="{{$zone->id}}">{{$zone->zone_name}}</option>
+                                    @endforeach
+                                </select>
+                     </div>
+
+                     <div class="form-group">
+                                <label for="zone_id">Shop</label>
+                                <select required class="form-control select2 " name="shop_id" id="shop_id"  >
+                                    <option value="" >Select Option</option>
+                                    
+                                </select>
+                     </div>
+
+
 
                     <div class="form-group "><label for="media_title">Name<span class="required">*</span></label>
                         <input type="text" required="" class="form-control" name="name" value="{{$user->name}}">
@@ -109,6 +130,20 @@
     </div>
 
     <script>
+
+getShopData({{$user->zone_id}});
+
+        function getShopData(zone_id){
+            $.ajax({
+                url:"{{url('admin/getShopData')}}/"+zone_id,
+                success:function(data){
+                    $("#shop_id").html(data);
+                    $("#shop_id").val({{$user->shop_id}});
+                }
+            })
+
+
+        }
 
         $('#customer_phone').on('blur', function () {
 

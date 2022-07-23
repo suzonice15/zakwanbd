@@ -132,11 +132,7 @@
                                     </div>
 
 
-                                    <div class="form-group ">
-                                        <label for="stock_qty">Stock Qty.</label>
-                                        <input type="text" class="form-control" name="product_stock" id="product_stock"
-                                               value="{{ $product->product_stock }}" autocomplete="off">
-                                    </div>
+                                   
                                     <div class="form-group" hidden>
                                         <label for="stock_qty">Stock Alert.</label>
                                         <input type="text" class="form-control" name="stock_alert" id="stock_alert"

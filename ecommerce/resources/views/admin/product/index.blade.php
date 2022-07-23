@@ -85,7 +85,60 @@
 
 </div>
 
+<div class="modal fade in" id="modal-default" style="padding-right: 17px;">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Product Stock Update </h4>
+              </div>
+            <div class="modal-body" id="stock_update">
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" id="update_stock_product" class="btn btn-primary">Update</button>
+            </div>
+            </div>
+
+            </div>
+
+</div>
+
 <script>
+
+   
+
+    function StockUpdate(product_id){
+       $.ajax({
+        url:"{{url('/')}}/admin/product/StockUpdate/"+product_id,
+        success:function(data){
+            $("#stock_update").html(data)
+        }
+       })
+    }
+
+    $("#update_stock_product").click(function(){
+       let product_id=$("#product_id_s").val();
+       let stock=$("#stock").val();
+
+       $.ajax({
+        url:"{{url('/')}}/admin/product/productStockUpdate",
+        data:{
+            product_id:product_id,
+            stock:stock,
+        },
+        success:function(data){           
+            if(data='success'){
+                alert("Successfully Inserted");
+                $("#modal-default").modal('hide')
+            }
+        }
+       })
+        
+    })
+
     $(document).ready(function(){
 
         function fetch_data(page, query)

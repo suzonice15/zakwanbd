@@ -21,7 +21,16 @@ function RemainingOrder($total_order,$status){
     <div class="box-body">
         <div class="row">
             <div class="col-md-12 col-xs-12"><br>
+
+
                 <?php if(get_option('dashboard_notice')): ?>
+                <div class='noticeboard' style="padding: 5px 20px;background: #ddd;margin: 8px 16px;color: black;text-align: center;"> 
+                <p style="  color: red;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;">Notice Board</p>
+</div>
+
                  <div style="
     padding: 5px 20px;
     background: yellow;
@@ -38,13 +47,14 @@ function RemainingOrder($total_order,$status){
             <?php endif; ?>
         </div>
         <?php echo $__env->make('layouts.affiliate_dashboard_top', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+       
         <?php if($user->status !=1): ?>
          <div class="row" style="background-color: red;color:white;margin-left: 12px;margin-right: 14px;">
             <div class="col-md-12 col-sm-12 col-xs-12"  >
                 <h3 class="you-need">Your account is limited you will not get 2nd level commision ,you need 1 sell to remove limitation. </h3>
             </div>
         </div>
-         <?php endif; ?>
+         <?php endif; ?> 
 
         <div class="container-fluid mt-3">
         <div class="row">
@@ -87,6 +97,7 @@ function RemainingOrder($total_order,$status){
             </div>
         </div>
         </div>
+
         <?php echo $__env->make('layouts.affiliate_dashboard_hot_product_social_media', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <?php echo $__env->make('layouts.affiliate_dashboard_price', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
@@ -195,39 +206,7 @@ function RemainingOrder($total_order,$status){
         </div>
     </div>
 
-
-    <?php if($marketingMetarialCheck==0) { ?>
-
-    <div class="modal fade" id="myModal" style="z-index:999999999;">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Notice Board</h4>
-                </div>
-                <div class="modal-body">
-                    <?=get_option('marketing_metarial_notice')?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
-
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-
-    <script type="text/javascript">
-        $(window).on('load', function() {
-            $('#myModal').modal('show');
-        });
-    </script>
-
-
-    <?php } ?>
+ 
 
     <script>
         $("#submit_transaction").click(function () {

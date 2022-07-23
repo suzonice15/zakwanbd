@@ -34,7 +34,7 @@ class DashboardController extends Controller
         if ($status == 'super-admin' || $status == 'office-staff' || $status == 'editor') {
             // $data['orders']= DB::table('order_data')->select('order_total','order_status')->get();
             $today = date('Y-m-d');
-            $data['affilites'] = DB::table('statistics')->value('total_affiliates');
+            $data['affilites'] = DB::table('users_public')->count();
             $data['online_now'] = DB::table('user_active_status')
                 ->where('logout_status', '=', 0)
                 ->where('login_date', $today)->count();

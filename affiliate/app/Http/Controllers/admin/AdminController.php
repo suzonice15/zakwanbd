@@ -20,21 +20,17 @@ class AdminController extends Controller
     
     public function login()
     {
-
         //    Redirect::to('dashboard')->send();
        $admin_id= Session::get('id');
         if($admin_id){
             return redirect('dashboard');
         }
-
-
-
         return view('login');
-
-    }
+   }
 
     public function loginCheck(Request $request)
     {
+        Session::flush();
         $email = $request->email;
         $redirect = $request->redirect;
         $password = md5($request->password) . 'admin';
@@ -74,7 +70,6 @@ class AdminController extends Controller
 
     public function create()
     {
-
         $data['main'] = 'Users';
         $data['active'] = 'Add user';
         $data['title'] = 'User registration form';

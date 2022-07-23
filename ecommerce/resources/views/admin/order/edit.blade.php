@@ -48,6 +48,8 @@
                                     <span id="change_order_data" class="pull-right btn btn-info">Change Customer Information</span>
                                 </div>
                                 <div class="box-body">
+
+                                
                                     <table class="table table-striped table-bordered table-hover">
 
                                         <thead>
@@ -61,9 +63,7 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>
-
-
+                                            <td> 
                                                 {{date('d-F-Y h:i:s a',strtotime($order->created_time))}}
 
 
@@ -93,7 +93,8 @@
                                     <div class="order_data" id="customer_info_change"
                                          style="padding: 18px;display: none">
 
-                                        <div class="form-group ">
+                                         <div class='col-md-6'>
+                                         <div class="form-group ">
                                             <label for="billing_name">Name </label>
 
 
@@ -126,7 +127,33 @@
 
                                         <input type="hidden" id="orderId_for_commition" class="form-control"
                                                value="<?php echo $order->order_id; ?>"/>
+
+                                        </div> 
+
+                                        <div class='col-md-4' style="margin-left:5px">
+                                         <div class="form-group ">
+                                            <label for="payment_method">Payment Method </label>  
+                                            <input  readonly class="form-control" type="text" 
+                                                   value="<?php echo $order->payment_method; ?>"/>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label for="payment_method">Account Number </label>  
+                                            <input  readonly class="form-control" type="text" 
+                                                   value="<?php echo $order->account_number; ?>"/>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="payment_method">Transaction ID </label>  
+                                            <input  readonly class="form-control" type="text" 
+                                                   value="<?php echo $order->transaction_id; ?>"/>
+                                        </div>
+
+
                                         
+
+                                        </div> 
+
+
                                     </div>
                                 </div>
 

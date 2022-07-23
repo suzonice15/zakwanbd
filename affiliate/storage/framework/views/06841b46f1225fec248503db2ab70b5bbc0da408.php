@@ -148,6 +148,15 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
+
+                <?php if($status=='super-admin' || session::get('email')=='suzonice15@gmail.com'): ?>
+                    <li class="dropdown messages-menu">
+                        <a   id="show_admin_note" style="color: white;font-weight: bold;" target="_blank"   >
+                            <i class="fa fa-plus"></i>
+                        </a>
+
+                    </li>
+                    <?php endif; ?>
                     
                      <li class="dropdown messages-menu">
                         <a  style="color: yellow;font-weight: bold;" target="_blank" class="padding_class_a blink_me" href="https://zakwanbd.com/customer/login/affiliate/<?php echo e(Session::get('id')); ?>" >
@@ -294,5 +303,41 @@
 
         </nav>
     </header>
+
+    <div class="modal fade" id="admin_note" style="z-index:999999999;">
+        <div class="modal-dialog m model-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Admin Note </h4>
+                </div>
+                <div class="modal-body" id="show_html">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script type="text/javascript">
+        $("#show_admin_note").on('click', function() {
+            $('#admin_note').modal('show');
+            $.ajax({
+                url:"<?php echo e(url('/')); ?>/admin/note",
+                success:function(data){
+
+                    $("#show_html").html(data)
+                }
+            })
+        });
+    </script>
+
+
 
 <?php /**PATH C:\SXampp\htdocs\Jacwan\affiliate\resources\views/layouts/includes/header.blade.php ENDPATH**/ ?>

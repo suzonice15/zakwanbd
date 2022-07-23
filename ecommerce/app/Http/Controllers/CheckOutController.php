@@ -111,6 +111,18 @@ if($wordFound >0){
         $data['staff_id'] =  selectRandomStuff();
         $data['payment_type'] = $request->payment_type;
         $data['order_area'] = $request->order_area;
+        $data['payment_method'] = $request->payment_method;
+        if($request->payment_method=='Bank'){
+            $data['transaction_id'] = $request->transaction_id;
+            $data['account_number'] = $request->account_number; 
+        }else{
+            $data['transaction_id'] = $request->transaction_id_mobile;
+            $data['account_number'] = $request->account_number_mobile; 
+        }
+
+       
+        
+
         $get_cookies = Cookie::get('unique_code');
         $get_link_id = Cookie::get('link_id');
         if($get_link_id){
@@ -244,24 +256,14 @@ if($wordFound >0){
                                     $user_commission['user_id'] = $set_user_id;
                                     $user_commission['link_id'] = $get_link_id;
                                     $user_commission['sell_price'] = $sell_price;
-                                    // $user_commission['commission'] = $product_point->product_profite;
-                                    DB::table('user_commission')->insert($user_commission);
-
-                               
-
-//                                } else {
-//                                    $user_commission['commission'] = $product_point->product_profite;
-//                                }
-                              
+                                     DB::table('user_commission')->insert($user_commission);  
                                 if ($product_point->product_point > 0) {
                                     $point_product['order_id'] = $order_id;
                                     $point_product['product_id'] = $prod;
                                     $point_product['affilate_id'] = $set_user_id;
                                     $point_product['point'] = $product_point->product_point;
                                     DB::table('points')->insert($point_product);
-                                }
-
-
+                                } 
                             }
 
                         }
@@ -280,23 +282,14 @@ if($wordFound >0){
                                 $sell_price = $product_point->discount_price;
                             } else {
                                 $sell_price = $product_point->product_price;
-                            }
-
-
-                           
+                            } 
                                 $user_commission['commission'] = $product_point->top_deal;
                                 $user_commission['order_id'] = $order_id;
                                 $user_commission['product_id'] = $prod;
                                 $user_commission['user_id'] = $set_user_id;
                                 $user_commission['link_id'] = $get_link_id;
                                 $user_commission['sell_price'] = $sell_price;
-                                DB::table('user_commission')->insert($user_commission);
-                         
-
-//                            else {
-//                                $user_commission['commission'] = $product_point->product_profite;
-//                            }
-
+                                DB::table('user_commission')->insert($user_commission); 
 
                             if ($product_point->product_point > 0) {
                                 $point_product['order_id'] = $order_id;
@@ -304,18 +297,10 @@ if($wordFound >0){
                                 $point_product['affilate_id'] = $set_user_id;
                                 $point_product['point'] = $product_point->product_point;
                                 DB::table('points')->insert($point_product);
-                            }
-
-
-                        }
-
-
-
-                    }
-
-
-                }
-
+                            }  
+                        } 
+                    } 
+                } 
 
             }
 
@@ -334,8 +319,6 @@ if($wordFound >0){
 
                 }
             }
-
-
             foreach ($product_ids as $product_id) {
                 $product_row = single_product_information($product_id);
                 if ($product_row->vendor_id > 0) {
@@ -345,7 +328,6 @@ if($wordFound >0){
                     DB::table('vendor_orders')->insertGetId($row_data);
                 }
             }
-
 
             return redirect('thank-you?order_id=' . $order_id);
         } else {
@@ -560,6 +542,27 @@ if($wordFound >0){
         $view = view('website.wishlist_ajax', compact('products'))->render();
 
         return response()->json(['html' => $view]);
+    }
+
+    public function checkoutMethod(Request $request){
+
+       $payment=$request->method;
+       $system=$request->system;
+       if($system=='mobile'){
+        if($payment=='Bkash'){
+           $data['number']= get_option('bkash');
+           return response()->json($data);
+        }else{
+            $data['number']=  get_option('nagod');
+            return response()->json($data);
+        }
+
+       }else{
+        $data['bank_name']=  get_option('bank_name');
+        $data['bank_account_number']=  get_option('bank_account_number');
+        return response()->json($data);
+       }
+        
     }
 
 

@@ -9,6 +9,9 @@ use Image;
 use Illuminate\Support\Facades\Redirect;
 use AdminHelper;
 use URL;
+use App\Models\Admin;
+use App\Models\Shop;
+use App\Models\Zone;
 use Mail;
 
 class AdminController extends Controller
@@ -267,13 +270,9 @@ public  function commentUpdate(Request $request,$id){
     public function login()
     {
         $user_id = AdminHelper::Admin_user_autherntication();
-
-        if ($user_id > 0) {
-            //  return redirect('admin');
+        if ($user_id > 0) {         
             Redirect::to('dashboard')->send();
-
         }
-
         return view('login');
 
     }
@@ -295,6 +294,8 @@ public  function commentUpdate(Request $request,$id){
             Session::put('id', $id);
             Session::put('status', $status);
             Session::put('name', $name);
+            Session::put('zone_id', $result->zone_id);
+            Session::put('shop_id', $result->shop_id);
             Session::put('picture', $picture);
 
             if ($redirect) {
@@ -308,6 +309,18 @@ public  function commentUpdate(Request $request,$id){
         }
 
     }
+    public function getShopData($zone_id){
+        $html='<select required class="form-control select2 " name="shop_id" id="shop_id"  >
+        <option value="" >Select Option</option>';
+       $shops=Shop::where('zone_id',$zone_id)->get();
+       foreach( $shops as $shop){
+        $html .='<option value="'.$shop->id.'" >'.$shop->shop_name.'</option>';
+       }
+       $html .='</select>';
+       echo $html;
+
+
+    }
 
     public function index()
     {
@@ -315,13 +328,13 @@ public  function commentUpdate(Request $request,$id){
         $data['main'] = 'Users';
         $data['active'] = 'All users';
         $data['title'] = '  ';
-        $data['users'] = DB::table('admin')->orderBy('admin_id', 'desc')->get();
+        $data['users'] = Admin::orderBy('admin_id','desc')->get();
         return view('admin.user.index', $data);
     }
 
     public function create()
     {
-
+        $data['zones']= Zone::latest()->get(); 
         $data['main'] = 'Users';
         $data['active'] = 'Add user';
         $data['title'] = 'User registration form';
@@ -361,6 +374,9 @@ public  function commentUpdate(Request $request,$id){
         $data['email'] = $request->user_email;
         $data['user_phone'] = $request->user_phone;
         $data['status'] = $request->user_type;
+        
+        $data['zone_id'] = $request->zone_id;
+        $data['shop_id'] = $request->shop_id;
         $password = md5($request->user_pass).'admin';;
         $data['password'] = $password . 'admin';
         $data['registered_date'] = date('Y-m-d');
@@ -408,6 +424,8 @@ public  function commentUpdate(Request $request,$id){
         $data['main'] = 'Users';
         $data['active'] = 'Update user';
         $data['title'] = 'Update User Registration Form';
+        $data['zones']= Zone::latest()->get();
+
         return view('admin.user.edit', $data);
     }
 
@@ -425,6 +443,8 @@ public  function commentUpdate(Request $request,$id){
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['status'] = $request->status;
+        $data['zone_id'] = $request->zone_id;
+        $data['shop_id'] = $request->shop_id;
         $data['user_phone'] = $request->user_phone;
         $data['active_status'] = $request->active_status;
          $password_id = $request->user_pass;

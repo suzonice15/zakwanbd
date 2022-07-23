@@ -28,13 +28,10 @@ class CategoryController extends Controller
     {
         $user_id=AdminHelper::Admin_user_autherntication();
         $url=  URL::current();
-
         if($user_id < 1){
             //  return redirect('admin');
               Redirect::to('admin')->with('redirect',$url)->send();
-
         }
-
         $data['main'] = 'Categories';
         $data['active'] = 'All Categories';
         $data['title'] = '  ';
@@ -114,24 +111,14 @@ class CategoryController extends Controller
 
             })->save($destinationPath . '/' . $image_name);
             $data['medium_banner']=$image_name;
-
         }
-
         if ($share_image) {
-
             $image_name = time() . '.' . $share_image->getClientOriginalExtension();
-
             $destinationPath = public_path('/uploads/category');
-
             $resize_image = Image::make($share_image->getRealPath());
-
             $resize_image->save($destinationPath . '/' . $image_name);
             $data['share_image']='public/uploads/category/'.$image_name;
-
-
         }
-
-
             $data['registered_date']=date('Y-m-d');
         $result =DB::table('category')->insert($data);
         if ($result) {

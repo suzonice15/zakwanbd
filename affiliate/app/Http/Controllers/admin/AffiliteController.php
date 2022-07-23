@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use DB;
 use  Session;
 use Image;
+use File;
 use Illuminate\Support\Facades\Redirect;
 use URL;
 use Pusher\Pusher;
@@ -452,12 +453,13 @@ use Pusher\Pusher;
             if($user->picture){
                 File::delete($destinationPath.$user->picture);
             }
-            $image_name = $id.'_p_'.'.' . $image->getClientOriginalExtension();
+            $image_name = $id.'_profile_'.'.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads');
             $resize_image = Image::make($image->getRealPath());
             $resize_image->resize(100, 100, function ($constraint) {
             })->save($destinationPath . '/' . $image_name);
             $data['picture'] = $image_name;
+            session::put('picture',$image_name);
         }
 
         $nationalIdPicture = $request->file('nationalIdPicture');
@@ -729,7 +731,7 @@ public  function  orderhistoryDetails($id){
         $data['main'] = 'User Message ';
         $data['active'] = 'User Message';
         $data['title'] = '';
-        $data['messages'] =   DB::table('message_to_affilates')->where('affiliate_id',Session::get('id'))->get();
+        $data['messages'] =   DB::table('message_to_affilates')->where('affiliate_id',Session::get('id'))->orderBy('id','desc')->get();
         return view('admin.affilate.userMessage', $data);
 
     }

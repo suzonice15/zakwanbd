@@ -34,49 +34,32 @@ Add New Order
                                     <div class="order_data" id="customer_info_change"
                                          style="padding: 18px;">
 
+                                         <div class="form-group ">
+                                            <label for="billing_name">Affiliate Mobile</label>
+                                            <input   class="form-control" type="text" name="affiliate_mobile" id="affiliate_mobile"
+                                                   value=" " />
+                                        </div> 
+
+
                                         <div class="form-group ">
                                             <label for="billing_name">Name </label>
-
-
-                                            <input required class="form-control" type="text" name="customer_name"
+                                            <input required class="form-control" type="text" name="customer_name" id="customer_name" 
                                                    value=" "/>
-                                        </div>
-
-
-                                        <div class="form-group ">
-                                            <label for="billing_email">Email</label>
-
-
-                                            <input type="email" class="form-control" name="customer_email"
-                                                   value=""/>
-                                        </div>
-
+                                        </div> 
 
                                         <div class="form-group ">
                                             <label for="billing_email">Customer Phone</label>
-                                            <input required type="text" name="customer_phone" class="form-control"
+                                            <input required type="text" name="customer_phone"  id="customer_phone" class="form-control"
                                                    value=""/>
-                                        </div>
-
-
-                                        <div class="form-group shipping-address-group ">
-                                            <label for="shipping_address1">Customer Address </label>
-                                                <textarea required class="form-control" rows="2" name="customer_address"
-                                                          id="shipping_address1"></textarea>
-                                        </div>
+                                        </div> 
 
                                         <div class="form-group ">
                                             <label for="billing_email">Affiliate ID </label>
-                                            <input required type="text" name="user_id" class="form-control"    value=""/>
-                                        </div>
-
-
-
+                                            <input disabled type="text" name="user_id" class="form-control"  id="user_id"    value=""/>
+                                        </div> 
 
                                     </div>
                                 </div>
-
-
                             </div>
 
                         </div>
@@ -88,22 +71,7 @@ Add New Order
                                 </div>
                                 <div class="box-body">
 
-                                    <div class="form-group" style="padding: 12px;">
-                                        <label>Courier Service</label>
-                                        <select name="courier_service" id="courier_service"
-                                                class="form-control select2">
-                                            <option value="">Select Courier</option>
-                                            @foreach($couriers as $courier):
-
-                                            <option value="{{ $courier->courier_id }}">{{ $courier->courier_name }} <?php if ($courier->courier_status == 1) {
-                                                    echo " -Inside Dhaka";
-                                                } else {
-                                                    echo " -Outside Dhaka";
-                                                }?></option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
+                                    
 
 
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
@@ -115,44 +83,31 @@ Add New Order
 
                                             <input type="text" name="shipment_time"
                                                    class="form-control pull-right withoutFixedDate"
-                                                   value="">
+                                                   value="{{date("Y/m/d")}}">
                                         </div>
                                     </div>
 
 
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
-                                        <label>Order Status</label>
-
-
-                                        <select name="order_status" id="order_status" class="form-control">
-                                            <option value="new">New</option>
-                                            <option value="pending_payment">Pending for Payment</option>
-                                            <option value="processing">On Process</option>
-                                            <option value="on_courier">With Courier</option>
-                                            <option value="delivered">Delivered</option>
-                                            <option value="refund">Refunded</option>
-                                            <option value="cancled">Cancelled</option>
-                                            <?php
-                                            $admin_user=Session::get('status');
-                                            if($admin_user !='editor' && $admin_user !='office-staff') {
-                                            ?>
-
-                                            <option value="completed">Completed {{ $admin_user}}</option>
-                                            <?php } ?>
-
+                                        <label>Order Status</label> 
+                                        <select name="order_status" id="order_status" class="form-control">  
+                                            <option value="completed">Completed</option> 
                                         </select>
-                                    </div>
+                                    </div> 
+
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
-                                        <label> Order Note</label>
+                                        <label>Product List </label> 
+                                        <select name="product_ids" id="product_ids" class="form-control select2"  >
+                                                    <?php foreach($products as $product) :
+                                                    $product_title=$product->product_title;
+                                                    ?>
+                                                    <option value="{{$product->product_id}}"
+                                                    >{{$product_title}} - {{$product->sku}}</option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                    </div> 
 
-
-                                            <textarea rows="3" class="form-control"
-                                                      name="order_note"></textarea>
-
-                                    </div>
-
-
-
+                                  
                             </div>
                         </div>
 
@@ -171,187 +126,165 @@ Add New Order
                                         <h3 class="box-title">Product Information</h3>
                                     </div>
                                     <div class="box-body">
-                           <span id="product_html">
-                           <table class="table table-striped table-bordered">
+                         
+                           <table class="table   table-bordered">
                                <tr>
                                    <th class="name" width="30%">Product</th>
-                                   <th class="name" width="5%">Code</th>
+                                   <th class="text-center" width="5%">Code</th>
                                    <th class="image text-center" width="5%">Image</th>
-
-                                   <th class="quantity text-center" width="10%">Qty</th>
+                                   <th class="quantity text-center" width="5%">Qty</th>
                                    <th class="price text-center" width="10%">Price</th>
-                                   <th class="total text-right" width="10%">Sub-Total</th>
+                                   <th class="total text-center" width="10%">Sub-Total</th>
+                                   <th class="total text-center" width="3%">Delete</th>
                                </tr>
 
                                <tr>
+                                <tbody id="product_show">
 
+                                <tr> 
+                                    <td class="text-right" colspan='5'>Sub Total</td> 
+                                    <td class="text-center"><span id="total_subtotal_price"></span></td> 
+                                    <td>
+                                </tr>
 
-                           </table>
+                                <tr> 
+                                    <td class="text-right" colspan='5'> Delivery Cost </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr> 
+                                <tr> 
+                                    <td class="text-right" colspan='5'>Discount Price </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="discount_price" class="form-control" id="discount_price" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr> 
+                                
+                                <tr> 
+                                    <td class="text-right" colspan='5'>Paid Amount </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="advabced_price" class="form-control" id="advabced_price" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr>  
 
-                           </span>
+                                <tr> 
+                                    <td class="text-right" colspan='5'>Total </td> 
+                                    <td class="text-center">
+                                    <span id="total_amount"></span>
+                                        <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="hidden" name="order_total" class="form-control" id="order_total" value=""> 
 
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <select name="product_ids" id="product_ids" class="form-control select2"
-                                                        multiple="multiple"
-                                                        data-placeholder="Type... product name here..."
-                                                        style="width:100%;">
-
-                                                    <?php foreach($products as $product) :
-
-                                                    $product_title=substr($product->product_title,0,50)
-
-
-                                                    ?>
-                                                    <option value="{{$product->product_id}}"
-
-
-
-                                                    >{{$product_title}} - {{$product->sku}}</option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                    </td> 
+                                    <td>
+                                </tr>  
+                                
+                               </tbody>
+                               
+                           </table> 
 
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary pull-right">Save</button>
                             </div>
-
-
                     </div>
-
-
-
-
                 </div>
-
-
-
-            </form>
+             </form>
 
             <script>
 
-                $("body").on('input', '#shipping_charge', function () {
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var delivary_cost = parseInt($(this).val());
-                    var total_price = delivary_cost + parseInt(subtotal_price);
-                    $('#total_cost').text(total_price);
-                    $('#order_total').val(total_price);
-                });
-                $("body").on('input', '#discount_price', function () {
-                    var discount_price = parseInt($(this).val());
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var shipping_charge = $('#shipping_charge').val();
-                    var total_price = parseInt(subtotal_price) + parseInt(shipping_charge);
+                function deleteRow(btn) {
+                   let confirm_message= confirm("Are you sure you want to delete ?")
+                   if(confirm_message){
+                    var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                        subTotalGenerate();
+                   }              
+                }
 
-                    var total = parseInt(total_price) - discount_price;
-                    $('#total_cost').text(total);
-                    $('#order_total').val(total);
-                });
-                $("body").on('input', '#advabced_price', function () {
-                    var advabced_price = parseInt($(this).val());
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var shipping_charge = $('#shipping_charge').val();
-                    var discount_price = parseInt($('#discount_price').val());
+                function quantityChange(quantity,product_id){
+                    if(quantity >=1 ){                   
+                   let price=parseInt($("#price_"+product_id).text());
+                   let total_sub_total=price*quantity;
+                   $("#subtotal_"+product_id).text(total_sub_total)
+                   subTotalGenerate();
+                }else{
+                    alert("minimum 1 quantity need")
+                }                   
+                }
 
-                    var total_price = parseInt(subtotal_price) + parseInt(shipping_charge) - (discount_price + advabced_price);
+                function subTotalGenerate(){                  
+                  var price = 0;
+                    $('.subtotal_price').each(function(){
+                        price += parseFloat($(this).text());  
+                    }); 
+                  $("#total_subtotal_price").text(price);  
+                  totalGenerate();
+                }
+                function totalGenerate(){
 
-                    var total = parseInt(total_price)
-                    $('#total_cost').text(total);
-                    $('#order_total').val(total);
-                });
-            </script>
+                   let subtotal= parseInt($("#total_subtotal_price").text());   
+                   let shipping_charge= parseInt($("#shipping_charge").val());   
+                   let discount_price= parseInt($("#discount_price").val()); 
+                   let advabced_price= parseInt($("#advabced_price").val()); 
+                   
+                   let summation=subtotal+shipping_charge;
+                   let subtract=advabced_price+discount_price;
 
+                   let total=summation-subtract;
 
-            <script>
+                    $("#total_amount").text(total);
+                    $("#order_total").val(total);
+                    
+                }
 
-                $('#change_order_data').click(function () {
-                    $('#customer_info_change').toggle();
-                });
+                $('#shipping_charge , #discount_price  , #advabced_price').on("input",function(e){
+                    
+                    totalGenerate();
+                })
 
-
-                $(document).on('click', '.update_items', function () {
-                    var product_ids = [];
-                    var product_qtys = [];
-                    var _token = $("input[name='_token']").val();
-
-                    var shipping_charge= $('#shipping_charge').val();
-                    $.each($(".item_qty"), function () {
-                        product_ids.push($(this).attr('data-item-id'));
-                        product_qtys.push($(this).val());
-                    });
-
-                    product_ids = product_ids.join(",");
-                    product_qtys = product_qtys.join(",");
-                    //alert(_token)
-
+                $("#affiliate_mobile").blur(function(){
+                    let affiliate_mobile=$("#affiliate_mobile").val();
 
                     $.ajax({
-                        type: 'POST',
-                        data: {
-                            "product_ids": product_ids,
-                            "product_qtys": product_qtys,
-                            "shipping_charge":shipping_charge,
-                            "_token":_token
-
-                        },
-                        url: "{{  route('newProductUpdateChange')}} ",
-                        success: function (result) {
-                            //  alert('success');
-                            console.log('success')
-                            //var response = JSON.parse(result);
-
-                            console.log(result)
-                            $('#product_html').html(result);
-                        },
-                        error:function (result) {
-                            console.log('error')
-                            console.log(result)
+                        url:"{{url('/')}}/order/affiliateCheckByMobile/"+affiliate_mobile,
+                        success:function(data){
+                            if(data.success=='ok'){
+                                $("#customer_name").val(data.name)                          
+                                $("#customer_phone").val(data.phone)                          
+                                $("#user_id").val(data.id)  
+                            }else{
+                                $("#customer_name").val('')                          
+                                $("#customer_phone").val('')   
+                                $("#user_id").val(2)   
+                            } 
                         }
-                    });
-                });
 
+                    })
+                    
+                })
 
-
-            </script>
-
-
+               
+ 
+            </script> 
             <script>
-                $(document).on('change', '#product_ids', function () {
-                    var product_ids = [];
-                    var product_qtys = [];
-                    var _token = $("input[name='_token']").val();
-                    var shipping_charge= $('#shipping_charge').val();
-
-
-                    $.each($("#product_ids option:selected"), function () {
-                        product_ids.push($(this).val());
-                    });
-
-                    product_ids = product_ids.join(",");
-
-
+                $(document).on('change', '#product_ids', function () {                    
+                    let product_id=$(this).val();   
                     $.ajax({
-                        type: "POST",
-                        data: {shipping_charge:shipping_charge,product_id: product_ids, product_quantity: 1,_token:_token},
-
-                        url: "{{  route('newProductSelectionChange')}} ",
-                        success: function (result) {
-
-                            //  alert('success');
-                            console.log('success')
-                            //var response = JSON.parse(result);
-
-                            console.log(result)
-                            $('#product_html').html(result);
+                        type: "get",
+                        data: {product_id:product_id},
+                        url: "{{  route('getOrderProduct')}}",
+                        success: function (result) { 
+                            $('#product_show').prepend(result);
+                            
+                                subTotalGenerate();
+                                                    
                         },
-                        errors: function (result) {
-                            console.log('error')
+                        errors: function (result) {                          
                             console.log(result)
                         }
-
                     });
 
                 });

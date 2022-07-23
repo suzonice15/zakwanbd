@@ -14,7 +14,8 @@
                 <th >Name </th>
                 <th >Phone </th>
                 <th >Email </th>
-                {{--<th >Status </th>--}}
+                <th >Zone </th> 
+                <th >Shop </th> 
                 <th >Degination </th>
                 <th >date </th>
                 <th >Action </th>
@@ -37,8 +38,9 @@
                 </td>
                 <td>{{$user->name}} </td>
                 <td>{{$user->user_phone}} </td>
-                <td>{{$user->email}} </td>
-
+                <td>{{$user->email}} </td> 
+                <td>{{optional($user->zone)->zone_name}}</td>
+                <td>{{optional($user->shop)->shop_name}}</td>
                 <td>{{$user->status}}</td>
                 <td>{{date('d-m-Y',strtotime($user->registered_date))}}</td>
                 <td>

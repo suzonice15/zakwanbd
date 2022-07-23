@@ -50,13 +50,44 @@ function getChaildCategory($category_id){
         ->orderBy('rank_order', 'ASC')->get();
 }
 
+
 function single_product_information($product_id)
 {
-    $result = DB::table('product')->select('sku', 'vendor_id', 'product_name', 'product_title', 'product_stock')->where('product_id', $product_id)->first();
+    $result = DB::table('product')->select('sku', 'vendor_id', 'product_name', 'product_title', 'product_stock','purchase_price')->where('product_id', $product_id)->first();
 
     if ($result) {
         return $result;
 
+    }
+}
+
+
+function getSingleProductStockZone($product_id)
+{
+    $zone_id=Session::get('zone_id');
+    $result = DB::table('zone_stocks')->where('zone_id',$zone_id)->where('product_id', $product_id)->first();
+    if ($result) {
+        return $result;
+    }
+}
+
+function stockReduceofZone($zone_id,$product_id,$stock)
+{
+    $zone_id=Session::get('zone_id');
+    $result = DB::table('zone_stocks')->where('zone_id',$zone_id)->where('product_id', $product_id)->first();
+    if ($result) {
+       $data['stock'] =$result->stock-$stock;
+       DB::table('zone_stocks')->where('zone_id',$zone_id)->where('product_id', $product_id)->update($data);
+        
+    }
+}
+
+function getSingleProductStock($product_id)
+{
+    $shop_id=Session::get('shop_id');
+    $result = DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id', $product_id)->first();
+    if ($result) {
+        return $result;
     }
 }
 

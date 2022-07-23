@@ -192,7 +192,7 @@ public  function  unpublishedProduct(){
         $data['product_terms'] = $request->product_terms;
         $data['sku'] = $request->sku;
         $data['vendor_id'] = 0;
-        $data['product_stock'] = $request->product_stock;
+        
         $data['stock_alert'] = $request->stock_alert;
         $data['product_video'] = $request->product_video;
         $data['product_type'] = $request->product_type;
@@ -482,7 +482,7 @@ public  function  unpublishedProduct(){
         $data['product_description'] = $request->product_description;
         $data['product_terms'] = $request->product_terms;
         $data['sku'] = $request->sku;
-        $data['product_stock'] = $request->product_stock;
+        
         $data['product_type'] = $request->product_type;
         $data['product_video'] = $request->product_video;
         $data['modified_time'] = date('Y-m-d H:i:s');
@@ -697,6 +697,66 @@ public  function  unpublishedProduct(){
             echo '';
         }
     }
+
+    
+    public function StockUpdate($id)
+    {
+        
+        $data['product']= DB::table('product')->where('product_id',$id)->first();
+        return view('admin.product.product_stock_entry', $data);
+    }
+    public function productStockUpdate(Request $request)
+    {
+       $product_id= $request->product_id;
+       $stock= $request->stock;
+       $zone_id= Session::get('zone_id');
+       $shop_id= Session::get('shop_id');
+       $admin_id= Session::get('id');
+      $checkProductStock= DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id',$product_id)->first();
+      if($checkProductStock){
+        // update
+        $data_stock['stock']=$checkProductStock->stock+$stock;
+        $data_stock['updated_at']=date("Y-m-d H:i:s");
+         DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id',$product_id)->update($data_stock);
+
+         $data_stock_details['zone_id']=$zone_id;
+         $data_stock_details['shop_id']=$shop_id;
+         $data_stock_details['product_id']=$product_id;
+         $data_stock_details['stock']=$stock;
+         $data_stock_details['product_stock_id']=$checkProductStock->id;
+         $data_stock_details['price']=single_product_information($product_id)->purchase_price;
+         $data_stock_details['user_id']=$admin_id;
+         $data_stock_details['created_at']=date("Y-m-d H:i:s");
+         $data_stock_details['updated_at']=date("Y-m-d H:i:s");
+         DB::table('product_stock_details')->insert($data_stock_details);
+
+
+      }else{
+        $data_stock['zone_id']=$zone_id;
+        $data_stock['shop_id']=$shop_id;
+        $data_stock['product_id']=$product_id;
+        $data_stock['stock']=$stock;
+        $data_stock['created_at']=date("Y-m-d H:i:s");
+        $data_stock['updated_at']=date("Y-m-d H:i:s");
+       $product_stock_id= DB::table('product_stocks')->insertGetId($data_stock);
+
+        $data_stock_details['zone_id']=$zone_id;
+        $data_stock_details['shop_id']=$shop_id;
+        $data_stock_details['product_id']=$product_id;
+        $data_stock_details['stock']=$stock;
+        $data_stock_details['product_stock_id']=$product_stock_id;
+        $data_stock_details['user_id']=$admin_id;
+        $data_stock_details['price']=single_product_information($product_id)->purchase_price;
+        $data_stock_details['created_at']=date("Y-m-d H:i:s");
+        $data_stock_details['updated_at']=date("Y-m-d H:i:s");
+        DB::table('product_stock_details')->insert($data_stock_details);
+
+
+      }
+      echo 'success';
+        
+    }
+    
 
     public function foldercheck(Request $request)
     {

@@ -145,11 +145,7 @@
                                         <option value="1">Yes</option>
                                     </select>
                                 </div>
-                                <div class="form-group ">
-                                    <label for="stock_qty">Stock Qty.</label>
-                                    <input type="text" class="form-control" name="product_stock" id="product_stock"
-                                           value="" autocomplete="off">
-                                </div>
+                               
                                 <div class="form-group" hidden>
                                     <label for="stock_qty">Stock Alert.</label>
                                     <input type="text" class="form-control" name="stock_alert" id="stock_alert"

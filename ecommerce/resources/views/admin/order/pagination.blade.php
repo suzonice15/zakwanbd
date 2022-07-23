@@ -116,13 +116,14 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                 }
                 ?>
             </td>
+            <td>
         <?php
 
         $stuff=  DB::table('admin')->select('name','admin_id')->where('admin_id',$order->staff_id)->first();
         if($stuff){
            $order_edit_check=  DB::table('order_edit_track')->where('order_id',$order->order_id)->count();
             ?>
-            <td>
+          
                 <span class="badge badge-info">Order Created By <br> <?=$order->created_by?></span>
 
                 <button type="button" class="btn btn-info orderEditModal" data-order_id="<?=$order->order_id?>" data-toggle="modal" data-target="#orderEditModal">
@@ -131,15 +132,25 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                 @if($order_edit_check==0)
                     <button style="background-color:red" class="btn btn-danger blink_me">New</button>
                     @endif
-            </td>
+             
             <?php
                 }  else { ?>
-            <td>
+            
                 <span class="badge badge-info"> Order Created By <br/> <?=$order->created_by?></span>
-            </td>
+          
          <?php
                 }
             ?>
+            <br/>
+            <div class='' style="border: 1px solid red;padding: 5px;margin-top: 5px;">
+            Payment Method: {{$order->payment_method}}
+            <br/>
+            Account Number: {{$order->account_number}}
+            <br/>
+            Transaction ID: {{$order->transaction_id}}
+            </div>
+
+             </td> 
             <td> @money($order->order_total)
                 </td>
             <td>

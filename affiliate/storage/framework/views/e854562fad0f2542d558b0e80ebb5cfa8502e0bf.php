@@ -28,6 +28,7 @@
                 <img class="img-responsive" style="width: 100%" src="<?php echo e(env('APP_ECOMMERCE')); ?>public/uploads/<?php echo e($product->folder); ?>/thumb/<?php echo e($product->feasured_image); ?>">
                 <br/><p class="product-title"> <a href="<?php echo e(url('/product')); ?>/<?php echo e($product->product_name); ?>"> <?php echo e($product->product_title); ?> </a>
                 </p>
+                <p> <?php echo e($product->product_subtitle); ?></p>
                 <style type="text/css">
                     @media(max-width: 375px) and (min-width: 335px){
                         .code{

@@ -89,18 +89,7 @@
 
     </ul>
 </li>
-
-
-
-
-
-
-
-
-
-<li>
-    <a href=" {{ url('admin/product_list') }}"><i class="fa fa-circle-o" style="font-size: 20px"></i>  Product list</a>
-</li>
+ 
  <li> 
  <a href=" {{ url('admin/getCharge') }}"><i class="fa fa-circle-o" style="font-size: 20px"></i> Service Charge </a> 
  </li> 
@@ -110,14 +99,13 @@
 <li>
     <a href=" {{ url('admin/campain/report') }}"><i class="fa fa-circle-o" style="font-size: 20px"></i> Campaign Report</a>
 </li>
-<li><a href=" {{ url('admin/super/offer')}}"><i class="fa fa-circle-o" style="font-size: 20px"></i>Super Offer</a>
-
-<li>
+ 
+<!-- <li>
     <a href=" {{ url('admin/royalty/history') }}"><i class="fa fa-history" style="font-size: 20px"></i>&nbsp Royalty Fund Management</a>
 </li>
 <li>
     <a href=" {{ url('admin/contest/history') }}"><i class="fa fa-history" style="font-size: 20px"></i>&nbsp Contest Fund Management</a>
-</li>
+</li> -->
 
 <li><a href=" {{ url('admin/product/notification/delete')}}"><i class="fa fa-circle-o" style="font-size: 20px"></i>Affiliate Product Notification</a>
 
@@ -137,7 +125,7 @@
 
     </ul>
 </li>
-
+<!-- 
 <li class="treeview">
     <a href="#">
         <i class="fs-large fa fa-book"></i>
@@ -153,7 +141,7 @@
 
 
     </ul>
-</li>
+</li> -->
 
 <li>
     <a href=" {{ url('admin/achievements') }}"><i class="fa fa-circle-o" style="font-size: 20px"></i>  Achievements </a>
@@ -180,16 +168,16 @@
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Clear Cache</a>
         </li>
-        <li><a href=" {{ url('admin/default/register-offer') }}">
+        <!-- <li><a href=" {{ url('admin/default/register-offer') }}">
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Register Offer</a>
-        </li>
-        <li><a href=" {{ url('admin/default/bonus-offer') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Bonus Offer</a>
-        </li>
-        <li><a href=" {{ url('admin/default/cashback-offer') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Cash Back Offer</a>
-        </li>
-        <li><a href=" {{ url('admin/sponsor') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Sponsor Setting</a>
-        </li>
+        </li> -->
+        <!-- <li><a href=" {{ url('admin/default/bonus-offer') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Bonus Offer</a>
+        </li> -->
+        <!-- <li><a href=" {{ url('admin/default/cashback-offer') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Cash Back Offer</a>
+        </li> -->
+        <!-- <li><a href=" {{ url('admin/sponsor') }}"> <i class="fs-small fa fa-arrow-circle-right"></i>Sponsor Setting</a>
+        </li> -->
 
 
     </ul>

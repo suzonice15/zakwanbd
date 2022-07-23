@@ -80,6 +80,27 @@
                                    id="bkash"
                                    value="<?= get_option('bkash') ?>">
                         </div>
+
+                        <div class="form-group ">
+                            <label for="shipping_charge_out_of_dhaka">Nagod Number</label>
+                            <input type="text" class="form-control" name="nagod"
+                                   id="nagod"
+                                   value="<?= get_option('nagod') ?>">
+                        </div>
+                        <div class="form-group ">
+                            <label for="shipping_charge_out_of_dhaka">Bank Name</label>
+                            <input type="text" class="form-control" name="bank_name"
+                                   id="bank_name"
+                                   value="<?= get_option('bank_name') ?>">
+                        </div>
+                        <div class="form-group ">
+                            <label for="shipping_charge_out_of_dhaka">Bank Account Number</label>
+                            <input type="text" class="form-control" name="bank_account_number"
+                                   id="bank_account_number"
+                                   value="<?= get_option('bank_account_number') ?>">
+                        </div>
+ 
+
                         <div class="form-group">
                             <label for="hot_product_code">Hot Products with sku code </label>
                             <input type="text" class="form-control" name="hot_product_code"

@@ -48,6 +48,7 @@ Route::get('/add-to-wishlist', 'CheckOutController@add_to_wishlist');
 Route::get('/wishlist', 'CheckOutController@wishlist');
 Route::get('/remove-to-wishlist', 'CheckOutController@remove_wish_list');
 Route::get('/checkout', 'CheckOutController@checkout');
+Route::get('/checkoutMethod', 'CheckOutController@checkoutMethod');
 Route::post('/chechout', 'CheckOutController@checkoutStore');
 Route::post('/sendMessage', 'CheckOutController@sendMessage');
 Route::get('/admin', 'admin\AdminController@login');
@@ -82,6 +83,19 @@ Route::get('admin/user/{id}', 'admin\AdminController@edit');
 Route::get('admin/vendor/{id}', 'admin\AdminController@editVendorProfile');
 Route::get('/admin/user/delete/{id}', 'admin\AdminController@delete');
 Route::get('logout', 'admin\AdminController@logout');
+
+
+/****=============== category section    =====================  ******/
+Route::resource('admin/zone', 'admin\ZoneController');
+Route::resource('admin/shop', 'admin\ShopController');
+Route::resource('admin/supply', 'admin\SupplyController');
+
+Route::resource('admin/zoneStock', 'admin\ZoneStockController');
+Route::get('admin/zone/zoneProductOfStock/{id}', 'admin\ZoneStockController@zoneProductOfStock');
+Route::get('admin/zoneStockUpdate', 'admin\ZoneStockController@zoneStockUpdate'); 
+
+Route::get('admin/zoneProducts/pagination', 'admin\ZoneStockController@zoneProducts'); 
+Route::get('admin/stockReportZone', 'admin\ZoneStockController@stockReportZone'); 
 
 /****=============== category section    =====================  ******/
 Route::get('admin/categories', 'admin\CategoryController@index');
@@ -136,6 +150,8 @@ Route::get('/admin/product/delete/{id}', 'admin\ProductController@destroy');
 Route::get('products/pagination', 'admin\ProductController@pagination');
 Route::get('admin/top-deal-products', 'admin\ProductController@TopDealProducts');
 Route::get('admin/unpublishedProduct', 'admin\ProductController@unpublishedProduct');
+Route::get('admin/product/StockUpdate/{id}', 'admin\ProductController@StockUpdate');
+Route::get('admin/product/productStockUpdate', 'admin\ProductController@productStockUpdate');
 
 /****=============== Order section    =====================  ******/
 Route::get('admin/orders', 'admin\OrderController@index');
@@ -154,11 +170,10 @@ Route::get('order/pagination_search_by_phone', 'admin\OrderController@pagination
 Route::get('order/pagination_search_by_affiliate_id', 'admin\OrderController@pagination_search_by_affiliate_id');
 Route::get('order/pagination_search_by_product_code', 'admin\OrderController@pagination_search_by_product_code');
 Route::get('/orderConvertToProductCode', 'admin\OrderController@orderConvertToProductCode');
+Route::get('/order/affiliateCheckByMobile/{phone}', 'admin\OrderController@affiliateCheckByMobile');
 
-Route::post('order/product/selection/change', 'admin\AjaxOrderControlller@productSelectionChange')->name('productSelectionChange');
-Route::post('order/product/selection', 'admin\AjaxOrderControlller@productSelection')->name('productSelection');
-Route::post('new/order/product/selection', 'admin\AjaxOrderControlller@newProductSelection')->name('newProductSelectionChange');
-Route::post('newProductUpdate/order/product/selection', 'admin\AjaxOrderControlller@newProductUpdate')->name('newProductUpdateChange');
+Route::get('order/product/selection/change', 'admin\AjaxOrderControlller@getOrderProduct')->name('getOrderProduct'); 
+
 Route::get('/admin/courier/view/report', 'admin\OrderController@courierViewReport');
 Route::get('/admin/courier/view/report/pagination', 'admin\OrderController@courierViewReportPagination');
 Route::get('/admin/orderEditHistory/{id}', 'admin\OrderController@orderEditHistory');
@@ -166,18 +181,18 @@ Route::get('/admin/orderModalPrint/{id}', 'admin\OrderController@orderModalPrint
 Route::get('/admin/order/report', 'admin\OrderController@orderReport');
 Route::post('admin/order/report', 'admin\OrderController@orderReportGeneration');
 Route::get('admin/order/status/changed/{order_status}/{order_id}', 'admin\OrderController@statusChanged');
-Route::get('admin/order/{id}', 'admin\OrderController@edit');
-Route::get('admin/promotion/orders', 'admin\OrderController@promotionOrders');
-Route::get('admin/promotion/orders/lotary', 'admin\OrderController@lotary');
-Route::post('admin/lotary/success', 'admin\OrderController@lotarySuccess');
-Route::get('admin/promotion/orders/customer', 'admin\OrderController@customerPromosionOrder');
+Route::get('admin/order/{id}', 'admin\OrderController@edit'); 
 
-
-/**************************** Order report          **************************/
+/**************************** Order report          **************************/ 
 
 Route::get('admin/report/order_report', 'admin\ReportController@order_report');
-Route::get('/admin/limited/product', 'admin\ReportController@limited_product');
+Route::get('admin/report/stockReport', 'admin\ReportController@stockReport');
+ 
 Route::post('admin/report/order_report', 'admin\ReportController@order_report_by_ajax');
+Route::get('admin/report/ProductDemand', 'admin\ReportController@ProductDemand');
+Route::get('admin/report/userProductDemand', 'admin\ReportController@userProductDemand');
+Route::get('admin/report/userProductDemand/{id}', 'admin\ReportController@userProductDemandView');
+Route::post('admin/report/userProductDemand/{id}', 'admin\ReportController@userProductDemandViewUpdate');
 
 /****=============== media section    =====================  ******/
 Route::get('admin/media', 'admin\MediaController@index');
@@ -234,6 +249,7 @@ Route::get('/admin/vendor/edit/{id}', 'admin\AdminVendorController@vendor_edit')
 Route::post('/admin/vendor/edit/update/{id}', 'admin\AdminVendorController@vendor_edit_update');
 Route::get('/admin/vendor/inactive/{id}', 'admin\AdminVendorController@inactive');
 Route::get('/sohoj-admin-login', 'admin\AdminController@sohoj_admin');
+Route::get('/admin/getShopData/{zone_id}', 'admin\AdminController@getShopData');
 
 
 /****=============== vendor font section    =====================  ******/

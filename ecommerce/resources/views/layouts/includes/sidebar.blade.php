@@ -41,10 +41,10 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/order/create') }}"><i class="fa fa-circle-o"></i>Add New Order</a></li>
-                    <li><a href=" {{ url('admin/orders')}}"><i class="fa fa-circle-o"></i>All Orders</a></li>
-                    <li><a href=" {{ url('admin/courier/view/report')}}"><i class="fa fa-circle-o"></i>Courier Report</a></li>
-                    <li><a href=" {{ url('admin/order/report')}}"><i class="fa fa-circle-o"></i>Order  Report</a></li>
+                    <li><a href=" {{ url('admin/order/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Order</a></li>
+                    <li><a href=" {{ url('admin/orders')}}"><i class="fa fa-arrow-circle-right"></i>All Orders</a></li>
+                    <li><a href=" {{ url('admin/courier/view/report')}}"><i class="fa fa-arrow-circle-right"></i>Courier Report</a></li>
+                    <li><a href=" {{ url('admin/order/report')}}"><i class="fa fa-arrow-circle-right"></i>Order  Report</a></li>
                 </ul>
             </li>
              <li>
@@ -77,8 +77,8 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/order/create') }}"><i class="fa fa-circle-o"></i>Add New Order</a></li>
-                    <li><a href=" {{ url('admin/orders') }}"><i class="fa fa-circle-o"></i>All Orders</a></li>
+                    <li><a href=" {{ url('admin/order/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Order</a></li>
+                    <li><a href=" {{ url('admin/orders') }}"><i class="fa fa-arrow-circle-right"></i>All Orders</a></li>
 
 
                 </ul>
@@ -92,9 +92,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/product/create') }}"><i class="fa fa-circle-o"></i>Add New Product </a>
+                    <li><a href=" {{ url('admin/product/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Product </a>
                     </li>
-                    <li><a href=" {{ url('admin/products') }}"><i class="fa fa-circle-o"></i>All Products List</a></li>
+                    <li><a href=" {{ url('admin/products') }}"><i class="fa fa-arrow-circle-right"></i>All Products List</a></li>
                 </ul>
             </li>
             <?php }
@@ -110,12 +110,12 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/product/create') }}"><i class="fa fa-circle-o"></i>Add New Product </a>
+                    <li><a href=" {{ url('admin/product/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Product </a>
                     </li>
-                    <li><a href=" {{ url('admin/products') }}"><i class="fa fa-circle-o"></i>All Products List</a></li>
-                    <li><a href=" {{ url('admin/unpublishedProduct') }}"><i class="fa fa-circle-o"></i>All Unpublished Product</a></li>
-                    <li><a href=" {{ url('admin/staff-products') }}"><i class="fa fa-circle-o"></i>Staff Products List</a></li>
-                    <li><a href=" {{ url('admin/top-deal-products') }}"><i class="fa fa-circle-o"></i>Top Deal Products</a></li>
+                    <li><a href=" {{ url('admin/products') }}"><i class="fa fa-arrow-circle-right"></i>All Products List</a></li>
+                    <li><a href=" {{ url('admin/unpublishedProduct') }}"><i class="fa fa-arrow-circle-right"></i>All Unpublished Product</a></li>
+                    <li><a href=" {{ url('admin/staff-products') }}"><i class="fa fa-arrow-circle-right"></i>Staff Products List</a></li>
+                    <li><a href=" {{ url('admin/top-deal-products') }}"><i class="fa fa-arrow-circle-right"></i>Top Deal Products</a></li>
 
                 </ul>
             </li>
@@ -128,9 +128,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/category/create') }}"><i class="fa fa-circle-o"></i>Create category</a>
+                    <li><a href=" {{ url('admin/category/create') }}"><i class="fa fa-arrow-circle-right"></i>Create category</a>
                     </li>
-                    <li><a href=" {{ url('admin/categories') }}"><i class="fa fa-circle-o"></i>All Categories</a></li>
+                    <li><a href=" {{ url('admin/categories') }}"><i class="fa fa-arrow-circle-right"></i>All Categories</a></li>
                 </ul>
             </li>
             <li class="treeview active">
@@ -142,9 +142,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/user/create') }}"><i class="fa fa-circle-o"></i>Create User</a></li>
-                    <li><a href=" {{ url('admin/users') }}"><i class="fa fa-circle-o"></i>Admin Users</a></li>
-                    <li><a href=" {{ url('admin/generel/users') }}"><i class="fa fa-circle-o"></i>Generel Users</a></li>
+                    <li><a href=" {{ url('admin/user/create') }}"><i class="fa fa-arrow-circle-right"></i>Create User</a></li>
+                    <li><a href=" {{ url('admin/users') }}"><i class="fa fa-arrow-circle-right"></i>Admin Users</a></li>
+                    <li><a href=" {{ url('admin/generel/users') }}"><i class="fa fa-arrow-circle-right"></i>Generel Users</a></li>
 
 
                 </ul>
@@ -158,8 +158,8 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/slider/create') }}"><i class="fa fa-circle-o"></i>Add Slider </a></li>
-                    <li><a href=" {{ url('admin/sliders') }}"><i class="fa fa-circle-o"></i>All Sliders</a></li>
+                    <li><a href=" {{ url('admin/slider/create') }}"><i class="fa fa-arrow-circle-right"></i>Add Slider </a></li>
+                    <li><a href=" {{ url('admin/sliders') }}"><i class="fa fa-arrow-circle-right"></i>All Sliders</a></li>
 
 
                 </ul>
@@ -173,11 +173,32 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/report/order_report') }}"><i class="fa fa-circle-o"></i>Order Reports</a>
+                    <li><a href=" {{ url('admin/report/order_report') }}"><i class="fa fa-arrow-circle-right"></i>Order Reports</a>
                     </li>
-                    <li><a href=" {{ url('admin/limited/product') }}"><i class="fa fa-circle-o"></i>Limited Product</a></li>
+                    <li><a href=" {{ url('admin/report/stockReport') }}"><i class="fa fa-arrow-circle-right"></i>Stock Reports</a>
+                    </li>
+                    <li><a href=" {{ url('admin/report/userProductDemand') }}"><i class="fa fa-arrow-circle-right"></i>Product Demand</a>
+                    </li>
+                   
+                   
                 </ul>
             </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Zone Management</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">                    
+                    <li><a href=" {{ url('admin/zoneStock') }}"><i class="fa fa-arrow-circle-right"></i>Zone Stock</a>
+                    </li>
+                   
+                </ul>
+            </li>
+
 
             <li class="treeview">
                 <a href="#">
@@ -188,9 +209,24 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/courier/create') }}"><i class="fa fa-circle-o"></i>Add New Courier </a>
+                    <li><a href=" {{ url('admin/courier/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Courier </a>
                     </li>
-                    <li><a href=" {{ url('admin/couriers') }}"><i class="fa fa-circle-o"></i>All Couriers List</a></li>
+                    <li><a href=" {{ url('admin/couriers') }}"><i class="fa fa-arrow-circle-right"></i>All Couriers List</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Suppliyer</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=" {{ url('admin/supply/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New  </a>
+                    </li>
+                    <li><a href=" {{ url('admin/supply') }}"><i class="fa fa-arrow-circle-right"></i>Suppliyer List</a></li>
                 </ul>
             </li>
 
@@ -204,9 +240,25 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/media/create') }}"><i class="fa fa-circle-o"></i>Add New Media Image
+                    <li><a href=" {{ url('admin/media/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Media Image
                         </a></li>
-                    <li><a href=" {{ url('admin/media') }}"><i class="fa fa-circle-o"></i>All Product Images List</a>
+                    <li><a href=" {{ url('admin/media') }}"><i class="fa fa-arrow-circle-right"></i>All Product Images List</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span>Zone & Shop </span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=" {{ url('admin/zone') }}"><i class="fa fa-arrow-circle-right"></i> Zone  </a></li>
+                    <li><a href=" {{ url('admin/shop') }}"><i class="fa fa-arrow-circle-right"></i>Shop</a>
                     </li>
                 </ul>
             </li>
@@ -220,9 +272,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/page/create') }}"><i class="fa fa-circle-o"></i>Add New Page </a>
+                    <li><a href=" {{ url('admin/page/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Page </a>
                     </li>
-                    <li><a href=" {{ url('admin/pages') }}"><i class="fa fa-circle-o"></i>All Pages </a></li>
+                    <li><a href=" {{ url('admin/pages') }}"><i class="fa fa-arrow-circle-right"></i>All Pages </a></li>
                 </ul>
             </li>
 
@@ -235,13 +287,13 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=" {{ url('admin/default/setting') }}"><i class="fa fa-circle-o"></i>Default Setting</a>
+                    <li><a href=" {{ url('admin/default/setting') }}"><i class="fa fa-arrow-circle-right"></i>Default Setting</a>
                     </li>
-                    <li><a href=" {{ url('admin/homepage/setting') }}"><i class="fa fa-circle-o"></i>Home Page Setting</a></li>
+                    <li><a href=" {{ url('admin/homepage/setting') }}"><i class="fa fa-arrow-circle-right"></i>Home Page Setting</a></li>
 
-                    <li><a href=" {{ url('admin/social/setting') }}"><i class="fa fa-circle-o"></i>Social Media Setting</a></li>
-                    <li><a href=" {{ url('/clear-cache') }}"><i class="fa fa-circle-o"></i>clear-cache</a></li>
-                    <li><a href=" {{ url('/admin/default/mailSetting') }}"><i class="fa fa-circle-o"></i>Mail Setting</a></li>
+                    <li><a href=" {{ url('admin/social/setting') }}"><i class="fa fa-arrow-circle-right"></i>Social Media Setting</a></li>
+                    <li><a href=" {{ url('/clear-cache') }}"><i class="fa fa-arrow-circle-right"></i>clear-cache</a></li>
+                    <li><a href=" {{ url('/admin/default/mailSetting') }}"><i class="fa fa-arrow-circle-right"></i>Mail Setting</a></li>
                 </ul>
             </li>
 
@@ -249,7 +301,7 @@
 
         </ul>
     </section>
-    <!-- /.sidebar -->
+  
 </aside>
 <script >
     function website_message_count() {

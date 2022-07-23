@@ -41,6 +41,11 @@ Route::post('/login_check', 'admin\AdminController@loginCheck');
 Route::get('/dashboard', 'admin\DashboardController@index');
 
 
+Route::get('/admin/note', 'admin\AdminNoteController@index');
+Route::get('/admin/note_save', 'admin\AdminNoteController@note_save');
+Route::get('/admin/noteDelete/{id}', 'admin\AdminNoteController@noteDelete');
+Route::get('/admin/noteDone/{id}', 'admin\AdminNoteController@noteDone');
+Route::get('/admin/noteUpdated', 'admin\AdminNoteController@noteUpdated');
 
 Route::get('/add-to-wishlist', 'CheckOutController@add_to_wishlist');
 Route::get('/wishlist', 'CheckOutController@wishlist');
