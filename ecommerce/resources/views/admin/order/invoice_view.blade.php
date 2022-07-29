@@ -28,6 +28,10 @@
 table, th, td {
   border: 1px solid #a8a5a5;
 }
+.invoice {  
+  -ms-transform: rotate(0deg); /* IE 9 */
+  transform: rotate(0deg);
+}
 
 </style>
 
@@ -36,7 +40,14 @@ table, th, td {
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <img  style="width: 86px;" src="{{url('/')}}/public/uploads/logo f.png" > Zakwanbd.com
+                <img  style="width: 86px;" src="{{url('/')}}/public/logo/logo_shop.jpg" >
+                <span style="text-align:center;font-size: 19px;">Zakwan Pharma & Supershop  </span>
+</br>
+     <span style="margin-left:90px;text-align:center;font-size: 16px;">জাকওয়ান ফার্মা এন্ড সুপারশপ </span>
+     </br>
+     <span style="margin-left:130px;text-align:center;font-size: 16px;
+    font-weight: bold;">www.zakwanbd.com</span>
+     
                 <small class="pull-right">Date: <?=date('d/m/Y')?></small>
             </h2>
         </div>
@@ -165,10 +176,8 @@ table, th, td {
         <!-- accepted payments column -->
         <div class="col-xs-6">
 
-            @if($order->customer_order_note !='')
-                <p>Order Note: {{$order->customer_order_note}}
-                </p>
-            @endif
+            
+            
 
         </div>
         <!-- /.col -->
@@ -194,35 +203,15 @@ table, th, td {
                     <tr>
                         <th> Discount  :</th>
                         <td>{{$order->discount_price+$order->affiliate_discount}} Tk</td>
-
                     </tr>
-                    @endif
-
-
-                    <?php
-                        if($order->payWith=='bonus'){
-                    ?>
-                    <tr>
-                        <th>  Bonus Amount :</th>
-                        <td>- {{$order->bonus_balance}} Tk</td>
-                    </tr>
-                    <?php
-                        }else if($order->payWith=='cashback'){
-                    ?>
-                    <tr>
-                        <th>Cashback Amount :</th>
-                        <td>- {{$order->cashback_balance}} Tk</td>
-                    </tr>
-                    <?php
-                        }
-                    ?>
+                    @endif 
                     <tr>
                         <th>Due:</th>
                         <td>{{$order->order_total}} Tk</td>
-
                     </tr>
 
-                    </tbody></table>
+                    </tbody>
+                </table>
             </div>
         </div>
         <!-- /.col -->

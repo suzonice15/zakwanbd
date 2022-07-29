@@ -154,6 +154,7 @@ Route::get('admin/product/StockUpdate/{id}', 'admin\ProductController@StockUpdat
 Route::get('admin/product/productStockUpdate', 'admin\ProductController@productStockUpdate');
 
 /****=============== Order section    =====================  ******/
+Route::get('admin/onlineOrders', 'admin\OrderController@onlineOrders');
 Route::get('admin/orders', 'admin\OrderController@index');
 Route::get('admin/orders/history-generate', 'admin\OrderController@orderHistoryGenerate');
 Route::get('admin/order/create', 'admin\OrderController@create');
@@ -171,6 +172,7 @@ Route::get('order/pagination_search_by_affiliate_id', 'admin\OrderController@pag
 Route::get('order/pagination_search_by_product_code', 'admin\OrderController@pagination_search_by_product_code');
 Route::get('/orderConvertToProductCode', 'admin\OrderController@orderConvertToProductCode');
 Route::get('/order/affiliateCheckByMobile/{phone}', 'admin\OrderController@affiliateCheckByMobile');
+Route::get('/admin/getProductsByShopId', 'admin\OrderController@getProductsByShopId');
 
 Route::get('order/product/selection/change', 'admin\AjaxOrderControlller@getOrderProduct')->name('getOrderProduct'); 
 
@@ -182,6 +184,7 @@ Route::get('/admin/order/report', 'admin\OrderController@orderReport');
 Route::post('admin/order/report', 'admin\OrderController@orderReportGeneration');
 Route::get('admin/order/status/changed/{order_status}/{order_id}', 'admin\OrderController@statusChanged');
 Route::get('admin/order/{id}', 'admin\OrderController@edit'); 
+Route::get('admin/order/confirmPayment/{id}', 'admin\OrderController@confirmPayment'); 
 
 /**************************** Order report          **************************/ 
 
@@ -310,8 +313,7 @@ Route::post('customer/forgotPasswordUpdateByPhone', 'CustomerController@forgotPa
 Route::get('customer/new-password/{email}', 'CustomerController@NewPassword');
 Route::post('customer/new-password', 'CustomerController@NewPasswordStore');
 Route::get('customer/new/response', 'CustomerController@newResponse');
-Route::get('customer/lotarySuccess', 'CustomerController@lotarySuccess');
-
+ 
 
 /****=============== vendor admin section    =====================  ******/
 Route::get('vendor/product/create', 'VendorController@create');

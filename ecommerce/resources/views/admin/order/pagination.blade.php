@@ -39,26 +39,20 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                     <br>Transaction ID <span  style="color: #770745;font-size: 12px;">{{$order->transaction_id}}</span>
                 @endif
             </td>  <td><?php
-                $order_items = unserialize($order->products);
-                $sku=0;
-                $name=0;
-                if(is_array($order_items['items'])) {
-                    foreach ($order_items['items'] as $product_id => $item) {
-                        $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
-
-                        $product = single_product_information($product_id);
-                    if($product){
-                        $sku = $product->sku;
-                        $name = $product->product_name;
-                    }
+                $order_items = getOrderDetails($order->order_id);               
+                if(isset($order_items)) {
+                    foreach ($order_items as $key => $item) {                        
+                        $product = single_product_data($item->product_id);
+                        $featured_image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;
+                    
 
                         ?>
-<a  target="_blank" href="{{url('/')}}/{{ $name }}">
-    <span class="label label-info" style="width: 150px;display: block;overflow: hidden;" ><?=($item['name'])?></span>
+<a  target="_blank" href="{{url('/')}}/{{ $product->product_name }}">
+    <span class="label label-info" style="width: 150px;display: block;overflow: hidden;" >{{ $product->product_title }}</span>
     <br/>
-    <img  src="<?=$featured_image?>" />
+    <img  src="<?=$featured_image?>"  width="50"/>
     ✖
-    <?=($item['qty'])?>
+    {{ $item->qnt }}
 </a>
                 <br>
                 <?php
@@ -66,42 +60,7 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                     }
                 ?>
             </td>
-            <td><?php
-
-                $order_items = unserialize($order->products);
-                $vendor_id=0;
-                if(is_array($order_items['items'])) {
-                foreach ($order_items['items'] as $product_id => $item) {
-
-                $product = single_product_information($product_id);
-                    if($product){
-                $vendor_id=$product->vendor_id;
-                    }
-                if($vendor_id==0){
-                   $owner=" Sohojbuy Product";
-                } else {
-              $vendor_result= DB::table('vendor')->where('vendor_id',$vendor_id)->first();
-              }
-
-                ?>
-
-                <?php
-                if($vendor_id==0){
-                    ?>
-
-                   <?php echo $owner; ?>
-              <?php  }  else {
-                ?>
-                <a  style="color:green" target="_blank" href="{{URL::to('/admin/vendor/view'.'/'.$vendor_id)}}">
-                     <?php echo $vendor_result->vendor_shop; ?>
-                        <br>
-                     <?php echo $vendor_result->vendor_phone; ?>
-                </a>
-                <br>
-                <?php }
-                }
-                }
-                ?>
+            <td> 
 <span style="border-top:1px solid #ddd;display: block;"></span>
                 <br>
                 <?php
@@ -181,18 +140,13 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
 
 
             <td>
+                @if($order->is_paid==1)
                 <a title="edit" target="_blank" href="{{ url('admin/order') }}/{{ $order->order_id }}">
                     <span class="glyphicon glyphicon-edit btn btn-success"></span>
                 </a>
-
-
-
                 <a title="print" target="_blank" href="{{ url('admin/order/invoice-print') }}/{{ $order->order_id }}">
-
                     <span class="glyphicon glyphicon-print btn btn-success"></span>
                 </a>
-
-
                 <div class="input-group input-group-lg">
 
 
@@ -202,18 +156,18 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                         <ul class="dropdown-menu">
                             @if($order->order_status=='new')
                                 <li><a href="{{url('/')}}/admin/order/status/changed/cancled/{{$order->order_id}}">Cancel</a></li>
-                                <li><a href="{{url('/')}}/admin/order/status/changed/phone_pending/{{$order->order_id}}">Phone Pending</a></li>
-                                <li><a href="{{url('/')}}/admin/order/status/changed/pending_payment/{{$order->order_id}}">Pending Payment</a></li>
+                                
+                                
                                 <li><a href="{{url('/')}}/admin/order/status/changed/processing/{{$order->order_id}}">processing</a></li>
                             @elseif($order->order_status=='phone_pending')
                                 <li><a href="{{url('/')}}/admin/order/status/changed/cancled/{{$order->order_id}}">Cancel</a></li>
-                                <li><a href="{{url('/')}}/admin/order/status/changed/pending_payment/{{$order->order_id}}">Pending Payment</a></li>
+                                
                                 <li><a href="{{url('/')}}/admin/order/status/changed/processing/{{$order->order_id}}">processing</a></li>
                             @elseif($order->order_status=='processing')
                                 <li><a href="{{url('/')}}/admin/order/status/changed/on_courier/{{$order->order_id}}">On Courier</a></li>
                                 <li><a href="{{url('/')}}/admin/order/status/changed/cancled/{{$order->order_id}}">Cancel</a></li>
                             @elseif($order->order_status=='on_courier')
-                                <li><a href="{{url('/')}}/admin/order/status/changed/delivered/{{$order->order_id}}" class="btn btn-success" style="color:white;border:none">Delivered</a></li>
+                                <li><a href="{{url('/')}}/admin/order/status/changed/completed/{{$order->order_id}}" class="btn btn-success" style="color:white;border:none">Completed</a></li>
                                 <li><a href="{{url('/')}}/admin/order/status/changed/failed/{{$order->order_id}}" class="btn btn-danger" style="color:white;border:none">Failed</a></li>
                             @elseif($order->order_status=='delivered')
                                 <li><a href="{{url('/')}}/admin/order/status/changed/refund/{{$order->order_id}}">Refund</a></li>
@@ -235,6 +189,7 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                         </ul>
                     </div>
                 </div>
+                @endif
             </td>
         </tr>
 

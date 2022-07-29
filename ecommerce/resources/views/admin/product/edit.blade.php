@@ -121,23 +121,8 @@
                                             <option value="1"  >Published</option>
                                             <option value="0" >Unpublished</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label for="product_promotion_active">Promosion Product
-                                        </label> <select name="product_promotion_active"
-                                                         class="form-control">
-                                            <option value="0">Select</option>
-                                            <option value="1">Promosion Product Active</option>
-                                        </select>
-                                    </div>
-
-
-                                   
-                                    <div class="form-group" hidden>
-                                        <label for="stock_qty">Stock Alert.</label>
-                                        <input type="text" class="form-control" name="stock_alert" id="stock_alert"
-                                               value="{{ $product->stock_alert }}" autocomplete="off">
-                                    </div>
+                                    </div> 
+                                     
 
 
                                     <div class="form-group ">
@@ -446,8 +431,7 @@
     <script>
 
         document.forms['product'].elements['status'].value = "{{ $product->status }}";
-        document.forms['product'].elements['product_promotion_active'].value = "{{ $product->product_promotion_active }}";
-        document.forms['product'].elements['product_type'].value = "{{ $product->product_type }}";
+         document.forms['product'].elements['product_type'].value = "{{ $product->product_type }}";
         document.forms['product'].elements['vendor_id'].value = "{{ $product->vendor_id }}";
 
 

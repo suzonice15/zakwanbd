@@ -43,6 +43,7 @@
                 <ul class="treeview-menu">
                     <li><a href=" {{ url('admin/order/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Order</a></li>
                     <li><a href=" {{ url('admin/orders')}}"><i class="fa fa-arrow-circle-right"></i>All Orders</a></li>
+                    <li><a href=" {{ url('admin/onlineOrders')}}"><i class="fa fa-arrow-circle-right"></i>Online Orders</a></li>
                     <li><a href=" {{ url('admin/courier/view/report')}}"><i class="fa fa-arrow-circle-right"></i>Courier Report</a></li>
                     <li><a href=" {{ url('admin/order/report')}}"><i class="fa fa-arrow-circle-right"></i>Order  Report</a></li>
                 </ul>

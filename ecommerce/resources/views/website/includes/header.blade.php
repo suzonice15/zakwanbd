@@ -187,7 +187,7 @@
                 <li><a href="{{url('/')}}/category/free-delivery">Free Delivery </a></li>
                 <li><a href="{{url('/')}}/category/buy-one-get-one">Buy 1 get 1 Free </a></li>
                 <li><a href="{{url('/')}}/category/offer">Hot Deals </a></li>
-                <li><a href="http://sakwan.jibonpata.com/affiliate/">Affiliate </a></li>
+                <li><a href="https://zakwanaffiliate.com/">Affiliate </a></li>
                 <li><a href="{{url('/track-your-order')}}">Track My Order</a></li>
 
                 <li><a href="{{url('/all-products')}}">All Products</a></li>

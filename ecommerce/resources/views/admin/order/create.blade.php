@@ -55,7 +55,7 @@ Add New Order
 
                                         <div class="form-group ">
                                             <label for="billing_email">Affiliate ID </label>
-                                            <input disabled type="text" name="user_id" class="form-control"  id="user_id"    value=""/>
+                                            <input readonly type="text" name="user_id" class="form-control"  id="user_id"    value=""/>
                                         </div> 
 
                                     </div>
@@ -102,7 +102,7 @@ Add New Order
                                                     $product_title=$product->product_title;
                                                     ?>
                                                     <option value="{{$product->product_id}}"
-                                                    >{{$product_title}} - {{$product->sku}}</option>
+                                                    >{{$product_title}} - {{$product->sku}} <span style="color:red"> ({{$product->stock}}) </span></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                     </div> 
@@ -133,6 +133,7 @@ Add New Order
                                    <th class="text-center" width="5%">Code</th>
                                    <th class="image text-center" width="5%">Image</th>
                                    <th class="quantity text-center" width="5%">Qty</th>
+                                   <th class="quantity text-center" width="5%">Commision</th>
                                    <th class="price text-center" width="10%">Price</th>
                                    <th class="total text-center" width="10%">Sub-Total</th>
                                    <th class="total text-center" width="3%">Delete</th>
@@ -142,20 +143,20 @@ Add New Order
                                 <tbody id="product_show">
 
                                 <tr> 
-                                    <td class="text-right" colspan='5'>Sub Total</td> 
+                                    <td class="text-right" colspan='6'>Sub Total</td> 
                                     <td class="text-center"><span id="total_subtotal_price"></span></td> 
                                     <td>
                                 </tr>
 
                                 <tr> 
-                                    <td class="text-right" colspan='5'> Delivery Cost </td> 
+                                    <td class="text-right" colspan='6'> Delivery Cost </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
                                       type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="0"> 
                                     </td> 
                                     <td>
                                 </tr> 
                                 <tr> 
-                                    <td class="text-right" colspan='5'>Discount Price </td> 
+                                    <td class="text-right" colspan='6'>Discount Price </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
                                       type="text" name="discount_price" class="form-control" id="discount_price" value="0"> 
                                     </td> 
@@ -163,7 +164,7 @@ Add New Order
                                 </tr> 
                                 
                                 <tr> 
-                                    <td class="text-right" colspan='5'>Paid Amount </td> 
+                                    <td class="text-right" colspan='6'>Paid Amount </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
                                       type="text" name="advabced_price" class="form-control" id="advabced_price" value="0"> 
                                     </td> 
@@ -171,12 +172,11 @@ Add New Order
                                 </tr>  
 
                                 <tr> 
-                                    <td class="text-right" colspan='5'>Total </td> 
+                                    <td class="text-right" colspan='6'>Total </td> 
                                     <td class="text-center">
                                     <span id="total_amount"></span>
                                         <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
                                       type="hidden" name="order_total" class="form-control" id="order_total" value=""> 
-
                                     </td> 
                                     <td>
                                 </tr>  
@@ -247,6 +247,7 @@ Add New Order
 
                 $("#affiliate_mobile").blur(function(){
                     let affiliate_mobile=$("#affiliate_mobile").val();
+                    affiliate_mobile = affiliate_mobile.trim();
 
                     $.ajax({
                         url:"{{url('/')}}/order/affiliateCheckByMobile/"+affiliate_mobile,
@@ -257,7 +258,7 @@ Add New Order
                                 $("#user_id").val(data.id)  
                             }else{
                                 $("#customer_name").val('')                          
-                                $("#customer_phone").val('')   
+                                $("#customer_phone").val(affiliate_mobile)   
                                 $("#user_id").val(2)   
                             } 
                         }
@@ -290,10 +291,6 @@ Add New Order
                 });
 
             </script>
-
-
-
-
 
 @endsection
 

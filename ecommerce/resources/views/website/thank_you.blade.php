@@ -42,16 +42,7 @@
 </style>
 
 <div class="container tank_you_print" style="background-color: white;margin-top: 10px;padding-top: 2px;">
-    <h2  style="background-color:green" class="   col-12 thank_you_class"
-    >
-        প্রিয় ক্রেতা,
-
-
-        কেনাকাটার মাধ্যম হিসেবে zakwanbd – কে বেছে নেবার জন্য আপনাকে আন্তরিক ধন্যবাদ।আপনার অর্ডারটি সফলভাবে গ্রহন করা হয়েছে। এখন থেকে পরবর্তী ২৪ ঘন্টার মধ্যে আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবেন । যে কোনো প্রয়োজনে কল করুন 
-        01970010605
-        ধন্যবাদ ।
-
-    </h2>
+    
     <div class="row  order_tank_you_class">
 
 
@@ -61,6 +52,16 @@
 <div class="col-md-2">
 </div>
         <div class="col-md-8 col-12">
+        <p  style="background-color:green;color:white;padding:9px;margin-top:10px"
+    >
+        প্রিয় ক্রেতা,
+
+
+        কেনাকাটার মাধ্যম হিসেবে zakwanbd – কে বেছে নেবার জন্য আপনাকে আন্তরিক ধন্যবাদ।আপনার অর্ডারটি সফলভাবে গ্রহন করা হয়েছে। এখন থেকে পরবর্তী ২৪ ঘন্টার মধ্যে আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবেন । যে কোনো প্রয়োজনে কল করুন 
+        01970010605
+        ধন্যবাদ ।
+
+        </p>
 
                 <div class="card panel-primary">
                     <div class="card-heading text-start ms-5"><b>
@@ -129,85 +130,84 @@
                             <table class="table table-striped table-bordered">
                                 <tr>
                                     <th class="name" width="1%">Sl</th>
+                                    <th class="name" width="15%">picture</th>
                                     <th class="name" width="40%">Products</th>
-                                    <th class="name" width="10%">Product Code</th>
+                                    <th class="name" width="10%">Code</th>
 
-                                    <th class="name" width="25%">Sub-Total</th>
+                                    <th class='text-center' class="name" width="25%">Sub-Total</th>
                                 </tr>
-                                <?php
-                                $product_items = unserialize($order->products);
-                                //echo '<pre>'; print_r($product_items); echo '</pre>';
-                                $count = 1;
-                                $total = 0;
-                                foreach ($product_items['items'] as $product_id => $item) {
-
-
-                                $totall = intval(preg_replace('/[^\d.]/', '', $item['subtotal']));
-
-                                $total += $totall ;
-                                $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
-
-                                $product=      single_product_information($product_id);
+                                <?php                              
+                               $subtotal=0;
+                                foreach ($order_items  as $key => $item) { 
+                                $product=single_product_information($item->product_id);
                                 $sku=$product->sku;
                                 $name=$product->product_name;
+                                $subtotal +=$item->price*$item->qnt;
                                 ?>
                                 <tr>
-                                    <td><?php echo $count; ?></td>
-                                    <td>
+                                    <td>{{++$key}}</td>
+                                    <td> 
+                                        <img width="120" src="{{url('/')}}/public/uploads/{{$product->folder}}/thumb/{{$product->feasured_image}}"  />
+                                        
+                              </td>  
 
-
-                                        <img src="<?= $featured_image ?>" height="30" width="30"/>
-                                        <a target="_blank" href="{{url('/')}}/{{$name}}"> <?= $item['name'] ?>
+                                    <td> 
+                                         <a target="_blank" href="{{url('/')}}/{{$name}}"> <?= $name ?>
                                         </a>
                                         <br/>
-                                        @money($item['price'])✖  <?= $item['qty'] ?>
-
-                                    </td>
-
-
-
-                                    <td> {{$sku}} </td>
-
-
-                                    <td>  @money($item['subtotal']) </td>
+                                        @money($item->price)✖  <?= $item->qnt ?>
+                                         </td> 
+                                    <td> {{$sku}} </td> 
+                                    <td class='text-center'>  @money($item->sub_total) </td>
 
                                 </tr>
                                 <?php
-                                $count++;
+                                 
                                 }
                                 ?>
-                            </table>
-                        </div>
-                        <table class="table table-striped table-bordered">
-                            <tbody>
+
                             <tr>
-                                <td style="75%">
-                                    <span class="extra bold totalamout"><b>Sub Total</b></span>
-                                </td>
-                                <td class="text-right" style="width:50%">
-                                    <span class="bold totalamout"><b>@money($total)      </b></span>
-                                </td>
+                                    <td colspan='4' class='text-end'>
+                                        <span class="extra bold totalamout"><b>Sub Total</b></span>
+                                    </td>
+                                    <td class="text-center" style="width:50%">
+                                        <span class="bold totalamout"><b>@money($subtotal)      </b></span>
+                                    </td>
                             </tr>
                             <tr>
-                                <td style="75%">
+                            <td colspan='4' class='text-end'>
                                     <span class="extra bold totalamout"><b>Delivery Cost</b></span>
                                 </td>
-                                <td class="text-right" style="width:50%">
+                                <td class="text-center" style="width:50%">
                                                     <span
                                                         class="bold totalamout"><b>@money($order->shipping_charge) </b></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="75%">
+
+                            <td colspan='4' class='text-end'>
                                     <span class="extra bold totalamout"><b>Total</span>
                                 </td>
-                                <td class="text-right" style="width:50%">
+                                <?php 
+                                
+                                $total=$subtotal+$order->shipping_charge;
+                                ?>
+                                <td class="text-center" style="width:50%">
                                                     <span
-                                                        class="bold totalamout"><b>@money($order->order_total) </b></span>
+                                                        class="bold totalamout"><b>@money($total) </b></span>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
+                            <td colspan='4' class='text-end'>
+                                    <span class="extra bold totalamout"><b>Due</span>
+                                </td>
+                                <td class="text-center" style="width:50%">
+                                                    <span
+                                                        class="bold totalamout"><b>0</b></span>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

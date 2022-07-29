@@ -5,19 +5,7 @@
     <label style="margin-bottom: 0; font-weight:unset;display: inline;padding-left: 5px; padding-right: 35px;">Product Code:</label>
     <label style="margin-bottom: 0; font-weight:unset;display: inline;padding-right: 3px;">
      {{$product->sku}}    </label>
-    </p>
-
-    <div class="stock-product">
-        <span style="font-size: 14px;font-weight: bold;" class="label">In Stock  :</span>
-        <span style="font-weight: bold">{{$product->product_stock}}</span>
-        <?php
-        if(isset($shop_link)){
-        ?>
-        <p class="fw-bold fs-5">Shop : <a href="{{URL::to('shop/'.$shop_link)}}">{{$shop_name}}</a></p>
-        <?php }?>
-
-    </div>
-
+    </p> 
     <div class="available-product">
         <span style="font-size: 14px;font-weight: bold;" class="label">Availability :</span>
         <span style="font-weight: bold"><?=$product_availability?></span>
@@ -50,12 +38,12 @@
 
     <div class="row add-to-cart-section">
 
-        @if($product->product_stock != 0)
+        
             <input type="hidden" value="{{$product->product_stock}}" id="limit_stock_product" >
 
             <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-4">
 
-                @if($product->product_promotion_active !=1)
+               
 
                     <div style="float: left; border: solid 1px #24b193; width: 150px; height: 39px;margin-left:5px;margin-bottom: 4px;">
                         <div style="color:orangered;font-size: 25px;text-align: center; width: 50px; float: left; cursor: pointer;font-weight: bold;"
@@ -70,14 +58,10 @@
                             +
                         </div>
                     </div>
-                @endif
-
+               
 
             </div>
-        @endif
-        @if($product->product_promotion_active !=1)
-
-            @if($product->product_stock != 0)
+         
 
                 <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 col-xxl-8">
                     <a data-product_id="{{ $product->product_id}}"
@@ -91,19 +75,13 @@
                         <i style="color: red;" class="icon fa fa-heart"></i>
                     </button>
                 </div>
-            @endif
-        @endif
+           
 
     </div>
 
 
     <div class="row">
-
-        @if($product->product_promotion_active !=0)
-            <div class="col-12 col-xs-12" style="padding:0">
-                <a href="{{url('/')}}/customer/login" class="btn btn-success btn-sm " style="color:white !important ;width: 200px" >Order  Now</a>
-            </div>
-        @endif
+ 
 
         <div class="col-sm-12 col-xs-12">
             <h4 style="font-weight:bold;color:red;" class="mt-3">ফোনে অর্ডারের জন্য

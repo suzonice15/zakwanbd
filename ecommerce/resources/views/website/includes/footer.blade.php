@@ -32,7 +32,7 @@
                     <li class="mb-2"><a target="_blank" href="{{url('/')}}/track-your-order">Track Order</a></li>
                     <li class="mb-2"><a target="_blank"  href="{{url('/')}}/refund-and-returns-policy">Return and Refund Policy</a></li>
                     <li class="mb-2"><a target="_blank" href="{{url('/')}}/customer-service">Customer Service</a></li>
-                    <li class="mb-2"><a  target="_blank" href="https://www.affiliate.zakwanbd.com/">Affiliate</a></li>
+                    <li class="mb-2"><a  target="_blank" href="https://zakwanaffiliate.com">Affiliate</a></li>
                 </ul>
             </div>
             <hr class="clearfix w-100 d-md-none">

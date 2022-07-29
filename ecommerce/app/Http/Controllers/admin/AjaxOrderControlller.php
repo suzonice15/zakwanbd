@@ -42,9 +42,11 @@ class AjaxOrderControlller extends Controller
             <img src="'.$image.'"  style="width:100%">
         </td>
         <td class="text-center">
-            <input  onchange="quantityChange(this.value,'.$product->product_id.')"   type="number" name="products['.$product->product_id.']" class="form-control item_qty" value="1" data-item-id="7" style="width:70px;">
-        </td>
+            <input  onchange="quantityChange(this.value,'.$product->product_id.')"   type="number" name="products['.$product->product_id.']" class="form-control" value="1"   style="width:70px;">
+            <input    type="hidden" name="price['.$product->product_id.']" class="form-control" value="'.$sell_price.'"   style="width:70px;">
+        </td> <td class="text-center" >'.$product->top_deal.'</td>
         <td class="text-center" id="price_'.$product->product_id.'">'.$sell_price.'</td>
+       
          <td class="text-center subtotal_price" id="subtotal_'.$product->product_id.'">'.$sell_price.'</td>
          <td><button type="button" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Delete</button></td>
     </tr>';

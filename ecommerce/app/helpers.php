@@ -51,9 +51,46 @@ function getChaildCategory($category_id){
 }
 
 
+function single_product_data($product_id)
+{
+    $result = DB::table('product')->where('product_id', $product_id)->first();
+    if ($result) {
+        return $result;
+    }
+}
+
+function getOrderDetails($order_id)
+{
+   $result= DB::table('order_details')->where('order_id',$order_id)->get();
+    if ($result) {
+        return $result;
+    }
+}
+
+function getStockProductsOfShop($shop_id){
+    
+   return DB::table('product')->join('product_stocks','product.product_id','=','product_stocks.product_id')             
+            ->select('product_stocks.product_id', 'product_title', 'sku','stock')
+            ->where('stock','>',0)
+            ->where('shop_id',$shop_id)
+            ->orderby('stock', 'asc')->get();
+}
+
+function shopStockReduce($shop_id,$product_id,$qnt)
+{
+   $product= DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id',$product_id)->first();
+    if ($product) {
+        $data['stock']=$product->stock-$qnt;
+        $data['product_sells']=$product->product_sells+$qnt;
+        DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id',$product_id)->update($data);        
+    }
+}
+
+
+
 function single_product_information($product_id)
 {
-    $result = DB::table('product')->select('sku', 'vendor_id', 'product_name', 'product_title', 'product_stock','purchase_price')->where('product_id', $product_id)->first();
+    $result = DB::table('product')->select('sku', 'vendor_id','top_deal', 'product_name', 'product_title', 'product_stock','purchase_price','folder','feasured_image')->where('product_id', $product_id)->first();
 
     if ($result) {
         return $result;
@@ -122,24 +159,17 @@ function getOrderCount($order_status)
 {
     $staff_id=Session::get('id');
     $status=Session::get('status');
-    if($status=='office-staff' || $status=='editor'){
+    $shop_id=Session::get('shop_id');     
         if($order_status==1){
-            return  DB::table('order_data')->count();
-        }
-      return  DB::table('order_data')->where('order_status',$order_status)->where('staff_id', $staff_id)->count();
-    }else{
-        if($order_status==1){
-            return  DB::table('order_data')->count();
-        }
-        return  DB::table('order_data')->where('order_status',$order_status)->count();
-    }
-
+            return  DB::table('order_data')->where('shop_id',$shop_id)->count();
+        }else{
+            return  DB::table('order_data')->where('order_status',$order_status)->where('shop_id',$shop_id)->count();
+        }  
 }
 
 
 function selectRandomStuff()
 {
-
         $admin_id=  DB::table('admin')->where('status','office-staff')
             ->where('active_status', 1)->inRandomOrder()
             ->value('admin_id');
@@ -147,10 +177,6 @@ function selectRandomStuff()
         return $admin_id;
     }
     return 0;
-
-
 }
-
-
 
 ?>

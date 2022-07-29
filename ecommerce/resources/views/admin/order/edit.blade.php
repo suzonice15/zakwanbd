@@ -10,8 +10,7 @@
     </style>
 
     <?php
-
-           $admin_user= Session::get('status');
+               $admin_user= Session::get('status');
             if($admin_user=='super-admin' || $admin_user=='admin'){
                 $affilite_commision_show="";
 
@@ -25,10 +24,6 @@
 
 
         <div class="col-sm-offset-0 col-md-12">
-
-
-
-
                 @if($order->order_status !='completed')
 
                 <form name="product"  id="form" action="{{ url('admin/order/update') }}/{{ $order->order_id }}" class="form-horizontal"
@@ -65,8 +60,6 @@
                                         <tr>
                                             <td> 
                                                 {{date('d-F-Y h:i:s a',strtotime($order->created_time))}}
-
-
                                             </td>
                                             <td>
                                                 <h2 style="font-size:12px "
@@ -83,21 +76,16 @@
                                             </td>
                                             <td>
                                                 <?= $order->customer_address; ?>
-
-
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
-
                                     <div class="order_data" id="customer_info_change"
                                          style="padding: 18px;display: none">
 
                                          <div class='col-md-6'>
                                          <div class="form-group ">
                                             <label for="billing_name">Name </label>
-
-
                                             <input class="form-control" type="text" name="customer_name"
                                                    value="<?php echo $order->customer_name; ?>"/>
                                         </div>
@@ -105,8 +93,6 @@
 
                                         <div class="form-group ">
                                             <label for="billing_email">Email</label>
-
-
                                             <input type="text" class="form-control" name="customer_email"
                                                    value="<?php echo $order->customer_email; ?>"/>
                                         </div>
@@ -117,8 +103,6 @@
                                             <input type="text" name="customer_phone" class="form-control"
                                                    value="<?php echo $order->customer_phone; ?>"/>
                                         </div>
-
-
                                         <div class="form-group shipping-address-group ">
                                             <label for="shipping_address1">Customer Address </label>
                                             <textarea class="form-control" rows="3" name="customer_address"
@@ -146,21 +130,12 @@
                                             <label for="payment_method">Transaction ID </label>  
                                             <input  readonly class="form-control" type="text" 
                                                    value="<?php echo $order->transaction_id; ?>"/>
-                                        </div>
-
-
-                                        
+                                        </div>                                       
 
                                         </div> 
-
-
                                     </div>
                                 </div>
-
-
-                            </div>
-
-                        </div>
+                            </div>                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -169,7 +144,7 @@
                                     <h3 class="box-title">Order Status Information</h3>
                                 </div>
                                 <div class="box-body">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <div class="form-group" style="padding: 12px;">
                                             <label>Courier Service</label>
                                             <select name="courier_service" id="courier_service"
@@ -187,9 +162,9 @@
 
                                             </select>
                                         </div>
-
                                     </div>
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-2">
                                         <div class="form-group" style="padding: 12px;">
                                             <label>Shipping Date</label>
                                             <div class="input-group date">
@@ -211,7 +186,8 @@
                                                 <?php } ?>                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+
+                                    <div class="col-md-2">
 
                                         <?php
                                         $admin_user=Session::get('status');
@@ -222,34 +198,26 @@
                                             <label>Order Status</label>
                                             <select name="order_status" id="order_status" class="form-control">
                                                 @if($order->order_status=="new")
-                                                <option value="new">New</option>
-                                                <option value="phone_pending">Phone Pending</option>
-                                                <option value="pending_payment">Pending for Payment</option>
-                                                <option value="processing">On Process</option>
-                                                    <option value="cancled">Cancelled</option>
-                                                @elseif($order->order_status=="phone_pending")
-                                                    <option value="phone_pending">Phone Pending</option>
-                                                    <option value="pending_payment">Pending for Payment</option>
-                                                    <option value="processing">On Process</option>
-                                                    <option value="cancled">Cancelled</option>
+                                                <option value="new">New</option>  
+                                                <option value="processing">On Process</option>                                                    
+                                                @elseif($order->order_status=="phone_pending")  
+                                                    <option value="processing">On Process</option>                                                    
                                                 @elseif($order->order_status=="processing")
-                                                    <option value="processing">On Process</option>
-
-                                                    <option value="cancled">Cancelled</option>
+                                                    <option value="processing">On Process</option>                                                    
                                                 <option value="on_courier">With Courier</option>
                                                 @elseif($order->order_status=="on_courier")
                                                 <option value="on_courier">With Courier</option>
-                                                <option value="delivered">Delivered</option>
+                                                <option value="completed">Completed</option>
                                                  <option value="failed">Failed</option>
                                                 @elseif($order->order_status=="delivered")
-                                                    <option value="delivered">Delivered </option>
+                                                    
                                                     <option value="completed">Completed </option>
                                                     <option value="refund">Refunded</option>
 
                                                 @elseif($order->order_status=="pending_payment")
-                                                    <option value="pending_payment">Pending for Payment</option>
+                                                    
                                                     <option value="processing">On Process</option>
-                                                    <option value="cancled">Cancelled</option>
+                                                    
 
                                                 @elseif($order->order_status=="failed")
                                                     <option value="failed">Failed</option>
@@ -259,64 +227,57 @@
 
                                                     <?php
                                                     $admin_user=Session::get('status');
-                                                    if($admin_user !='editor' && $admin_user !='office-staff') {                                                   ?>
+                                                    if($admin_user !='editor' && $admin_user !='office-staff') {   ?>
 
                                                     <option value="completed">Completed {{ $admin_user}}</option>
                                                     <?php } ?>
-
-
                                                 @elseif($order->order_status=="cancled")
-                                                    <option value="cancled">Cancled</option>
-                                                    <option value="new">New</option>
+                                                    <!-- <option value="cancled">Cancled</option>
+                                                    <option value="new">New</option> -->
                                                 @else
-
                                                     @endif
                                             </select>
                                         </div>
 
                                     <?php } ?>
+                                    </div> 
+
+                                    <div class='col-md-2'>
+                                            <div class="form-group" style="padding: 12px;">
+                                                <label>Zone </label> 
+                                                <select  onchange="getShopData(this.value)" name="zone_id" id="zone_id" class="form-control select2"  >
+                                                    <option value="">Select Option</option>
+                                                            <?php foreach($zones as $zone) :
+                                                            
+                                                            ?>
+                                                            <option @if($order->zone_id==$zone->id) selected @endif value="{{$zone->id}}"
+                                                            >{{$zone->zone_name}}</option>
+                                                            <?php endforeach; ?>
+                                                </select>
+                                            </div> 
                                     </div>
 
-
-                                    <div class="col-md-12">
-                                        <div class="col-md-2">
+                                    <div class='col-md-4 ' style="margin-top:12px">
                                             <div class="form-group">
-                                                <label> Order Created By</label>
-
-                                                <br/>
-                                                <b>{{$order->created_by}}</b>
-
+                                                    <label for="shop_id">Shop</label>
+                                                    <select required class="form-control select2 " name="shop_id" id="shop_id"  >
+                                                        <option value="" >Select Option</option>
+                                                        
+                                                    </select>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label> Admin Order Note</label>
+                                     </div>
+                      
 
-
-                                                <textarea id="order_note" class="form-control"
-                                                          name="order_note"></textarea>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Customer Order Note</label>
-
-
-                                                <p><?php echo $order->customer_order_note; ?></p>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label> Affiliate Order Note</label>
-
-                                                <p><?php echo $order->affiliate_order_note; ?></p>
-
-                                            </div>
-                                        </div>
-
+                                    <div class='col-md-5'>
+                                            <div class="form-group" style="padding: 12px;">
+                                                <label>Product List </label> 
+                                                <select name="product_ids" id="product_ids" class="form-control select2"  > 
+                                                            
+                                              </select>
+                                            </div>                                     
                                     </div>
+                                    
+                                    
                                 </div>
                             </div>
 
@@ -326,15 +287,13 @@
 
                     <div class="row">
                         <div class="col-md-12">
-
-
                             <div class="col-md-12">
                                 <div class="box box-primary" style="border:2px solid #ddd">
                                     <div class="box-header" style="background-color:#ddd">
                                         <h3 class="box-title">Product Information</h3>
                                     </div>
                                     <div class="box-body">
-                           <span id="product_html">
+                          
                            <table class="table table-striped table-bordered">
                                <tr>
                                    <th class="name" width="30%">Product</th>
@@ -344,269 +303,93 @@
                                    <th class="quantity text-center" width="10%">Commision</th>
                                    <th class="price text-center" width="10%">Price</th>
                                    <th class="total text-right" width="10%">Sub-Total</th>
+                                   <!-- <th class="total text-right" style="display:none" width="10%">Delete</th> -->
                                </tr>
+                               <tbody  id="product_show">                               
                                <?php
-                               $order_ids = array();
-                               $totalCommision=0;
-                               $product_ids = array();
-                               $product_id_select = array();
-                               $proSizeList = 0;
-                               $subtotal_price = 0;
-                               $item_count = 0;
-                               $order_id = $order->order_id;
-                               $order_items = unserialize($order->products);
+                $order_items = getOrderDetails($order->order_id);               
+                if(isset($order_items)) {
+                    foreach ($order_items as $key => $item) {                        
+                        $product = single_product_data($item->product_id);
+                        $featured_image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;                   
 
-                               $hotdeal="";
-
-                               $html = null;
-                               if(is_array($order_items['items'])) {
-                               foreach ($order_items['items'] as $product_id => $item) {
-                               $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
-
-                               //  $_product_title =  substr($item['name'], 0, 150);
-
-                               $product_ids[] = $product_id;
-                               $product_code = 0;
-                               $product_id_select = array_unique($product_ids);
-                               $products_sku = DB::table('product')->select('sku')->first();
-                               $product_code = $products_sku->sku;
-
-                               $totall = intval(preg_replace('/[^\d.]/', '', isset($item['subtotal']) ? $item['subtotal'] : null));
-
-                               $subtotal_price += $totall;
-                               //  $subtotal_price= $subtotal_price+ $item['subtotal'] ;
-                               //  $item_count = $item_count + $item['qty'];
-                               $sku="";
-                               $name="";
-                               $product = single_product_information($product_id);
-                                   if( $product){
-                                       $sku = $product->sku;
-                                       $name = $product->product_name;
-                                   }
-
-                                   //commition calculation of affilator
-                                   $commision_price=0;
-                                   if($order->user_id>0){
-                                   $affilate_id=$order->user_id;
-                               } else {
-                               $affilate_id=0;
-                               }
-                               if($order->user_id >0){
-
-                                   $hotdeal_commision=DB::table('user_commission')->select('commission')
-                               ->where('user_id',$affilate_id)
-                               ->where('product_id',$product_id)
-                               ->where('order_id',$order->order_id)->first();
-                                   if($hotdeal_commision){
-                               $commision_price=$hotdeal_commision->commission*$item['qty'];
-                               $totalCommision += $commision_price;
-                               $hotdeal="hot deal";
-                               } else {
-
-                                   /* vendor product commistion distribution */
-                               $vendorProductCheck=DB::table('product')
-                               ->select('top_deal','vendor_id')
-                               ->where('product_id', $product_id)
-                                ->first();
-                                   if($vendorProductCheck){
-                               $commision_price= $vendorProductCheck->top_deal*$item['qty'];
-                               $totalCommision +=$commision_price;
-                                   }
-                               $hotdeal="";
-                               }
-                               }
-                               ?>
+                        ?>
                                <tr>
                                    <td><a target="_blank"
-                                          href="{{url('/')}}/{{$name}}"><?php $name = (isset($item['name']) ? $item['name'] : null);echo $name; ?></a>
+                                          href="{{url('/')}}/{{$product->product_name}}">{{$product->product_title}}</a>
                                    </td>
-                                   <td>{{  $sku }}</td>
+                                   <td>{{$product->sku}}</td>
                                    <td class="image text-center">
-                                       <img
-                                               src="<?php echo $featured_image ?>"
-                                               height="30" width="30">
+                                       <img src="<?php echo $featured_image ?>" height="50" width="50">
                                    </td>
                                    <td>
-                                       <input type="number"
-                                              name="products[items][<?php echo $product_id ?>][qty]"
-                                              class="form-control item_qty"
-                                              value="<?php echo $quantity = isset($item['qty']) ? $item['qty'] : null;  ?>"
-                                              data-item-id="<?php echo $product_id ?>"
+                                       <input type="number"   onchange="quantityChange(this.value,{{$item->product_id}})" name="products[<?php echo $item->product_id?>]"
+                                              class="form-control"
+                                              value="<?php echo $item->qnt;  ?>"
+                                              style="width:70px;">
+
+                                              <input type="hidden"  name="price[<?php echo $item->product_id?>]"
+                                              class="form-control"
+                                              value="<?php echo $item->price;  ?>"
                                               style="width:70px;">
                                    </td>
 
-                                   <td>
-                                       <?=$hotdeal?>
-                                       <input type="number" readonly name="commision[]" value="{{$commision_price}}" class="form-control">
-                                       <input type="hidden" name="commion_product_id[]" value="{{$product_id}}" class="form-control">
-
+                                   <td class="text-center"> 
+<?php echo $item->commision; ?>
                                    </td>
-                                   <td class="text-center">
-                                       ৳ <?php $price = (isset($item['price']) ? $item['price'] : null);echo $price; ?></td>
-                                   <td class="text-right">
-                                       ৳ <?php $pricee = (isset($item['subtotal']) ? $item['subtotal'] : null);echo $pricee; ?> </td>
-                               </tr>
-                               <input type="hidden" name="products[items][<?=$product_id?>][featured_image]"
-                                      value="<?=$featured_image?>"/>
-                               <input type="hidden" name="products[items][<?=$product_id?>][price]"
-                                      value="<?=$item['price']?>"/>
-                               <input type="hidden" name="products[items][<?=$product_id?>][name]"
-                                      value="<?php $name = (isset($item['name']) ? $item['name'] : null);echo $name; ?>"/>
-                               <input type="hidden" name="products[items][<?=$product_id?>][subtotal]"
-                                      value="<?=$item['subtotal']?>"/>
-
-                               <?php
-                               }
-                               }
-                               ?>
-                               <tr>
-                                   <td colspan="8"><a
-                                               class="btn btn-primary pull-right update_items">Change</a></td>
-                           </table>
-                           <table class="table table-striped table-bordered">
-
-                               <tbody>
-
-                               @if($order->affiliate_discount > 0)
-                               <tr >
-                                   <td>Affiliate Discount</td>
-                                   <td
-                                           class="text-right" style="color: red;"> ৳ <span ><?php echo $order->affiliate_discount  . '.00' ?></span>
-                                   </td>
-                               </tr>
-                               @endif
-
-                               <tr>
-                                   <td> Sub Total</td>
-                                   <td
-                                           class="text-right"> ৳ <span
-                                               id="subtotal_price_sujon"><?php echo $subtotal_price-$order->affiliate_discount . '.00' ?></span>
-                                   </td>
-                               </tr>
-                               <tr  >
-                                   <td> <span
-                                               class="extra bold">Delivery Cost</span></td>
-                                   <td class="text-right"><input  style="color: green;font-weight: bold" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
-                                               type="text" name="shipping_charge" class="form-control"
-                                               id="shipping_charge"
-                                               value="<?= $order->shipping_charge;?>"></td>
-                               </tr>
-                               <tr >
-                                   <td> <span
-                                               class="extra bold">Discount </span></td>
-                                   <td class="text-right"><input style="color: red;font-weight: bold" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
-                                               type="text" name="discount_price" class="form-control"
-                                               id="discount_price"
-                                               value="<?php echo $order->discount_price; ?>"></td>
-                               </tr>
-                               <tr>
-                                   <td> <span
-                                               class="extra bold">Paid</span></td>
-                                   <td class="text-right">
-                                       <input  style="color: red;font-weight: bold"  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
-                                               type="text" name="advabced_price" class="form-control"    id="advabced_price"   value="<?php echo $order->advabced_price; ?>"></td>
+                                   <td class="text-center" id="price_{{$item->product_id}}">
+                                       <?php echo $item->price; ?></td>
+                                   <td class="text-center subtotal_price" id="subtotal_{{$item->product_id}}">
+                                       {{$item->sub_total}} </td>
+                                        <!-- <td class="text-center"><button type="button" style="display:none" onclick="deleteRow(this)" class="btn btn-danger btn-sm">Delete</button></td> -->
                                </tr>
 
-                               <?php
-                               if($order->payWith=='bonus'){
-                               ?>
+                               <?php } } ?>
 
-                               <tr>
-                                   <th>Paid with  Bonus  :</th>
+                               <tr> 
+                                    <td class="text-right" colspan='6'>Sub Total</td> 
+                                    <td class="text-center"><span id="total_subtotal_price"></span></td> 
+                                    <td>
+                                </tr>
 
-                                   <td class="text-left"><input readonly class="form-control" value={{-$order->bonus_balance}}>  </td>
+                                <tr> 
+                                    <td class="text-right" colspan='6'> Delivery Cost </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr> 
+                                <tr> 
+                                    <td class="text-right" colspan='6'>Discount Price </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="discount_price" class="form-control" id="discount_price" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr> 
+                                
+                                <tr> 
+                                    <td class="text-right" colspan='6'>Paid Amount </td> 
+                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="advabced_price" class="form-control" id="advabced_price" value="0"> 
+                                    </td> 
+                                    <td>
+                                </tr>  
 
+                                <tr> 
+                                    <td class="text-right" colspan='6'>Total </td> 
+                                    <td class="text-center">
+                                    <span id="total_amount"></span>
+                                        <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="hidden" name="order_total" class="form-control" id="order_total" value=""> 
 
-                               </tr>
-                               <?php
-                               }else if($order->payWith=='cashback'){
-                               ?>
-
-                               <tr>
-                                   <th>  Cashback Amount :</th>
-                                   <td class="text-left"><input class="form-control" value={{-$order->cashback_balance}}>  </td>
-
-                               </tr>
-                               <?php
-                               }
-                               ?>
-                               <tr>
-                                   <td>
-                                       <span class="extra bold totalamout">Affiliate Commision</span>
-                                       <?php
-                                           $affilateName=DB::table('users_public')->select('name','phone')->where('id',$order->user_id)->first();
-                                           if($affilateName){
-                                       ?>
-                                       <br>
-                                       <span style="color:red;font-size: 16px;font-weight: bold">
-                                       {{$affilateName->name}}
-                                       <br>
-                                       {{$affilateName->phone}}( {{$order->user_id}})
-
-
-</span>
-                                       <?php } ?>
-
-
-                                   </td>
-                                   <td>
-                                       @if($order->changed_affilite_commision)
-                                           <input  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  type="text" {{$affilite_commision_show}} name="totalCommision"  class="form-control"  value="<?php echo $order->changed_affilite_commision?>">
-
-                                       @else
-                                           <input  onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  type="text" {{$affilite_commision_show}} name="totalCommision"  class="form-control"  value="<?php echo ($totalCommision-$order->affiliate_discount) ?>">
-
-                                           @endif
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td><span class="extra bold totalamout">Total</span></td>
-                                   <td
-                                           class="text-right"> <span class="bold totalamout"><p> ৳ <span
-                                                       id="total_cost"><?php echo $order->order_total-$order->cashback_balance ?></span>
-                                           </p></span>
-
-       <input  type="hidden" name="order_total" id="order_total"  value="<?php echo $order->order_total; ?>">
-
-                               </tr>
-
-
-                               </tbody>
-
-                           </table>
-                           </span>
-
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <select name="product_ids" id="product_ids" class="form-control select2"
-                                                        multiple="multiple"
-                                                        data-placeholder="Type... product name here..."
-                                                        style="width:100%;">
-
-                                                    <?php foreach($products as $product) :
-
-                                                    $product_title = substr($product->product_title, 0, 50)
-
-
-                                                    ?>
-                                                    <option value="{{$product->product_id}}"
-
-                                                    <?php foreach ($product_id_select as $key => $prod) {
-
-                                                            if ($prod == $product->product_id) {
-                                                            echo "selected";
-                                                            } else {
-                                                            echo "";
-                                                            }
-
-                                                            }?>
-
-                                                    >{{$product_title}} - {{$product->sku}}</option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                    </td> 
+                                    <td>
+                                </tr>  
+                                
+                    </tbody>
+                               
+ 
+                           </table> 
 
                                     </div>
                                 </div>
@@ -630,7 +413,6 @@
                                     <input type="radio" name="order_status" value="refund" /><label>  &nbsp; Refund</label>
                                      @endif
                                     @endif
-
                                     <a href="{{url('/')}}/admin/order/invoice-print/{{$order->order_id}}" class="pull-right"> <span class="glyphicon glyphicon-print btn btn-success"></span></a>
                                         @if($order->order_status !='completed')
                                     <button type="button" id="order_update_button" class="btn btn-primary pull-right" style="margin-right: 10px">Update</button>
@@ -651,6 +433,39 @@
 
             <script>
 
+                getShopData("{{$order->zone_id}}");
+                function getShopData(zone_id){
+                    $.ajax({
+                        url:"{{url('admin/getShopData')}}/"+zone_id,
+                        success:function(data){
+                            $("#shop_id").html(data);
+                            $("#shop_id").val("{{$order->shop_id}}");
+                            
+                        }
+                    })
+                  }
+                  $("#shop_id").on('change',function(){                   
+                  let shop_id=  $("#shop_id").val();
+
+                  $.ajax({
+                    url:"{{url('/')}}/admin/getProductsByShopId",
+                    data:{shop_id:shop_id},
+                    success:function(data){
+                        console.log(data)
+                        $("#product_ids").html(data);
+                    },
+                    error:function(data){
+                        console.log(data)
+                    }
+                  })
+                 
+                  
+                  })
+
+
+                setTimeout(() => {
+                    subTotalGenerate();
+                }, 500);         
 
                 $("body").on('click', '#order_update_button', function () {
                 var order_status= $("#order_status").val();
@@ -685,140 +500,112 @@
                 });
 
             </script>
-            <script>
+             <script>
 
-                $("body").on('input', '#shipping_charge', function () {
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var delivary_cost = parseInt($(this).val());
+function deleteRow(btn) {
+   let confirm_message= confirm("Are you sure you want to delete ?")
+   if(confirm_message){
+    var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        subTotalGenerate();
+   }              
+}
 
-                        var total_price = delivary_cost + parseInt(subtotal_price);
-                        $('#total_cost').text(total_price);
-                        $('#order_total').val(total_price);
+function quantityChange(quantity,product_id){
+    if(quantity >=1 ){                   
+   let price=parseInt($("#price_"+product_id).text());
+   let total_sub_total=price*quantity;
+   $("#subtotal_"+product_id).text(total_sub_total)
+   subTotalGenerate();
+}else{
+    alert("minimum 1 quantity need")
+}                   
+}
 
+function subTotalGenerate(){                  
+  var price = 0;
+    $('.subtotal_price').each(function(){
+        price += parseFloat($(this).text());  
+    }); 
+  $("#total_subtotal_price").text(price);  
+  totalGenerate();
+}
+function totalGenerate(){
 
-                });
-                $("body").on('input', '#discount_price', function () {
-                    var discount_price = parseInt($(this).val());
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var shipping_charge = $('#shipping_charge').val();
-                    var total_price = parseInt(subtotal_price) + parseInt(shipping_charge);
+   let subtotal= parseInt($("#total_subtotal_price").text());   
+   let shipping_charge= parseInt($("#shipping_charge").val());   
+   let discount_price= parseInt($("#discount_price").val()); 
+   let advabced_price= parseInt($("#advabced_price").val()); 
+   
+   let summation=subtotal+shipping_charge;
+   let subtract=advabced_price+discount_price;
 
-                    var total = parseInt(total_price) - discount_price;
-                    $('#total_cost').text(total);
-                    $('#order_total').val(total);
-                });
-                $("body").on('input', '#advabced_price', function () {
-                    var advabced_price = parseInt($(this).val());
-                    var subtotal_price = $('#subtotal_price_sujon').text();
-                    var shipping_charge = $('#shipping_charge').val();
-                    var discount_price = parseInt($('#discount_price').val());
-                    var total_price = parseInt(subtotal_price) + parseInt(shipping_charge) - (discount_price + advabced_price);
-                    var total = parseInt(total_price)
-                    $('#total_cost').text(total);
-                    $('#order_total').val(total);
+   let total=summation-subtract;
 
-                });
-            </script>
+    $("#total_amount").text(total);
+    $("#order_total").val(total);
+    
+}
 
-            <script>
+$('#shipping_charge , #discount_price  , #advabced_price').on("input",function(e){
+    
+    totalGenerate();
+})
 
+$("#affiliate_mobile").blur(function(){
+    let affiliate_mobile=$("#affiliate_mobile").val();
+    affiliate_mobile = affiliate_mobile.trim();
+
+    $.ajax({
+        url:"{{url('/')}}/order/affiliateCheckByMobile/"+affiliate_mobile,
+        success:function(data){
+            if(data.success=='ok'){
+                $("#customer_name").val(data.name)                          
+                $("#customer_phone").val(data.phone)                          
+                $("#user_id").val(data.id)  
+            }else{
+                $("#customer_name").val('')                          
+                $("#customer_phone").val(affiliate_mobile)   
+                $("#user_id").val(2)   
+            } 
+        }
+
+    })
+    
+})
+
+ 
                 $('#change_order_data').click(function () {
                     $('#customer_info_change').toggle();
-                });
-
-
-                $(document).on('click', '.update_items', function () {
-                    var product_ids = [];
-                    var product_qtys = [];
-                    var _token = $("input[name='_token']").val();
-                    var order_id = $("#orderId_for_commition").val();
-
-                    var shipping_charge = $('#shipping_charge').val();
-                    $.each($(".item_qty"), function () {
-                        product_ids.push($(this).attr('data-item-id'));
-                        product_qtys.push($(this).val());
-                    });
-
-                    product_ids = product_ids.join(",");
-                    product_qtys = product_qtys.join(",");
-                    // alert(shipping_charge)
-
-
+                }); 
+                
+            </script>
+            <script>
+                $("#order_status").val("{{$order->order_status}}");
+                $("#courier_service").val({{$order->courier_service}});
+             </script>
+              <script>
+                $(document).on('change', '#product_ids', function () {    
+                    return false;                
+                    let product_id=$(this).val();   
                     $.ajax({
-                        type: 'POST',
-                        data: {
-                            "product_ids": product_ids,
-                            "product_qtys": product_qtys,
-                            "shipping_charge": shipping_charge,
-                            "_token": _token,
-                            "order_id": order_id,
-
+                        type: "get",
+                        data: {product_id:product_id},
+                        url: "{{  route('getOrderProduct')}}",
+                        success: function (result) { 
+                            $('#product_show').prepend(result);
+                            
+                                subTotalGenerate();
+                                                    
                         },
-                        url: "{{  route('productSelectionChange')}} ",
-                        success: function (result) {
-
-                            $('#product_html').html(result);
-                        },
-                        error: function (result) {
-                            console.log('error')
+                        errors: function (result) {                          
                             console.log(result)
                         }
                     });
-                });
-
-
-            </script>
-
-
-            <script>
-                $(document).on('change', '#product_ids', function () {
-                    var product_ids = [];
-                    var product_qtys = [];
-                    var _token = $("input[name='_token']").val();
-                    var shipping_charge = $('#shipping_charge').val();
-
-                    var order_id = $("#orderId_for_commition").val();
-                    $.each($("#product_ids option:selected"), function () {
-                        product_ids.push($(this).val());
-                    });
-
-                    product_ids = product_ids.join(",");
-
-
-                    $.ajax({
-                        type: "POST",
-                        data: {
-                            shipping_charge: shipping_charge,
-                            product_id: product_ids,
-                            product_quantity: 1,
-                            _token: _token,
-                            order_id: order_id,
-                        },
-
-                        url: "{{  route('productSelection')}} ",
-                        success: function (result) {
-                            $('#product_html').html(result);
-                        },
-                        errors: function (result) {
-                            console.log('error')
-                            console.log(result)
-                        }
-
-                    });
 
                 });
 
             </script>
-
-            <script>
-
-                document.forms['product'].elements['order_status'].value = "{{$order->order_status}}";
-                document.forms['product'].elements['courier_service'].value = "{{$order->courier_service}}";
-
-
-            </script>
-
-
 @endsection
 
 

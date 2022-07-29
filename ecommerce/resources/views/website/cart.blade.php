@@ -24,7 +24,6 @@
                                             <th   width="15%" class="name">Total</th>
                                             <th   width="5%" class="total text-right">Remove </th>
                                         </tr>
-
                                         <?php
                                         $quntity = 0;
                                         $count=0;
@@ -118,12 +117,8 @@
                                         </tbody>
                                     </table>
 									  <a style="margin-left: 1px;" href="{{ url('/') }}/checkout"  class="btn btn-info text-white">Checkout</a>
-
-
                     <a  href="{{ url('/') }}"    style="background-color:#FF6061;border: none" class="btn btn-info  text-white" >continue shopping</a>
-                                    @if(!Session::get('customer_id'))
-                    <a  href="{{ url('/') }}/customer/login"    style="border: none" class="btn btn-success  text-white" >Login to get Bonus, Cashback or Reward</a>
-                              @endif
+                                   
                                 </div>
                             </div>
 

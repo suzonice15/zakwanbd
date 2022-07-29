@@ -12,9 +12,7 @@
     /*# product stock availability #*/
     $product_availabie = $product->product_stock;
     $product_availability = '<span class="text-success"> In Stock</span>';
-    if ($product_availabie == 0) {
-        $product_availability = '<span class="text-danger">Out Of Stock</span>';
-    }
+    
     $product_id_related = $product->product_id;
     ?>
     @include('website.product.product_breadcumb')
@@ -40,27 +38,7 @@
     <?php
     $customer=Session::get('customer_id');
     if($coin > 0 && $customer > 0 ){   ?>
-    <link rel="stylesheet"   href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" >
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" type="text/javascript"></script>
-    <script>
-        setTimeout(()=>{getCoinData("<?php echo $coin; ?>")},15000)
-        function getCoinData(url_existing){
-            $.ajax({
-                url:"{{url('/')}}/getCoinData?url="+url_existing,
-                success:function(data){
-                    console.log(data)
-                    if(data=='no'){
-                        toastr.success('You get 100 Coin Please Claim From Coin List');
-                    }
-                    if(data=='done'){
-                        toastr.success('You get 100 Coin Please Claim From Coin List');
-                    }
-
-
-                }
-            })
-        }
-    </script>
+   
     <?php } ?>
     <script>
         $(".xzoom").xzoom({tint: '#333', Xoffset: 15});

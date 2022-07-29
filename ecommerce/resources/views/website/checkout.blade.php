@@ -40,9 +40,10 @@ if(Session::get('email')){
     <form   action="{{url('/chechout')}}" id="checkout" name="checkout" method="post">
         @csrf
     <div class="row">
-        <div class="col-md-6 col-12 col-sm-12 col-lg-6 col-xl-6">
+        
+        <div class="col-md-7 col-12 col-sm-12 col-lg-7 col-xl-7">
             <div class="card">
-                <div class="text-start fw-bold ms-3 fs-4"><b>Order Review</b>
+                <div style="background:black;" class="text-start fw-bold   fs-4"><p class='text-center text-white'>Order Review</p>
                 </div>
                 <div class="card-body">
                     <div class="checkoutstep">
@@ -51,11 +52,12 @@ if(Session::get('email')){
                                 <table class="table  table-bordered">
                                     <tbody>
                                     <tr>
-                                        <th class="name" width="29%">Products</th>
-                                        <th class="name" width="10%">Product Code</th>
-                                        <th class="name" width="1%">Qnt</th>
-                                        <th class="name" width="30%">Price</th>
-                                        <th class="name" width="30%">Sub-Total</th>
+                                        <th class="name"  class='text-center' width="20%">Picture</th>
+                                        <th class="name"  class='text-center' width="30%">Products</th>
+                                        <th class="name"  class='text-center' width="10%">Code</th>
+                                        <th class="name"  class='text-center' width="1%">Qnt</th>
+                                        <th class="name"  class='text-center' width="20%">Price</th>
+                                        <th class="name"  class='text-center' width="20%">Sub-Total</th>
                                     </tr>
                                     <?php
                                     $items = \Cart::getContent();
@@ -74,7 +76,11 @@ if(Session::get('email')){
                                     <tr id="{{ $row->id }}">
                                         <td>
                                             <img src="<?=$imagee?>"
-                                                 width="30">
+                                                 style="width:100%">
+                                           
+                                        </td>
+                                        <td>
+                                            
                                             <a href="{{url('/product')}}/{{$name}}">{{ $row->name }}</a>
                                         </td>
                                         <td><?=$sku?></td>
@@ -85,57 +91,36 @@ if(Session::get('email')){
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>      <span id="per_poduct_price">  @money($row->price)</span>
+                                        <td  class='text-center'>      <span id="per_poduct_price">  @money($row->price)</span>
 
                                         </td>
-                                        <td>
-												<span id="per_poduct_total_price_181">
-                                                @money($subTotal_price)
-                                                </span>
+                                        <td class='text-center'>
+                                            <span id="per_poduct_total_price_181">@money($subTotal_price)</span>
                                         </td>
-                                        <input type="hidden" name="product_id[]" value="<?=$product_id?>">
-                                        <input type="hidden" name="products[items][<?=$product_id?>][featured_image]" value="<?=$imagee?>">
-                                        <input type="hidden" id="product_quantity" name="products[items][<?=$product_id?>][qty]" value="<?php echo $row->quantity;?>">
-                                        <input type="hidden" id="product_price" name="products[items][<?=$product_id?>][price]" value="<?php echo $row->price;?>">
-                                        <input type="hidden" name="products[items][<?=$product_id?>][subtotal]" value="<?=$subTotal_price?>">
-                                        <input type="hidden" name="products[items][<?=$product_id?>][name]" value="<?php echo $row->name;?>">
-
-
+                                        <input type="hidden" name="product_id[]" value="<?php echo $product_id?>">
+                                        <input type="hidden" name="products[<?php echo $product_id?>]"  value="<?=$row->quantity?>">
+                                        <input type="hidden" name="price[<?php echo $product_id?>]" value="<?=$row->price?>">                                        
                                     </tr>
 
                                     <?php } ?>
-
-
                                     <tr>
                                         <input type="hidden" class="shipping_charge_in_dhaka" value="<?php if($indhaka=='0'){echo "60"; }else{echo $indhaka;} ?>">
                                         <input type="hidden" class="shipping_charge_out_of_dhaka" value="<?php if($outdhaka=='0'){echo "120"; }else{echo $outdhaka;} ?>">
                                     </tr>
-
-
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-
-
-
-                            <table class="table  text-end table-bordered review_cost">
-                                <tbody>
-                                <tr >
-                                    <td>
+                                    <tr >
+                                    <td colspan="5" class='text-end'>
                                         <span class="extra bold ">Sub-Total</span>
                                     </td>
-                                    <td class="text-end"><span class="bold">Tk <?=$subTotal?></span>
+                                    <td class="text-center"><span class="bold">Tk <?=$subTotal?></span>
                                         <input type="hidden" id="subtotal_price" value="<?=$subTotal?>">
 													</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                <td colspan="5" class='text-end'>
                                                 <span class="extra bold">Delivery Cost
                                             </span></td>
-                                    <td class="text-end">
+                                    <td class="text-center">
                                         <span class="bold">৳  <span id="delivery_cost"> {{$delivery}}</span></span>
 
 
@@ -144,7 +129,7 @@ if(Session::get('email')){
                                 </tr>
 
                                 <tr class="couponclassHide">
-                                    <td>
+                                <td colspan="5" class='text-end'>
                                                 <span class="extra bold">Coupon Discount
                                             </span></td>
                                     <td class="text-end">
@@ -155,12 +140,11 @@ if(Session::get('email')){
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                <td colspan="5" class='text-end'>
                                         <span class="extra bold totalamout">Total</span>
                                     </td>
-                                    <td class="text-end">
+                                    <td class="text-center">
                                                 <span class="bold totalamout">৳  <span id="total_cost">
-
                                                          {{$total}}
                                                     </span></span> 
                                         <input type="hidden" name="payment_type" value="cash_on_delivery">
@@ -169,10 +153,9 @@ if(Session::get('email')){
                                     </td>
                                 </tr>
 
-
-
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -180,10 +163,11 @@ if(Session::get('email')){
             </div>
         </div>
 
-        <div class="col-md-6 col-12 col-sm-12 col-lg-6 col-xl-6">
+        <div class="col-md-5 col-12 col-sm-12 col-lg-5 col-xl-5">
 
             <div class="card ">
-                <div class="card-heading text-start fw-bold ms-3 fs-4"><b>Customer Information</b>
+                
+                <div style="background:black;" class="text-start fw-bold   fs-4"><p class='text-center text-white'> Customer Information</p>
                 </div>
                 <div class="card-body">
 
@@ -211,10 +195,7 @@ if(Session::get('email')){
                             <select required=""  name="order_area" id="city" class="form-control">
                                 <option value="">Select Your Area</option>
                                 <option value="inside">In Dhaka City</option>
-                                <option value="outside">Out Of Dhaka City</option>
-                                <option value="office">Office delivery</option>
-
-
+                                <option value="outside">Out Of Dhaka City</option>                              
                             </select>
                         </div> 
                         <div class="form-group">
@@ -223,10 +204,7 @@ if(Session::get('email')){
                             <textarea  required=""  name="customer_address"  class="form-control" placeholder="Type Your Address">{{$customer_address}}</textarea>
 
                         </div>
-                        <div class="form-group">
-                            <label for="customer_order_note"><b>Order Note</b></label>
-                            <textarea    name="customer_order_note"  class="form-control" placeholder="Order Note"></textarea>
-                        </div>
+                        
 
                         <div class="form-group">
                             <label for="billing_name"><b>Payment</b></label>
@@ -246,11 +224,11 @@ if(Session::get('email')){
 
                                 <div class="form-group">
                                 <label for="billing_name" id="bkash_nagod_number"></label> 
-                                <input type='text' class='form-control' name="account_number_mobile"  id="account_number_mobile"/>
+                                <input type='text' class='form-control' name="account_number_mobile" placeholder="যে মোবাইল নাম্বার থেকে টাকা পাঠিয়েছেন,সেই নাম্বার টি লিখুন।" id="account_number_mobile"/>
                                 </div> 
 
                                 <div class="form-group">
-                                <label for="billing_name">Transaction ID</label> 
+                                <label for="billing_name">Transaction ID(Optional)</label> 
                                 <input   type='text' class='form-control'  name="transaction_id_mobile"  id="transaction_id_mobile"/>
                                 </div> 
                          
@@ -300,9 +278,7 @@ if(Session::get('email')){
 
                 </div>
             </div>
-        </div>
-
-
+        </div> 
 
     </div>
 

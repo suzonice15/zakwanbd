@@ -44,49 +44,8 @@
 
 
 <div class="box-body">
-    <div class="row">
-
-         <span id="order_status_view">
-
-<div class="row" style="cursor: pointer;">
-
-
-    <div class="col-12 col-lg-12 col-xl-12">
-        <button onclick="orderStatus('new')" type="button" class="btn btn-primary order_status  "> New <span class="badge badge-light">{{getOrderCount('new')}}</span>
-        </button>
- 
-        <button onclick="orderStatus('processing')" type="button" class="btn btn-primary order_status " style="background: #f9be0c;color:black">  Processing  <span class="badge badge-light" style="color:black">     {{getOrderCount('processing')}}</span>
-        </button>
-        <button onclick="orderStatus('on_courier')" type="button" class="btn btn-primary order_status " style="background: #f9be0c;color:black;">  Courier  <span class="badge badge-light" style="color:black">     {{getOrderCount('on_courier')}}</span>
-        </button>
-         
-        <button onclick="orderStatus('completed')" type="button" class="btn btn-primary order_status " style="background: green;">  Completed  <span class="badge badge-light">     {{getOrderCount('completed')}}</span>
-        </button>
-        <button onclick="orderStatus('cancled')" type="button" class="btn btn-primary order_status " style="background: red;">  Cancled  <span class="badge badge-light">     {{getOrderCount('cancled')}}</span>
-        </button>
+    <!-- <div class="row">
         
-        <button onclick="orderStatus('refund')" type="button" class="btn btn-primary order_status " style="background: red;">  Refund  <span class="badge badge-light">     {{getOrderCount('refund')}}</span>
-        </button>
-        <button onclick="orderStatus('1')" type="button" class="btn btn-primary order_status " style="background: blue;">  All  <span class="badge badge-light">     {{getOrderCount('1')}}</span>
-        </button>
-        <?php
-        $admin_user_status=Session::get('status');
-        if($admin_user_status !="office-staff" || $admin_user_status !="editor") {
-            ?>
-
-        <!-- <button   type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-exchange" >  <i class="fa fa-exchange"></i>   </button> -->
-
-        <?php } ?>
-
-
-
-
-    </div>
-
-
-</div></span>
-
-
         <div class="col-md-3  col-sm-12">
             <br>
             <input type="text" id="affiliate_id"   name="affiliate_id" placeholder="Search Affiliate Id" class="form-control" >
@@ -108,7 +67,7 @@
             <input type="text" id="serach"   name="search" placeholder="Search Order Number" class="form-control" >
             <br>
         </div>
-    </div>
+    </div> -->
     <div class="table-responsive">
 
         <table  class="table table-bordered  ">
@@ -116,24 +75,18 @@
             <tr style="background-color: #5f046c;color: white;text-align: center">
 
                 <th width="10%">Order Id
-                    <?php
-                    $admin_user_status=Session::get('status');
-                    if($admin_user_status !='office-staff' || $admin_user_status !='editor') {
-                        ?>
-                    <input type="checkbox" name="all_select" id="checkAll"/>
-                    <?php } ?>
+                    
                 </th>
                 <th width="15%">Customer</th>
-                <th width="15%">Product</th>
-                <th width="20%">Affiliate</th>
+                <th width="15%">Product</th> 
                 <th width="18%">History</th>
-                <th width="10%">Amount</th>
-                <th width="5%">Status</th>
+                <th class="text-center" width="10%">Bill</th> 
+                <th class="text-center" width="10%">Amount</th> 
                 <th width="5%">Actions</th>
             </tr>
             </thead>
             <tbody>
-               @include('admin.order.pagination')
+               @include('admin.order.onlineOrdersPagination')
             </tbody>
         </table>
     </div>
@@ -274,18 +227,7 @@
             })
         }
 
-        function pagination_search_by_affiliate_id(page,query)
-        {
-            $.ajax({
-                type:"GET",
-                url:"{{url('order/pagination_search_by_affiliate_id')}}?page="+page+"&query="+query,
-                success:function(data)
-                {
-                    $('tbody').html('');
-                    $('tbody').html(data);
-                }
-            })
-        }
+      
         function pagination_search_by_phone(page,query)
         {
             $.ajax({
@@ -298,19 +240,7 @@
                 }
             })
         }
-        function pagination_search_by_product_code(page,query)
-        {
-            $.ajax({
-                type:"GET",
-                url:"{{url('order/pagination_search_by_product_code')}}?page="+page+"&query="+query,
-
-                success:function(data)
-                {
-                    $('tbody').html('');
-                    $('tbody').html(data);
-                }
-            })
-        }
+       
         $(document).on('keyup input', '#serach', function(){
             var query = $('#serach').val();
             var page = $('#hidden_page').val();

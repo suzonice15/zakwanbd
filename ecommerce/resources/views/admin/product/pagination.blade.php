@@ -35,7 +35,7 @@
 
             <td><?php if($product->status==1) {echo "Publised" ;}else{ echo "Unpublished";} ?> </td>
             <td>{{  optional(getSingleProductStock($product->product_id))->stock }}</td>
-            <td>{{ $product->product_order_count }}</td>
+            <td>{{  optional(getSingleProductStock($product->product_id))->product_sells }}</td>
             <td>{{date('d-m-Y H:m s',strtotime($product->created_time))}}</td>
             <td>
                 <a title="edit" href="{{ url('admin/productEdit') }}/{{ $product->product_id }}">
@@ -52,11 +52,6 @@
 Stock</button>
 
                 <?php } ?>
-
-
-
-
-
 
             </td>
         </tr>

@@ -156,7 +156,7 @@ public  function  unpublishedProduct(){
         DB::table('statistics')->where('id','=',1)->update(['total_products'=>$statistics->total_products+1]);
 
         $data['product_point'] = $pont_price;
-        $data['product_promotion_active'] = $request->product_promotion_active;
+
         $data['product_profite'] =  $request->product_profite;
         $data['product_subtitle'] =  $request->product_subtitle;
         $data['top_deal'] =  $request->top_deal;
@@ -466,8 +466,8 @@ public  function  unpublishedProduct(){
        // $data['product_name'] = $request->product_name;
         $data['product_price'] = $request->product_price;
         $status= Session::get('status');
-        $data['product_promotion_active'] = $request->product_promotion_active;
 
+        
         if ($status != 'editor') {
             $data['purchase_price'] = $request->purchase_price;
             $data['status'] = $request->status;
