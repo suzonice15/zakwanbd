@@ -35,21 +35,28 @@ table, th, td {
 
 </style>
 
-<section class="invoice" id="printInvoice">
+<section class="invoice" id="printInvoice" style="margin-top:50px">
     <!-- title row -->
     <div class="row">
-        <div class="col-xs-12">
-            <h2 class="page-header">
+        <div class="col-xs-3">
+          
                 <img  style="width: 86px;" src="{{url('/')}}/public/logo/logo_shop.jpg" >
-                <span style="text-align:center;font-size: 19px;">Zakwan Pharma & Supershop  </span>
-</br>
-     <span style="margin-left:90px;text-align:center;font-size: 16px;">জাকওয়ান ফার্মা এন্ড সুপারশপ </span>
-     </br>
-     <span style="margin-left:130px;text-align:center;font-size: 16px;
-    font-weight: bold;">www.zakwanbd.com</span>
-     
-                <small class="pull-right">Date: <?=date('d/m/Y')?></small>
+                
+        </div>
+
+        <div class="col-xs-6">
+           
+                 
+                <p style="text-align:center;font-size: 21px;">Zakwan Pharma & Supershop  </p>
+                <p style="text-align:center;font-size: 16px;margin-top: -11px;">জাকওয়ান ফার্মা এন্ড সুপারশপ </p>    
+                <p style="margin-top: -12px;text-align:center;font-size: 16px;
+                font-weight: bold;">www.zakwanbd.com</p>
+                 
             </h2>
+        </div>
+
+        <div class="col-xs-3"> 
+                <small class="pull-right">Date: <?=date('d/m/Y')?></small>             
         </div>
         <!-- /.col -->
     </div>
