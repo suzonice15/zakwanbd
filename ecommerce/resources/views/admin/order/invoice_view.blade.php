@@ -175,25 +175,31 @@ table, th, td {
                 <table class="table">
                     <tbody>
                     <tr>
+                        <th style="width:50%">Sub Total:</th>
+                        <td><?php echo $subtotal;?> Tk</td>
+                    </tr>
+                    <tr>
                         <th>  Delivery Cost :</th>
                         <td>{{$order->shipping_charge}} Tk</td>
                     </tr>
-                    <tr>
-                        <th style="width:50%">Total:</th>
-                        <td><?php echo $subtotal;?> Tk</td>
-                    </tr>
-                    @if($order->advabced_price)
-                    <tr>
-                        <th> Advance   :</th>
-                        <td>{{$order->advabced_price}} Tk</td>
-                    </tr>
-                    @endif
                     @if($order->discount_price)
                     <tr>
                         <th> Discount  :</th>
                         <td>{{$order->discount_price}} Tk</td>
                     </tr>
-                    @endif 
+                    @endif
+                    <tr>
+                        <th>  Total :</th>
+                        <td>{{$order->shipping_charge+$subtotal-$order->discount_price}} Tk</td>
+                    </tr>
+                   
+                    @if($order->advabced_price)
+                    <tr>
+                        <th> Paid   :</th>
+                        <td>{{$order->advabced_price}} Tk</td>
+                    </tr>
+                    @endif
+                   
                     <tr>
                         <th>Due:</th>
                         <td>{{$order->order_total}} Tk</td>
