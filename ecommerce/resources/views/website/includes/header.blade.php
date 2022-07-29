@@ -89,7 +89,7 @@
                 <div class="col-7 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">
                     <ul class="header-right-ul">
                         <li class="">
-                            <a href="https://www.affiliate.zakwanbd.com/" class="text-reset py-2 text-white font-weight-bold">Affiliate</a>
+                            <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold">Affiliate</a>
                         </li>
                         <li class="">
                             <a href="{{url('/')}}/category/offer" class="text-reset py-2 text-white font-weight-bold">Offer</a>

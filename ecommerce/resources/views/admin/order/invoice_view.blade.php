@@ -121,49 +121,31 @@ table, th, td {
 
                 <?php
 
-                $order_items = unserialize($order->products);
-
+                 
+                $order_items = DB::table('order_details')->where('order_id',$order->order_id)->get();     
 
 
                 $html = null;
                 $subtotal=0;
                 $count=0;
-                if(is_array($order_items['items'])) {
-                    foreach ($order_items['items'] as $product_id => $item) {
-                        $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
-
-                        //  $_product_title =  substr($item['name'], 0, 150);
-
-                        $product_ids[] = $product_id;
-                        $product_code = 0;
-                        $product_id_select = array_unique($product_ids);
-                        $products_sku = DB::table('product')->select('sku')->where('product_id',$product_id)->first();
-                        $product_code = $products_sku->sku;
-
-                        $totall = intval(preg_replace('/[^\d.]/', '', isset($item['subtotal']) ? $item['subtotal'] : null));
-
-                      //  $subtotal_price += $totall;
-
-
-                        $product = single_product_information($product_id);
-
+              
+                    foreach ($order_items as $product_id => $item) {  
+                          
+                        $product = single_product_information($item->product_id);
                         $name = $product->product_title;
-
-                        $subtotal +=($item['subtotal']/$item['qty'])*$item['qty'];
+                        $subtotal +=$item->qnt*$item->price;
                 ?>
                 <tr>
                     <td><?=++$count?></td>
                     <td><span style="height:23px;overflow: hidden;display: block;">{{$name}}</span></td>
-                    <td style="text-align: center">{{$product_code}}</td>
+                    <td style="text-align: center">{{$product->sku}}</td>
 
-                    <td style="text-align: center">{{$item['qty']}}</td>
-                    <td style="text-align: right"><?php echo  $item['subtotal']/$item['qty']; ?> Tk</td>
-                    <td style="text-align: right"><?php echo ($item['subtotal']/$item['qty'])*$item['qty']; ?> Tk</td>
-
-
+                    <td style="text-align: center">{{$item->qnt}}</td>
+                    <td style="text-align: right">{{$item->price}} Tk</td>
+                    <td style="text-align: right">{{$item->qnt * $item->price}} Tk</td> 
                 </tr>
 
-                <?php } }?>
+                <?php   } ?>
 
                 </tbody>
             </table>

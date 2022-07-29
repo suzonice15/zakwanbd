@@ -261,6 +261,7 @@
                             <li class="user-header">
                                 <?php
                                 $image= Session::get('picture');
+
                                 if($image){
                                 ?>
                                 <img src="<?php echo e(url('public/uploads/')); ?>/<?php echo e(Session::get('picture')); ?>" class="img-circle"
@@ -281,9 +282,11 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
+                            <?php if($status !='super-admin'): ?>
                                 <div class="pull-left">
                                     <a href="<?php echo e(url('/profile')); ?>" class="btn btn-default btn-flat">Profile</a>
                                 </div>
+                                <?php endif; ?>
                                 <div class="pull-right">
                                     <a href="<?php echo e(url('/affilite/logout')); ?>" class="btn btn-default btn-flat">Sign out</a>
                                 </div>

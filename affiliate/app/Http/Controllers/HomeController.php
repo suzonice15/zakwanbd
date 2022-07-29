@@ -1158,7 +1158,7 @@ class HomeController extends Controller
         $data['token'] = 'ok';
         $data['referrer'] = $request->referrer;
         $data['religion'] = $request->religion;
-        $data['parent_id'] = 2;
+        $data['parent_id'] = $data['parent_id'];
 
         $user_id = DB::table('users_public')->insertGetId($data);
 
@@ -1357,7 +1357,7 @@ class HomeController extends Controller
             $messageBody = "You Can Verify Your Account ! Your Verify Number is " . $code.'<br/>';
             $messageBody .= "If yout need further assistance ,please contact our support <br> Mobile:01812730871<br>Email: support@zakwanbd.com <br> Address:  Hazrat Shah Ali Girls College Market, Mirpur-1, Dhaka-1216.
 .";
-            $messageBody .= "<br>Web:https://www.affiliate.zakwanbd.com/";
+            $messageBody .= "<br>Web:https://zakwanaffiliate.com";
             Mail::send([], [], function ($message) use ($customerEmail, $messageBody,$senderEmail) {
                 $message->from($senderEmail, 'Zakwan Affiliates');
                 $message->subject("Your Acount Verification Code ");
