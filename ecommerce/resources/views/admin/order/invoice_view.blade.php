@@ -184,7 +184,7 @@ table, th, td {
                     @if($order->discount_price)
                     <tr>
                         <th> Discount  :</th>
-                        <td>{{$order->discount_price+$order->affiliate_discount}} Tk</td>
+                        <td>{{$order->discount_price}} Tk</td>
                     </tr>
                     @endif 
                     <tr>
