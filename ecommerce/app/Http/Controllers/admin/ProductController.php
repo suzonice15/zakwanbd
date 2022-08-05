@@ -12,6 +12,7 @@ use  Session;
 use Webp;
 use AdminHelper;
 use URL;
+use PDF;
 use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
@@ -157,6 +158,7 @@ public  function  unpublishedProduct(){
 
         $data['product_point'] = $pont_price;
 
+        $data['barcode'] =  $request->barcode;
         $data['product_profite'] =  $request->product_profite;
         $data['product_subtitle'] =  $request->product_subtitle;
         $data['top_deal'] =  $request->top_deal;
@@ -454,6 +456,7 @@ public  function  unpublishedProduct(){
             $sell_price=$request->product_price;
             $pont_price=round(($sell_price*10)/100);
         }
+        $data['barcode'] =  $request->barcode;
         $data['product_subtitle'] =  $request->product_subtitle;
         $data['hot_deal_product'] = $request->hot_deal_product;
         $data['product_point'] = $pont_price;
@@ -718,7 +721,6 @@ public  function  unpublishedProduct(){
         $data_stock['stock']=$checkProductStock->stock+$stock;
         $data_stock['updated_at']=date("Y-m-d H:i:s");
          DB::table('product_stocks')->where('shop_id',$shop_id)->where('product_id',$product_id)->update($data_stock);
-
          $data_stock_details['zone_id']=$zone_id;
          $data_stock_details['shop_id']=$shop_id;
          $data_stock_details['product_id']=$product_id;
@@ -729,8 +731,6 @@ public  function  unpublishedProduct(){
          $data_stock_details['created_at']=date("Y-m-d H:i:s");
          $data_stock_details['updated_at']=date("Y-m-d H:i:s");
          DB::table('product_stock_details')->insert($data_stock_details);
-
-
       }else{
         $data_stock['zone_id']=$zone_id;
         $data_stock['shop_id']=$shop_id;
@@ -750,13 +750,36 @@ public  function  unpublishedProduct(){
         $data_stock_details['created_at']=date("Y-m-d H:i:s");
         $data_stock_details['updated_at']=date("Y-m-d H:i:s");
         DB::table('product_stock_details')->insert($data_stock_details);
-
-
       }
       echo 'success';
         
+    }    
+    public function productBarCodeGenerate(Request $request)
+    {
+        $data['products']= DB::table('product')->select('product_title','product_id','sku')->get();
+        $data['total']= '';
+        $data['product_id']= '';
+
+        if($request->pdf && $request->product_id){       
+            $data['product_row']= DB::table('product')->where('product_id',$request->product_id)->first(); 
+            $data['total']= $request->barcode_quantity;     
+            $pdf = PDF::loadView('admin.product.barCodegeneratePDF', $data);    
+            return $pdf->download('itsolutionstuff.pdf');
+            }
+
+        if($request->product_id){
+            
+            $data['product_id']= $request->product_id;
+         $data['product_row']= DB::table('product')->where('product_id',$request->product_id)->first(); 
+         $data['total']= $request->barcode_quantity;
+        }
+        
+      
+
+
+        return view('admin.product.productBarCodeGenerate', $data);
+         
     }
-    
 
     public function foldercheck(Request $request)
     {

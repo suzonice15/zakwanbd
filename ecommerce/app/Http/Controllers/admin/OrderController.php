@@ -184,7 +184,7 @@ class OrderController extends Controller
             $data['title'] = '  ';  
             $zone_id= Session::get('zone_id');
             $shop_id= Session::get('shop_id');
-            $data['products'] = getStockProductsOfShop( $shop_id);
+            $data['products'] = getStockProductsOfShop($shop_id);
             return view('admin.order.create', $data);
         } else {
             return redirect()->back();

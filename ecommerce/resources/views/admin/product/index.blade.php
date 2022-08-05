@@ -33,6 +33,7 @@
                 <th>Sl</th>
 
                 <th>Product Code</th>
+                <th>Bar Code</th>
                 <th>Product</th>
                 <?php
                 $status= Session::get('status');

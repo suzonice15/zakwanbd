@@ -15,7 +15,7 @@ Add New Order
         <div class="col-sm-offset-0 col-md-12">
 
 
-            <form name="product" action="{{ url('admin/order/store') }}" class="form-horizontal"
+            <form name="product" onsubmit="return submitPrevent()"  action="{{ url('admin/order/store') }}" class="form-horizontal"
                   method="post"
                   enctype="multipart/form-data">
                 @csrf
@@ -27,7 +27,6 @@ Add New Order
                             <div class="box box-primary" style="border:2px solid #ddd">
                                 <div class="box-header" style="background-color: #ddd;">
                                     <h3 class="box-title">Customer Information</h3>
-
                                 </div>
                                 <div class="box-body">
 
@@ -36,7 +35,7 @@ Add New Order
 
                                          <div class="form-group ">
                                             <label for="billing_name">Affiliate Mobile</label>
-                                            <input   class="form-control" type="text" name="affiliate_mobile" id="affiliate_mobile"
+                                            <input  required  class="form-control" type="text" name="affiliate_mobile" id="affiliate_mobile"
                                                    value=" " />
                                         </div> 
 
@@ -55,78 +54,64 @@ Add New Order
 
                                         <div class="form-group ">
                                             <label for="billing_email">Affiliate ID </label>
-                                            <input readonly type="text" name="user_id" class="form-control"  id="user_id"    value=""/>
+                                            <input  required readonly type="text" name="user_id" class="form-control"  id="user_id"    value=""/>
                                         </div> 
 
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-md-6">
                             <div class="box box-danger" style="border:2px solid #ddd">
                                 <div class="box-header" style="background-color:#ddd">
                                     <h3 class="box-title">Actions</h3>
                                 </div>
                                 <div class="box-body">
-
-                                    
-
-
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
                                         <label>Shipping Date</label>
                                         <div class="input-group date">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-
                                             <input type="text" name="shipment_time"
                                                    class="form-control pull-right withoutFixedDate"
                                                    value="{{date("Y/m/d")}}">
                                         </div>
                                     </div>
-
-
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
                                         <label>Order Status</label> 
                                         <select name="order_status" id="order_status" class="form-control">  
                                             <option value="completed">Completed</option> 
                                         </select>
                                     </div> 
-
                                     <div class="form-group" style="padding: 11px;margin-top: -21px;">
                                         <label>Product List </label> 
-                                        <select name="product_ids" id="product_ids" class="form-control select2"  >
+                                        <select name="product_ids" id="product_ids" class="form-control select2 product_ids"  >
                                                     <?php foreach($products as $product) :
                                                     $product_title=$product->product_title;
                                                     ?>
-                                                    <option value="{{$product->product_id}}"
+                                                    <option value="{{$product->barcode}}"
                                                     >{{$product_title}} - {{$product->sku}} <span style="color:red"> ({{$product->stock}}) </span></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                     </div> 
-
-                                  
+                                    <div class="form-group" style="padding: 11px;margin-top: -21px;">
+                                        <label>Pos Product </label> 
+                                        <input type="text" name="pos-pinter" class="form-control product_ids" id="pos_product_id">
+                                    </div>                                   
                             </div>
                         </div>
-
                     </div>
-
-
                     </div>
 
                     <div class="row">
-
-
 
                             <div class="col-md-12">
                                 <div class="box box-primary" style="border:2px solid #ddd">
                                     <div class="box-header" style="background-color:#ddd">
                                         <h3 class="box-title">Product Information</h3>
                                     </div>
-                                    <div class="box-body">
-                         
+                                    <div class="box-body">                         
                            <table class="table   table-bordered">
                                <tr>
                                    <th class="name" width="30%">Product</th>
@@ -176,7 +161,7 @@ Add New Order
                                     <td class="text-center">
                                     <span id="total_amount"></span>
                                         <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="hidden" name="order_total" class="form-control" id="order_total" value=""> 
+                                      type="hidden"   name="order_total" class="form-control" id="order_total" value=""> 
                                     </td> 
                                     <td>
                                 </tr>  
@@ -195,6 +180,14 @@ Add New Order
 
             <script>
 
+                function submitPrevent(){
+                    var sum = 0;
+                   let pos_product_id= $("#pos_product_id").val();
+                   if(pos_product_id==''){ 
+                    return true
+                   }
+                }
+
                 function deleteRow(btn) {
                    let confirm_message= confirm("Are you sure you want to delete ?")
                    if(confirm_message){
@@ -205,15 +198,19 @@ Add New Order
                 }
 
                 function quantityChange(quantity,product_id){
-                    if(quantity >=1 ){                   
-                   let price=parseInt($("#price_"+product_id).text());
-                   let total_sub_total=price*quantity;
-                   $("#subtotal_"+product_id).text(total_sub_total)
-                   subTotalGenerate();
-                }else{
-                    alert("minimum 1 quantity need")
-                }                   
+                 
+                    if(quantity >=1 ){     
+                        console.log("here...")              
+                            let price=parseInt($("#price_"+product_id).text());
+                            let total_sub_total=price*quantity;
+                            $("#subtotal_"+product_id).text(total_sub_total)
+                            subTotalGenerate();
+                            }else{
+                                alert("minimum 1 quantity need")
+                            }                   
                 }
+
+                
 
                 function subTotalGenerate(){                  
                   var price = 0;
@@ -232,23 +229,18 @@ Add New Order
                    
                    let summation=subtotal+shipping_charge;
                    let subtract=advabced_price+discount_price;
-
                    let total=summation-subtract;
-
                     $("#total_amount").text(total);
-                    $("#order_total").val(total);
-                    
+                    $("#order_total").val(total);                    
                 }
 
-                $('#shipping_charge , #discount_price  , #advabced_price').on("input",function(e){
-                    
+                $('#shipping_charge , #discount_price  , #advabced_price').on("input",function(e){                    
                     totalGenerate();
                 })
 
                 $("#affiliate_mobile").blur(function(){
                     let affiliate_mobile=$("#affiliate_mobile").val();
                     affiliate_mobile = affiliate_mobile.trim();
-
                     $.ajax({
                         url:"{{url('/')}}/order/affiliateCheckByMobile/"+affiliate_mobile,
                         success:function(data){
@@ -263,30 +255,52 @@ Add New Order
                             } 
                         }
 
-                    })
-                    
-                })
-
-               
+                    })                    
+                })               
  
             </script> 
             <script>
-                $(document).on('change', '#product_ids', function () {                    
-                    let product_id=$(this).val();   
+                $(document).on('onbarcodescaned change', '.product_ids', function () {                    
+                    let product_id=$(this).val(); 
+                     
+         //200 works fine for me but you can adjust it   
+                                
                     $.ajax({
                         type: "get",
                         data: {product_id:product_id},
                         url: "{{  route('getOrderProduct')}}",
                         success: function (result) { 
-                            $('#product_show').prepend(result);
+                            $("#pos_product_id").val("");
                             
-                                subTotalGenerate();
-                                                    
+                            $("#pos_product_id").focus();
+                            let check_value='no';
+
+                            $('#product_show .barcode').each(function(){ 
+                              var existingProduct=$(this).val();
+                              if(existingProduct==product_id){
+                                console.log("same")
+                                check_value='yes';
+                             } 
+                            });
+                          if(check_value=='no'){
+                            $('#product_show').prepend(result);   
+                          }else{
+                           
+                           var quantity= parseInt($("#product_quntity_"+product_id).val());
+                           console.log(quantity)
+                           quantity +=1;
+                            $("#product_quntity_"+product_id).val(quantity).trigger("change");
+                            
+                          }
+                                          
+                                subTotalGenerate();  
+                                return false;                                                  
                         },
                         errors: function (result) {                          
                             console.log(result)
                         }
-                    });
+                    }); 
+
 
                 });
 

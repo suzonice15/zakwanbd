@@ -28,7 +28,10 @@ class AjaxOrderControlller extends Controller
     public  function getOrderProduct(Request $request){
       
         $product_ids =$request->product_id;  
-        $product= DB::table('product')->where('product_id',$product_ids)->first();   
+        $product= DB::table('product')->where('barcode','=',$product_ids)->first(); 
+        
+        if($product){
+
         $image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;
         $sell_price=$product->product_price;
         if($product->discount_price >0){
@@ -42,8 +45,9 @@ class AjaxOrderControlller extends Controller
             <img src="'.$image.'"  style="width:100%">
         </td>
         <td class="text-center">
-            <input  onchange="quantityChange(this.value,'.$product->product_id.')"   type="number" name="products['.$product->product_id.']" class="form-control" value="1"   style="width:70px;">
+            <input id="product_quntity_'.$product->barcode.'" onchange="quantityChange(this.value,'.$product->product_id.')"   type="number" name="products['.$product->product_id.']" class="form-control" value="1"   style="width:70px;">
             <input    type="hidden" name="price['.$product->product_id.']" class="form-control" value="'.$sell_price.'"   style="width:70px;">
+            <input    type="hidden"   class="form-control barcode" value="'.$product->barcode.'"   >
         </td> <td class="text-center" >'.$product->top_deal.'</td>
         <td class="text-center" id="price_'.$product->product_id.'">'.$sell_price.'</td>
        
@@ -52,6 +56,7 @@ class AjaxOrderControlller extends Controller
     </tr>';
     
     echo $html;
+        }
         
     }
 

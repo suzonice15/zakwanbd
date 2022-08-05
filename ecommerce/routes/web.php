@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*  start  menu management */
+Route::get('/admin/menuPermission', 'admin\MenuPermission@index');
+Route::get('/admin/role/{id}/edit', 'admin\MenuPermission@edit');
+Route::post('/admin/menu/update/{id}', 'admin\MenuPermission@update');
+
+
+/* end manu management */
+
+
+
 Route::post('/askQuestionsFromWebsite', 'HomeController@askQuestionsFromWebsite');
 Route::get('/allQuestions/{id}', 'HomeController@allQuestions');
 Route::get('/affilates/products', 'HomeController@affilates_products');
@@ -152,6 +162,7 @@ Route::get('admin/top-deal-products', 'admin\ProductController@TopDealProducts')
 Route::get('admin/unpublishedProduct', 'admin\ProductController@unpublishedProduct');
 Route::get('admin/product/StockUpdate/{id}', 'admin\ProductController@StockUpdate');
 Route::get('admin/product/productStockUpdate', 'admin\ProductController@productStockUpdate');
+Route::get('admin/productBarCodeGenerate', 'admin\ProductController@productBarCodeGenerate');
 
 /****=============== Order section    =====================  ******/
 Route::get('admin/onlineOrders', 'admin\OrderController@onlineOrders');

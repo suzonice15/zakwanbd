@@ -70,7 +70,7 @@ function getOrderDetails($order_id)
 function getStockProductsOfShop($shop_id){
     
    return DB::table('product')->join('product_stocks','product.product_id','=','product_stocks.product_id')             
-            ->select('product_stocks.product_id', 'product_title', 'sku','stock')
+            ->select('product_stocks.product_id', 'product_title', 'sku','stock','barcode')
             ->where('stock','>',0)
             ->where('shop_id',$shop_id)
             ->orderby('stock', 'asc')->get();

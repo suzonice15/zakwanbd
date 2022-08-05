@@ -179,6 +179,7 @@ return [
 	    Intervention\Image\ImageServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
 
     ],
@@ -237,8 +238,7 @@ return [
 
         'AdminHelper' => App\Helpers\AdminHelper::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
-
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
 
     ],

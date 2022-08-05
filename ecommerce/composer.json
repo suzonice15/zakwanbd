@@ -9,14 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "barryvdh/laravel-dompdf": "^2.0",
         "buglinjo/laravel-webp": "^2.0",
         "darryldecode/cart": "^4.1",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "picqer/php-barcode-generator": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

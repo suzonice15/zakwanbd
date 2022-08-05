@@ -114,6 +114,7 @@
                     <li><a href=" {{ url('admin/product/create') }}"><i class="fa fa-arrow-circle-right"></i>Add New Product </a>
                     </li>
                     <li><a href=" {{ url('admin/products') }}"><i class="fa fa-arrow-circle-right"></i>All Products List</a></li>
+                    <li><a href=" {{ url('admin/productBarCodeGenerate') }}"><i class="fa fa-arrow-circle-right"></i>  Products BarCode</a></li>
                     <li><a href=" {{ url('admin/unpublishedProduct') }}"><i class="fa fa-arrow-circle-right"></i>All Unpublished Product</a></li>
                     <li><a href=" {{ url('admin/staff-products') }}"><i class="fa fa-arrow-circle-right"></i>Staff Products List</a></li>
                     <li><a href=" {{ url('admin/top-deal-products') }}"><i class="fa fa-arrow-circle-right"></i>Top Deal Products</a></li>
@@ -299,6 +300,15 @@
             </li>
 
         <?php } ?>
+
+             <li>
+                <a href="{{ url('/admin/menuPermission') }}">
+                    <i class="fa fa-dashboard"></i> <span>Manu Permission</span>
+                    <span class="pull-right-container">
+            </span>
+                </a>
+            </li>
+
 
         </ul>
     </section>

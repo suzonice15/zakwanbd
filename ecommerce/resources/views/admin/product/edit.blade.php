@@ -63,6 +63,13 @@
                                                value="{{ $product->sku }}" autocomplete="off">
                                         <span class="text-danger" id="sku_error"></span>
                                     </div>
+
+                                    <div class="form-group ">
+                                    <label for="sku">Product Bar Code<span class="required">*</span></label>
+                                    <input required type="text" class="form-control" name="barcode" id="barcode"
+                                           value="{{ $product->barcode }}" autocomplete="off">
+                                    <span class="text-danger" id="sku_error"></span>
+                                </div>
                                     <?php
                                     $status= Session::get('status');
                                     if ($status != 'editor') {

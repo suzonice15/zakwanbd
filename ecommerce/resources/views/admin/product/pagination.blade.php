@@ -5,6 +5,7 @@
 
             <td> {{ ++$i }} </td>
             <td>{{ $product->sku }}</td>
+            <td>{{ $product->barcode }}</td>
             <td>
                 <img src="{{ url('/public/uploads') }}/{{ $product->folder }}/small/{{ $product->feasured_image }}">
                 <a target="_blank" href="{{ url('/') }}/{{$product->product_name}}"> {{$product->product_title}} </a>

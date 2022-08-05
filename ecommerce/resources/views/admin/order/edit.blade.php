@@ -271,7 +271,7 @@
                                     <div class='col-md-5'>
                                             <div class="form-group" style="padding: 12px;">
                                                 <label>Product List </label> 
-                                                <select name="product_ids" id="product_ids" class="form-control select2"  > 
+                                                <select name="product_ids" id="product_ids" class="form-control select2 product_ids"  > 
                                                             
                                               </select>
                                             </div>                                     
@@ -311,13 +311,11 @@
                 if(isset($order_items)) {
                     foreach ($order_items as $key => $item) {                        
                         $product = single_product_data($item->product_id);
-                        $featured_image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;                   
-
+                        $featured_image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;  
                         ?>
                                <tr>
                                    <td><a target="_blank"
-                                          href="{{url('/')}}/{{$product->product_name}}">{{$product->product_title}}</a>
-                                   </td>
+                                          href="{{url('/')}}/{{$product->product_name}}">{{$product->product_title}}</a>                                   </td>
                                    <td>{{$product->sku}}</td>
                                    <td class="image text-center">
                                        <img src="<?php echo $featured_image ?>" height="50" width="50">
@@ -327,12 +325,10 @@
                                               class="form-control"
                                               value="<?php echo $item->qnt;  ?>"
                                               style="width:70px;">
-
                                               <input type="hidden"  name="price[<?php echo $item->product_id?>]"
                                               class="form-control"
                                               value="<?php echo $item->price;  ?>"
-                                              style="width:70px;">
-                                   </td>
+                                              style="width:70px;">                                   </td>
 
                                    <td class="text-center"> 
 <?php echo $item->commision; ?>
@@ -374,7 +370,6 @@
                                     </td> 
                                     <td>
                                 </tr>  
-
                                 <tr> 
                                     <td class="text-right" colspan='6'>Total </td> 
                                     <td class="text-center">
@@ -384,8 +379,7 @@
 
                                     </td> 
                                     <td>
-                                </tr>  
-                                
+                                </tr>                                 
                     </tbody>
                                
  
@@ -452,7 +446,7 @@
                     data:{shop_id:shop_id},
                     success:function(data){
                         console.log(data)
-                        $("#product_ids").html(data);
+                        $(".product_ids").html(data);
                     },
                     error:function(data){
                         console.log(data)
@@ -585,7 +579,7 @@ $("#affiliate_mobile").blur(function(){
                 $("#courier_service").val({{$order->courier_service}});
              </script>
               <script>
-                $(document).on('change', '#product_ids', function () {    
+                $(document).on('change', '.product_ids', function () {    
                     return false;                
                     let product_id=$(this).val();   
                     $.ajax({
