@@ -24,8 +24,18 @@
             <tbody>
 
                 @if(isset($users))
-<?php $i=0;?>
+<?php 
+
+$i=0;
+ 
+?>
             @foreach ($users as $user)
+            <?php 
+ 
+$role_name=DB::table('roles')->where('id',$user->status)->value('role_name'); 
+
+
+?>
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>
@@ -41,7 +51,7 @@
                 <td>{{$user->email}} </td> 
                 <td>{{optional($user->zone)->zone_name}}</td>
                 <td>{{optional($user->shop)->shop_name}}</td>
-                <td>{{$user->status}}</td>
+                <td>{{$role_name}}</td>
                 <td>{{date('d-m-Y',strtotime($user->registered_date))}}</td>
                 <td>
                     <a title="edit" href="{{ url('/admin/user/') }}/{{ $user->admin_id }}">

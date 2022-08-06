@@ -172,13 +172,7 @@ class OrderController extends Controller
     {
 
         $status = Session::get('status');
-        if ($status == 'super-admin' || $status == 'office-staff' || $status == 'editor') {
-            $user_id = AdminHelper::Admin_user_autherntication();
-            $url = URL::current();
-            if ($user_id < 1) {
-                //  return redirect('admin');
-                Redirect::to('admin')->with('redirect', $url)->send();
-            }
+        
             $data['main'] = 'Orders';
             $data['active'] = 'All orders';
             $data['title'] = '  ';  
@@ -186,9 +180,7 @@ class OrderController extends Controller
             $shop_id= Session::get('shop_id');
             $data['products'] = getStockProductsOfShop($shop_id);
             return view('admin.order.create', $data);
-        } else {
-            return redirect()->back();
-        }
+         
     }
 
     public function store(Request $request)
@@ -235,12 +227,26 @@ class OrderController extends Controller
             }     
             $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
            
-            $this->commisionDistribution($order_id, $commision);               
-            return redirect('admin/orders')->with('success', 'Created successfully.');
+            $this->commisionDistribution($order_id, $commision);   
+
+            return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
         } else {
             return redirect('admin/orders/')->with('error', 'Error to Create this order');
         }
-    }     
+    }   
+    
+    
+
+    public function posPrint($id)
+    {       
+        $data['main'] = 'Orders';
+        $data['active'] = 'Update Orders';
+        $data['title'] = 'Update Orders Data';
+        $data['order'] = DB::table('order_data')->where('order_id', $id)->first(); 
+        
+        return view('admin.order.posPrint', $data);
+    }
+
     public function edit($id)
     {       
         $data['main'] = 'Orders';

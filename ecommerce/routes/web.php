@@ -167,6 +167,7 @@ Route::get('admin/productBarCodeGenerate', 'admin\ProductController@productBarCo
 /****=============== Order section    =====================  ******/
 Route::get('admin/onlineOrders', 'admin\OrderController@onlineOrders');
 Route::get('admin/orders', 'admin\OrderController@index');
+Route::get('admin/orders/posPrint/{id}', 'admin\OrderController@posPrint');
 Route::get('admin/orders/history-generate', 'admin\OrderController@orderHistoryGenerate');
 Route::get('admin/order/create', 'admin\OrderController@create');
 Route::post('admin/order/store', 'admin\OrderController@store');

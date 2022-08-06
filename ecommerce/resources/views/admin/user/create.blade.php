@@ -75,12 +75,16 @@
  
                         <div class="form-group "><label for="media_title">User Status<span
                                     class="required">*</span></label>
-                            <select name="user_type" class="form-control">
-                                <option value="office-staff" style="background-color: red;">Office Stuf</option>
-                                <option value="super-admin">Super admin</option>
-                                <option value="admin"> Admin</option>
-                            </select>
+                                    <select  required name="status" id="status" class="form-control">
+                                    <option   value="">Select Option</option>
+                            @foreach($roles as $role)
+                            <option   value="{{ $role->id}}">{{ $role->role_name}}</option>
+                            @endforeach
+                          
+                        </select>
                         </div>
+
+                        
 
                         <div class="form-group "><label for="media_title">Password</label>
                             <input type="password" class="form-control" name="user_pass">

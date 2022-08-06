@@ -8,11 +8,7 @@ use DB;
 
 class MenuPermission extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+     
     public function index()
     {         
         $data['roles']= DB::table('roles')->orderBy('id', 'desc')->get();
@@ -21,7 +17,8 @@ class MenuPermission extends Controller
     
     public function edit($id)
     { 
-        $data['category_title']="";
+        $data['role']=DB::table('roles')->where('id', $id)->first();
+      $data['role_menu']=  DB::table('role_details')->where('role_id',$id)->pluck('menu_id')->toArray();
         return view('admin.menu.edit', $data);
     }
 
@@ -33,17 +30,16 @@ class MenuPermission extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-
-        //dd($request->all());
+    { 
         $data=[];
         $data['role_id']=$id; 
         DB::table('role_details')->where('role_id',$id)->delete();
         foreach($request->parent as $key=>$parent_row){  
 
             if(isset($request->menu[$key])){
+ 
 
-                $data['menu_id']=$key;                    
+                $data_1['menu_id']=$key;                    
                 $array_1 = explode(',', $parent_row);
                 $data_1['manu_name']=$array_1[0];    
                 $data_1['manu_icon']=$array_1[1];  
@@ -78,64 +74,59 @@ class MenuPermission extends Controller
                 $data['created_at']=date("Y-m-d H:i:s"); 
 
                 DB::table('role_details')->insert($data);
-            }
+            } 
+        } 
 
-             
+       $parents= DB::table('role_details')->where('role_id',$id)->where('menu_status',0)->get();
 
-        }
+       $htmls='';
       
-        exit();
+       $url= $request->root().'/';
 
-        $data['category_title']=$request->category_title;
-        $data['category_name']=$request->category_name;
-        $data['parent_id']=$request->parent_id;
-        $data['rank_order']=$request->rank_order;
-        $data['status']=$request->status;
-        $data['seo_title']=$request->seo_title;
-        $data['seo_meta_title']=$request->seo_meta_title;
-        $data['seo_keywords']=$request->seo_keywords;
-        $data['seo_content']=$request->seo_content;
-        $data['seo_meta_content']=$request->seo_meta_content;
+       foreach($parents as $parent_row){
 
-        $data['registered_date']=date('Y-m-d');
+       $seconds_menu=DB::table('role_details')->where('menu_status',$parent_row->menu_id)->where('role_id',$id)->get();
+       if(count($seconds_menu) >0){
 
-        $image = $request->file('featured_image');
-        $share_image = $request->file('share_image');
-        if ($image) {
-
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('/uploads/category');
-
-            $resize_image = Image::make($image->getRealPath());
-
-            $resize_image->resize(81, 81, function ($constraint) {
-
-            })->save($destinationPath . '/' . $image_name);
-            $data['medium_banner']=$image_name;
-
+        $htmls .='<li class="treeview">
+        <a href="#">
+            <i class="'.$parent_row->manu_icon.'"></i>
+            <span>'.$parent_row->manu_name.'</span>
+            <span class="pull-right-container">
+      <i class="fa fa-angle-left pull-right"></i>
+    </span>
+        </a>
+        <ul class="treeview-menu">';
+        foreach($seconds_menu as $secend_row){
+            $htmls .='<li><a href="'.$url.$secend_row->menu_url.'"><i class="fa fa-arrow-circle-right"></i>'.$secend_row->manu_name.'</a>
+            </li>';
         }
+        $htmls .='</ul>
+        </li>';     
 
-        if ($share_image) {
+       }else{
 
-            $image_name = time() . '.' . $share_image->getClientOriginalExtension();
+        $htmls .='<li>
+        <a href="'.$url.$parent_row->menu_url.'">
+            <i class="'.$parent_row->manu_icon.'"></i> <span>'.$parent_row->manu_name.'</span>
+            <span class="pull-right-container">
+    </span>
+        </a>
+    </li>';
+       }
 
-            $destinationPath = public_path('/uploads/category');
 
-            $resize_image = Image::make($share_image->getRealPath());
-
-            $resize_image->save($destinationPath . '/' . $image_name);
-            $data['share_image']='public/uploads/category/'.$image_name;
+       }
 
 
-        }
 
-        $result= DB::table('category')->where('category_id',$id)->update($data);
+$result=DB::table('roles')->where('id',$id)->update(['html'=>$htmls]); 
+ 
         if ($result) {
-            return redirect('admin/categories')
+            return redirect('admin/menuPermission')
                 ->with('success', 'Updated successfully.');
         } else {
-            return redirect('admin/categories')
+            return redirect('admin/menuPermission')
                 ->with('error', 'No successfully.');
         }
     }

@@ -73,17 +73,15 @@
                     </div>
 
 
-                <?php
-             $status=   Session::get('status');
-             if($status=='super-admin'){
-                ?>
+                
                     <div class="form-group "><label for="media_title">User Status<span
                                 class="required">*</span></label>
-                        <select name="status" id="status" class="form-control">
-                            <option <?php if($user->status=='office-staff') { echo "selected";}  ?> value="office-staff" style="background-color: red;">Office Stuf</option>
-                            <option <?php if($user->status=='super-admin') { echo "selected";}  ?> value="super-admin">Super admin</option>
-                            <option <?php if($user->status=='editor') { echo "selected";}  ?> value="editor">Editor</option>
-                            <option <?php if($user->status=='admin') { echo "selected";}  ?> value="admin">Admin</option>
+                        <select required name="status" id="status" class="form-control">
+                        <option   value="">Select Option</option>
+                            @foreach($roles as $role)
+                            <option @if($role->id==$user->status) selected @endif  value="{{ $role->id}}">{{ $role->role_name}}</option>
+                            @endforeach
+                          
                         </select>
                     </div>
 
@@ -95,7 +93,7 @@
 
                     </select>
                 </div>
-                <?php } ?>
+               
 
                     <div class="form-group "><label for="media_title">Password</label>
                         <input type="password" class="form-control" name="user_pass">

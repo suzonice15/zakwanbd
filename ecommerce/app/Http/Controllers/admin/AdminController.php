@@ -109,10 +109,7 @@ class AdminController extends Controller
      public function generel_users()
     {
         $user_id = AdminHelper::Admin_user_autherntication();
-        $url = URL::current();
-        if ($user_id < 1) {
-            Redirect::to('admin')->with('redirect', $url)->send();
-        }
+         
         $data['main'] = 'Products';
         $data['active'] = 'All Products';
         $data['title'] = '  ';
@@ -206,9 +203,6 @@ public  function commentUpdate(Request $request,$id){
 
 
     public function notificationCount(){
-
-
-
         $messageInfo=DB::table('message')
             ->where('status', 0)->count();
          $productInfo=DB::table('product_comment')
@@ -219,17 +213,10 @@ public  function commentUpdate(Request $request,$id){
     }
 
     public function messageShow($id){
-
-
         $data['status']=1;
          DB::table('message')
             ->where('id', $id)->update($data);
-
-
     }
-
-
-
 
     public function message_pagination(Request $request)
     {
@@ -298,6 +285,10 @@ public  function commentUpdate(Request $request,$id){
             Session::put('shop_id', $result->shop_id);
             Session::put('picture', $picture);
 
+            $menuList=DB::table('roles')->where('id',$result->status)->value('html'); 
+            Session::put('htmls', $menuList);
+
+
             if ($redirect) {
                 return redirect($redirect);
             } else {
@@ -338,6 +329,7 @@ public  function commentUpdate(Request $request,$id){
         $data['main'] = 'Users';
         $data['active'] = 'Add user';
         $data['title'] = 'User registration form';
+        $data['roles']=DB::table('roles')->get();
         return view('admin.user.create', $data);
     }
 
@@ -373,8 +365,7 @@ public  function commentUpdate(Request $request,$id){
         $data['name'] = $request->user_name;
         $data['email'] = $request->user_email;
         $data['user_phone'] = $request->user_phone;
-        $data['status'] = $request->user_type;
-        
+        $data['status'] = $request->status;        
         $data['zone_id'] = $request->zone_id;
         $data['shop_id'] = $request->shop_id;
         $password = md5($request->user_pass).'admin';;
@@ -425,7 +416,7 @@ public  function commentUpdate(Request $request,$id){
         $data['active'] = 'Update user';
         $data['title'] = 'Update User Registration Form';
         $data['zones']= Zone::latest()->get();
-
+        $data['roles']=DB::table('roles')->get();
         return view('admin.user.edit', $data);
     }
 
