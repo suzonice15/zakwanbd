@@ -235,6 +235,7 @@
                                                     <!-- <option value="cancled">Cancled</option>
                                                     <option value="new">New</option> -->
                                                 @else
+                                                <option value="new">New</option>  
                                                     @endif
                                             </select>
                                         </div>
@@ -247,8 +248,7 @@
                                                 <label>Zone </label> 
                                                 <select  onchange="getShopData(this.value)" name="zone_id" id="zone_id" class="form-control select2"  >
                                                     <option value="">Select Option</option>
-                                                            <?php foreach($zones as $zone) :
-                                                            
+                                                            <?php foreach($zones as $zone) :                                                            
                                                             ?>
                                                             <option @if($order->zone_id==$zone->id) selected @endif value="{{$zone->id}}"
                                                             >{{$zone->zone_name}}</option>
@@ -343,7 +343,7 @@
                                <?php } } ?>
 
                                <tr> 
-                                    <td class="text-right" colspan='6'>Sub Total</td> 
+                                    <td class="text-right" colspan='6'>  Total Amount</td> 
                                     <td class="text-center"><span id="total_subtotal_price"></span></td> 
                                     <td>
                                 </tr>
@@ -351,14 +351,14 @@
                                 <tr> 
                                     <td class="text-right" colspan='6'> Delivery Cost </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="0"> 
+                                      type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="{{$order->shipping_charge}}"> 
                                     </td> 
                                     <td>
                                 </tr> 
                                 <tr> 
                                     <td class="text-right" colspan='6'>Discount Price </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="text" name="discount_price" class="form-control" id="discount_price" value="0"> 
+                                      type="text" name="discount_price" class="form-control remove_zero" id="discount_price" value="{{$order->discount_price}}"> 
                                     </td> 
                                     <td>
                                 </tr> 
@@ -366,16 +366,16 @@
                                 <tr> 
                                     <td class="text-right" colspan='6'>Paid Amount </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="text" name="advabced_price" class="form-control" id="advabced_price" value="0"> 
+                                      type="text" name="advabced_price" class="form-control remove_zero" id="advabced_price" value="{{$order->advabced_price}}"> 
                                     </td> 
                                     <td>
                                 </tr>  
                                 <tr> 
-                                    <td class="text-right" colspan='6'>Total </td> 
+                                    <td class="text-right" colspan='6'>Return Amount</td> 
                                     <td class="text-center">
-                                    <span id="total_amount"></span>
+                                    <span id="total_amount">{{$order->order_total}}</span>
                                         <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="hidden" name="order_total" class="form-control" id="order_total" value=""> 
+                                      type="hidden" name="order_total" class="form-control" id="order_total" value="{{$order->order_total}}"> 
 
                                     </td> 
                                     <td>
@@ -417,14 +417,8 @@
 
                         </div>
                     </div>
-
-
                 </div>
-
-
             </form>
-
-
             <script>
 
                 getShopData("{{$order->zone_id}}");

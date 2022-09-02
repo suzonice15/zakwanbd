@@ -155,14 +155,12 @@ font-size: 23px;">
 
         <div class="input-container">
             <i class="fa fa-envelope icon"></i>
-            <input style="width: 80%" required=""  class="input-field" type="text" placeholder="Email" id="email" name="email" autocomplete="off">
-            <input style="height: 48px;margin-top: 8px;width: 25%;background-color: #9f29ff;border: none" type="button" id="varify" class="btn btn-success" value="Verify">
+            <input     class="input-field" type="text" placeholder="Email (Optional)" id="email" name="email" autocomplete="off">
+            
 
         </div>
 
-        <div class="input-container">
-            <span id="email_varify_show"> Click verify button to verify your email </span>
-        </div>
+        
 
         <div class="input-container varificationClassSectionHide">
             <span id="success" style="display:none;color:green">আপনার ইমেইলে একটি ভেরিফিকেশন কোড গেছে এই কোডটি নিচের বক্সে বসান
@@ -178,7 +176,7 @@ font-size: 23px;">
         </div>
         <div class="input-container fieldHiden">
             <i class="fa fa-user icon"></i>
-            <input class="input-field" required="" type="text" placeholder="NID" id="nation_id_number" name="nation_id_number" autocomplete="off">
+            <input class="input-field"  type="text" placeholder="NID" id="nation_id_number" name="nation_id_number" autocomplete="off">
             <span id="nid"></span>
         </div>
        
@@ -253,17 +251,18 @@ font-size: 23px;">
 jQuery('#religion').on('change', function () {
    var religion= $("#religion").val();
            if(religion =='Islam'){
-            $("#form_submit").show();
+        //    $("#form_submit").show();
            }else{
-            $("#form_submit").hide();
+          //  $("#form_submit").hide();
            }
         });
+
 jQuery('#gender').on('change', function () {
    var gender= $("#gender").val();
            if(gender =='Female'){
-$("#form_submit").hide();
+//$("#form_submit").hide();
            }else{
-            $("#form_submit").show();
+          //  $("#form_submit").show();
            }
         });
 
@@ -283,7 +282,7 @@ $("#form_submit").hide();
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.fieldHiden').hide();
+            
             $('#varifyCodeCheck').click(function(){
                 var customerCode=$("#varify_code").val();
                 var serverCode=$("#varificationServerCode").val();
@@ -303,16 +302,12 @@ $("#form_submit").hide();
                 if(varification_code_check==varify_code){
                     $('#checked').show();
                 } else {
-
                     $('#checked').hide();
-
                 }
-
-
             });
 
             $('#varify_code').hide();
-            $(':input[type="submit"]').prop('disabled', true);
+           
             $('#varify').click(function(){
 
                 var email = $('#email').val();
@@ -346,7 +341,7 @@ $("#form_submit").hide();
                             $('.email_error').html('');
                              $('#varify').hide();
                             $('#email_varify_show').hide();
-                            $(':input[type="submit"]').prop('disabled', false);
+                             
                             $('#varificationServerCode').val(data);
 
 

@@ -27,6 +27,11 @@
                                            id="phone" placeholder="Phone">
                                 </div>
                                 <div class="form-group">
+                                    <label for="username">Email:</label>
+                                    <input type="text" name="email" value="{{$user->email}}" class="form-control"
+                                           id="phone" placeholder="Email">
+                                </div>
+                                <div class="form-group">
                                     <label for="username">National ID:</label>
                                     <input type="text" name="nation_id_number" value="{{$user->nation_id_number}}"
                                            class="form-control" id="nation_id_number" placeholder="national id">

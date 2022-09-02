@@ -115,14 +115,7 @@
             <thead>
             <tr style="background-color: #5f046c;color: white;text-align: center">
 
-                <th width="10%">Order Id
-                    <?php
-                    $admin_user_status=Session::get('status');
-                    if($admin_user_status !='office-staff' || $admin_user_status !='editor') {
-                        ?>
-                    <input type="checkbox" name="all_select" id="checkAll"/>
-                    <?php } ?>
-                </th>
+                <th width="10%">Order Id  </th>
                 <th width="15%">Customer</th>
                 <th width="15%">Product</th>
                 <th width="20%">Affiliate</th>

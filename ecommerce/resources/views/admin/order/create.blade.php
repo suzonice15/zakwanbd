@@ -128,12 +128,12 @@ Add New Order
                                 <tbody id="product_show">
 
                                 <tr> 
-                                    <td class="text-right" colspan='6'>Sub Total</td> 
+                                    <td class="text-right" colspan='6'>  Total Amount</td> 
                                     <td class="text-center"><span id="total_subtotal_price"></span></td> 
                                     <td>
                                 </tr>
 
-                                <tr> 
+                                <tr style="display:none"> 
                                     <td class="text-right" colspan='6'> Delivery Cost </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
                                       type="text" name="shipping_charge" class="form-control" id="shipping_charge" value="0"> 
@@ -143,21 +143,21 @@ Add New Order
                                 <tr> 
                                     <td class="text-right" colspan='6'>Discount Price </td> 
                                     <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="text" name="discount_price" class="form-control" id="discount_price" value="0"> 
+                                      type="text" name="discount_price" class="form-control remove_zero" id="discount_price" value="0"> 
                                     </td> 
                                     <td>
                                 </tr> 
                                 
                                 <tr> 
                                     <td class="text-right" colspan='6'>Paid Amount </td> 
-                                    <td class="text-center"><input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
-                                      type="text" name="advabced_price" class="form-control" id="advabced_price" value="0"> 
+                                    <td class="text-center"><input required onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
+                                      type="text" name="advabced_price" class="form-control " id="advabced_price" value=""> 
                                     </td> 
                                     <td>
                                 </tr>  
 
                                 <tr> 
-                                    <td class="text-right" colspan='6'>Total </td> 
+                                    <td class="text-right" colspan='6'>Return Amount </td> 
                                     <td class="text-center">
                                     <span id="total_amount"></span>
                                         <input onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" 
@@ -179,6 +179,12 @@ Add New Order
              </form>
 
             <script>
+                $("#advabced_price").click(function(){
+                    $("#advabced_price").val("")
+                })
+                $("#discount_price").click(function(){
+                    $("#discount_price").val("")
+                })
 
                 function submitPrevent(){
                     var sum = 0;

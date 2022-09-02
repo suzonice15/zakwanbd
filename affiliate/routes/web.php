@@ -50,7 +50,7 @@ Route::get('/admin/noteUpdated', 'admin\AdminNoteController@noteUpdated');
 Route::get('/add-to-wishlist', 'CheckOutController@add_to_wishlist');
 Route::get('/wishlist', 'CheckOutController@wishlist');
 Route::get('/remove-to-wishlist', 'CheckOutController@remove_wish_list');
-
+Route::get('/changedPasswordOfAffiliate', 'admin\AdminAffiliteController@changedPasswordOfAffiliate');
 Route::get('/cart', 'CheckOutController@cart');
 Route::get('/plus_cart_item', 'CheckOutController@plus_cart_item');
 Route::get('/minus_cart_item', 'CheckOutController@minus_cart_item');

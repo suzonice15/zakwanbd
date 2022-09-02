@@ -146,6 +146,9 @@ Route::get('admin/default/mailSetting', 'admin\SettingController@mailSetting');
 
 Route::post('admin/social/smtpAdd', 'admin\SettingController@smtpAdd');
 
+/****=============== product stock check  =====================  ******/
+Route::get('admin/productStockCheck', 'admin\StockController@productStockCheck');
+Route::get('admin/ProductSellReport', 'admin\StockController@ProductSellReport');
 
 /****=============== product section    =====================  ******/
 Route::get('admin/products', 'admin\ProductController@index');
@@ -166,6 +169,8 @@ Route::get('admin/productBarCodeGenerate', 'admin\ProductController@productBarCo
 
 /****=============== Order section    =====================  ******/
 Route::get('admin/onlineOrders', 'admin\OrderController@onlineOrders');
+Route::get('admin/sellTransfer', 'admin\OrderController@sellTransfer');
+Route::post('admin/sellTransfer', 'admin\OrderController@sellTransferUpdate');
 Route::get('admin/orders', 'admin\OrderController@index');
 Route::get('admin/orders/posPrint/{id}', 'admin\OrderController@posPrint');
 Route::get('admin/orders/history-generate', 'admin\OrderController@orderHistoryGenerate');
@@ -201,6 +206,7 @@ Route::get('admin/order/confirmPayment/{id}', 'admin\OrderController@confirmPaym
 /**************************** Order report          **************************/ 
 
 Route::get('admin/report/order_report', 'admin\ReportController@order_report');
+Route::get('admin/report/heightSellProduct', 'admin\ReportController@heightSellProduct');
 Route::get('admin/report/stockReport', 'admin\ReportController@stockReport');
  
 Route::post('admin/report/order_report', 'admin\ReportController@order_report_by_ajax');

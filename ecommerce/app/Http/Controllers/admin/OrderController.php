@@ -46,7 +46,7 @@ class OrderController extends Controller
         $admin_user_status=Session::get('status');
         $staff_id=Session::get('id');
         $shop_id= Session::get('shop_id');       
-        $orders = DB::table('order_data')->whereNull('shop_id')->where('order_status', 'new')->orderBy('order_id', 'desc')->paginate(10);               
+        $orders = DB::table('order_data')->whereNull('shop_id')->orderBy('order_id', 'desc')->paginate(10);               
        $data['stuffInfo'] =DB::table('admin')->where('status','office-staff')
             ->where('active_status', 1)->get();
         return view('admin.order.onlineOrders', compact('orders'), $data);
@@ -199,6 +199,7 @@ class OrderController extends Controller
         $data['created_by'] = Session::get('name');
         $data['modified_time'] = date("Y-m-d H:i:s");
         $data['order_date'] = date("Y-m-d");
+        $data['is_paid'] = 1;
         $data['order_total'] = $request->order_total;        
         $data['customer_name'] = $request->customer_name;
         $data['customer_phone'] = $request->customer_phone;  
@@ -210,6 +211,16 @@ class OrderController extends Controller
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
         }
         $order_id = DB::table('order_data')->insertGetId($data);   
+
+
+       $admin_balance= DB::table('admin')->where('admin_id',Session::get('id'))->first();
+      
+       if($admin_balance){        
+            $current_balance= $admin_balance->company_balance+$request->advabced_price+$request->order_total;
+            DB::table('admin')->where('admin_id',Session::get('id'))->update(['company_balance'=>$current_balance]);        
+       }
+
+        
         if ($order_id) {
             foreach($request->products as $product_id=>$quantity){
                 $order_details['order_id']=$order_id;
@@ -220,14 +231,17 @@ class OrderController extends Controller
                 $order_details['price']=$request->price[$product_id];
                 $order_details['sub_total']=$request->price[$product_id]*$quantity;
                 $order_details['commision']=single_product_information($product_id)->top_deal * $quantity;
+                $order_details['total_profit']=single_product_information($product_id)->product_profite * $quantity;
                 $order_details['order_date']=date("Y-m-d");
+                $order_details['staff_id']=Session::get('id');
                 DB::table('order_details')->insert($order_details);
                 shopStockReduce($shop_id,$product_id,$quantity);
 
             }     
             $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
+            $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');     
            
-            $this->commisionDistribution($order_id, $commision);   
+            $this->commisionDistribution($order_id, $commision,$total_profit);   
 
             return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
         } else {
@@ -270,7 +284,7 @@ class OrderController extends Controller
     {
 
         /* product stock variation */
-        $order_details = DB::table('order_data')->select('products', 'order_date')->where('order_id', $id)->first(); 
+        $order_details = DB::table('order_data')->select('products', 'order_date','order_status')->where('order_id', $id)->first(); 
         $order_number = $id;
         
         $data['order_status'] = $request->order_status;
@@ -294,37 +308,46 @@ class OrderController extends Controller
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
         }
         if ($order_status == 'new') {
+            if($order_status !=$order_details->order_status){         
 
             foreach($request->products as $product_id=>$quantity){
                 $order_data_details['zone_id'] = $request->zone_id;
-                $order_data_details['shop_id'] = $request->shop_id;                 
+                $order_data_details['shop_id'] = $request->shop_id;   
+                $order_data_details['total_profit']=single_product_information($product_id)->product_profite * $quantity;              
                 DB::table('order_details')->where('order_id',$id)->where('product_id',$product_id)->update($order_data_details);
                 shopStockReduce($request->shop_id,$product_id,$quantity);
-            }   
+            } 
+        }  
 
         }
 
         $order_data = DB::table('order_data')->where('order_id', $order_number)->update($data); 
         if ($order_status == 'completed') { 
             $info = DB::table('users_public')->where('id', $request->user_id)->first();
+           
             if ($info) {               
                 $affiliate_active['status'] = 1;
                  DB::table('users_public')->where('id', $info->id)->update($affiliate_active);
                 } 
+
                 $commision=DB::table('order_details')->where('order_id',$order_number)->sum('commision');     
-            $this->commisionDistribution($order_number, $commision);  
+                $total_profit=DB::table('order_details')->where('order_id',$order_number)->sum('total_profit');     
+            $this->commisionDistribution($order_number, $commision,$total_profit);  
         } 
         if ($order_data) { 
-            return redirect('admin/orders')->with('success', 'Updated successfully.');
+            return redirect()->back()->with('success', 'Updated successfully.');
         } else {
-            return redirect('admin/order/' . $order_number)->with('success', 'Error to update this order');
+            return redirect()->back()->with('success', 'Error to update this order');
         }
     }
   
 
-    function commisionDistribution($order_id, $commision_price)
+    function commisionDistribution($order_id, $commision_price,$total_profit)
     {
 
+        $father_commition_1=0;
+        $father_commition_2=0;
+        $father_commition_3=0;
         $order_details = DB::table('order_data')->where('order_id', $order_id)->first(); 
         /// affiliate order from  website
         if ($order_details->user_id > 0) {
@@ -333,8 +356,7 @@ class OrderController extends Controller
             $father_id_2 = null;
             $father_id_3 = null;
             $user_id = $order_details->user_id;
-            $order_id = $order_details->order_id;
-            $order_items = unserialize($order_details->products);
+            $order_id = $order_details->order_id; 
             $son_data = DB::table('users_public')->where('id', $user_id)->first();
             /// son income
             if ($son_data) {
@@ -394,10 +416,15 @@ class OrderController extends Controller
                         $this->earningHistoryGenerate($order_id, $fatherData_3->name, $father_id_3, $father_commition_3, $user_id, 4);
 
                     }
-
                 }
-
             }
+
+           $total_commision_paid_to_affiliate= $commision_price+$father_commition_1 + $father_commition_2+$father_commition_3;
+
+           $order_details = DB::table('order_data')->where('order_id', $order_id)->update(['total_profit_for_company'=>$total_profit,'total_commision_paid_to_affiliate'=>$total_commision_paid_to_affiliate]); 
+             
+
+
         }
 
     }
@@ -528,6 +555,48 @@ class OrderController extends Controller
             ->first();
         return view('admin.order.invoice_view', $data);
     }
+    public function sellTransfer()
+    {
+        $data['main'] = 'Sell Transfer';
+        $data['active'] = 'Sell Transfer';
+        $data['title'] = 'Sell Transfer';
+        $data['admins'] = DB::table('admin')->where('shop_id',session::get('shop_id'))
+        ->where('admin_id','!=',session::get('id'))
+        ->get();    
+        $data['company_balance'] = DB::table('admin')->where('admin_id',session::get('id'))->value('company_balance');    
+
+        return view('admin.order.sellTransfer.index', $data);
+    }
+
+    public function sellTransferUpdate(Request $request)
+    {
+    
+        
+        $sell_man_balance=DB::table('admin')->where('admin_id',$request->admin_id)->first();  
+        if($sell_man_balance->company_balance > 0){
+            $data['company_balance']=$sell_man_balance->company_balance - $request->company_balance;   
+            // update balance 
+            DB::table('admin')->where('admin_id',$request->admin_id)->update($data);             
+            // insert manager balance 
+            $manager_balance=DB::table('admin')->where('admin_id',session::get('id'))->first(); 
+            $data_row['company_balance']=$manager_balance->company_balance + $request->company_balance; 
+            DB::table('admin')->where('admin_id',session::get('id'))->update($data_row); 
+           
+            $history['from']=$request->admin_id;
+            $history['to']=session::get('id');
+            $history['zone_id']=session::get('zone_id');
+            $history['shop_id']=session::get('shop_id');
+            $history['amount']=$request->company_balance;
+            $history['date']=date("Y-m-d");
+            $history['created_at']=date("Y-m-d H:i:s");
+            DB::table('company_balance_transfer')->insert($history);
+        }else{
+            return redirect('admin/sellTransfer')->with('error', 'Balance Transfer Failed.');   
+        }
+
+        return redirect('admin/sellTransfer')->with('success', 'Balance Transfer successfully.');        
+
+    }
 
     public function orderModalPrint($id)
     {
@@ -545,8 +614,7 @@ class OrderController extends Controller
     {
            $paid = DB::table('order_data')
             ->where('order_id', $id)
-            ->update(['is_paid'=>1]); 
-       
+            ->update(['is_paid'=>1]);        
        if($paid){
         echo "done";
        }else{
@@ -666,9 +734,7 @@ class OrderController extends Controller
 
     public function orderSum($staus, $today)
     {
-
-
-        $sum = DB::table('order_data')->where('order_status', '=', $staus)->where('order_date', '=', $today)->sum("order_data.order_total");
+                $sum = DB::table('order_data')->where('order_status', '=', $staus)->where('order_date', '=', $today)->sum("order_data.order_total");
         return $sum;
     }
 
@@ -697,8 +763,9 @@ class OrderController extends Controller
                     if ($info) {               
                         $affiliate_active['status'] = 1;
                          DB::table('users_public')->where('id', $info->id)->update($affiliate_active);
-                         $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');     
-                         $this->commisionDistribution($order_id, $commision); 
+                         $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
+                         $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');     
+                         $this->commisionDistribution($order_id, $commision,$total_profit); 
                         }                    
                 }                 
             } 

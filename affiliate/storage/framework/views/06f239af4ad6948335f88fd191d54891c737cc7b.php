@@ -18,10 +18,10 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
 
 <tr>
 
-    <td>{{$row->id}}</td>
-    <td>{{$row->name}}</td>
+    <td><?php echo e($row->id); ?></td>
+    <td><?php echo e($row->name); ?></td>
 
-    <td>{{$row->email}}</td>
+    <td><?php echo e($row->email); ?></td>
     <td>
         <?php
             $lavel = DB::table('affilite_commission_lavel')->where('user_id',$row->id)->where('active', '=', 1)->orderBy('commision_lavel_id', 'desc')->first();
@@ -32,45 +32,45 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
             }
         ?>
     </td>
-    <td>{{$row->phone}}</td>
+    <td><?php echo e($row->phone); ?></td>
 
     <td>
-       @if($row->status==1)
+       <?php if($row->token=='ok'): ?>
 
             <span class = "label label-success">Active</span>
-            @else
+            <?php else: ?>
             <span class = "label label-danger">Inactive</span>
 
-           @endif
+           <?php endif; ?>
 
     </td>
-    <td>{{$row->life_time_earning}}</td>
-    <td>{{$row->withdraw_balance}}</td>
+    <td><?php echo e($row->life_time_earning); ?></td>
+    <td><?php echo e($row->withdraw_balance); ?></td>
 
-    <td>{{$skil_point}}</td>
-    <td>{{ date('d,M,Y',strtotime($row->created))}}</td>
+    <td><?php echo e($skil_point); ?></td>
+    <td><?php echo e(date('d,M,Y',strtotime($row->created))); ?></td>
 
 
     <td>
-        @if($row->token=='ok')
+        <?php if($row->token=='ok'): ?>
 
-        @else
-            <a  href="{{url('/')}}/affiliate/active/{{$row->id}}">
+        <?php else: ?>
+            <a  href="<?php echo e(url('/')); ?>/affiliate/active/<?php echo e($row->id); ?>">
                 <span class="glyphicon glyphicon-check btn btn-info"></span>
             </a>
-        @endif
-        <a id="affilite_id" data-id="{{$row->id}}" data-toggle="modal" data-target="#modal-default" href="#">
+        <?php endif; ?>
+        <a id="affilite_id" data-id="<?php echo e($row->id); ?>" data-toggle="modal" data-target="#modal-default" href="#">
             <span class="glyphicon glyphicon-eye-open btn btn-success"></span>
         </a>
 
         <?php if($account_suspend==1){ ?>
 
-        <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="btn btn-danger" data-target="#modal-suspend" href="#">
+        <a id="suspend_id" data-id="<?php echo e($row->id); ?>" data-toggle="modal" class="btn btn-danger" data-target="#modal-suspend" href="#">
 
             Already Suspend
         </a>
         <?php } else { ?>
-        <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="btn btn-info" data-target="#modal-suspend" href="#">
+        <a id="suspend_id" data-id="<?php echo e($row->id); ?>" data-toggle="modal" class="btn btn-info" data-target="#modal-suspend" href="#">
 
             Suspend Now
         </a>
@@ -88,7 +88,8 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
 
 <tr>
     <td colspan="9" align="center">
-        {!! $affilates->links() !!}
+        <?php echo $affilates->links(); ?>
+
     </td>
 </tr>
 
@@ -145,3 +146,4 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
 </div>
 
 
+<?php /**PATH C:\SXampp\htdocs\Jacwan\affiliate\resources\views/admin/affilate/affilator_list_pagination.blade.php ENDPATH**/ ?>

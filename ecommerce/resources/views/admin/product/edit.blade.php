@@ -101,21 +101,21 @@
 
                                     <div class="form-group ">
                                         <label for="commision_percent">Product Profit</label>
-                                        <input type="number" readonly class="form-control" name="product_profite"
+                                        <input type="text" readonly class="form-control" name="product_profite"
                                                id="product_profite"
                                                value="{{ $product->product_profite }}" autocomplete="off">
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="commision_percent">Affilate commision %</label>
-                                        <input type="number" class="form-control" name="commision_percent"
+                                        <input type="text" class="form-control" name="commision_percent"
                                                id="commision_percent"
                                                value="{{ $product->commision_percent }}" autocomplete="off">
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="discount_price">Affiliate Commision</label>
-                                        <input type="number" class="form-control" name="top_deal"
+                                        <input type="text" class="form-control" name="top_deal"
                                                id="top_deal"
                                                value="{{ $product->top_deal }}" autocomplete="off">
                                     </div>
@@ -478,9 +478,9 @@
 
             $('#product_price , #discount_price,#purchase_price').on('input', function () {
 
-                let purchase_price=parseInt($("#purchase_price").val());
-                let product_price=parseInt($("#product_price").val());
-                let discount_price=parseInt($("#discount_price").val());
+                let purchase_price=parseFloat($("#purchase_price").val());
+                let product_price=parseFloat($("#product_price").val());
+                let discount_price=parseFloat($("#discount_price").val());
                 let sell_price=0;
                 if(purchase_price <=0 ){
                     alert("please Enter Purchase Price")
@@ -490,24 +490,23 @@
                 } else {
                     sell_price=product_price;
                 }
-                let product_profit=sell_price-purchase_price;
-                $("#product_profite").val(product_profit);
+                let product_profit=sell_price-purchase_price
+                product_profit.toFixed(2)
+              
+               
+                $("#product_profite").val(product_profit.toFixed(2));
             });
 
             $('#commision_percent').on('input', function () {
                 let commision_percent=parseInt($(this).val());
-                let product_profite=parseInt($("#product_profite").val());
+                let product_profite=parseFloat($("#product_profite").val());
                 let affilite_profit=parseFloat((commision_percent*product_profite)/100);
                 $("#top_deal").val(affilite_profit);
             });
 
 
         });
-    </script>
-
-
-
-
+    </script> 
 @endsection
 
 

@@ -33,6 +33,11 @@
                                                         <td><input   type="checkbox" name="menu[1][203]" @if(in_array('203',$role_menu)) checked @endif value="Online Orders,admin/onlineOrders"  style="margin-left:440px"/></td>
                                                     </tr> 
                                                     <tr>
+                                                        <td>Sell Transfer </td>
+                                                        <td><input   type="checkbox" name="menu[1][206]" @if(in_array('206',$role_menu)) checked @endif value="Sell Transfer ,admin/sellTransfer"  style="margin-left:440px"/></td>
+                                                    </tr> 
+
+                                                    <tr>
                                                         <td>Courier Report </td>
                                                         <td><input   type="checkbox" name="menu[1][204]" @if(in_array('204',$role_menu)) checked @endif value="Courier Report,admin/courier/view/report"  style="margin-left:440px"/></td>
                                                     </tr> 
@@ -40,6 +45,7 @@
                                                         <td>Order  Report</td>
                                                         <td><input   type="checkbox" name="menu[1][205]" @if(in_array('205',$role_menu)) checked @endif value="Order  Report,admin/order/report"  style="margin-left:440px"/></td>
                                                     </tr> 
+                                                   
                                                      
                                                 </table>
                                </li>
@@ -71,6 +77,8 @@
                                                             <td>Staff Products List</td>
                                                             <td><input   type="checkbox" name="menu[2][214]" @if(in_array('214',$role_menu)) checked @endif value="Staff Products List,admin/staff-products"  style="margin-left:440px"/></td>
                                                         </tr> 
+
+                                                    
 
                   
                                                     </table>
@@ -146,6 +154,10 @@
                                             <span>Reports</span>   
                                             <input   type="checkbox" name="parent[6]" @if(in_array('6',$role_menu)) checked @endif  value="Reports,fa fa-dashboard"  style="margin-left:460px"/>
                                                     <table>
+                                                    <tr>
+                                                            <td> Top Sell Product</td>
+                                                            <td><input   type="checkbox" name="menu[6][29]" @if(in_array('29',$role_menu)) checked @endif  value="Top Sell Product,admin/report/heightSellProduct"  style="margin-left:440px"/></td>
+                                                        </tr> 
                                                         <tr>
                                                             <td>Order Reports</td>
                                                             <td><input   type="checkbox" name="menu[6][26]" @if(in_array('26',$role_menu)) checked @endif  value="Order Reports,admin/report/order_report"  style="margin-left:440px"/></td>
@@ -158,8 +170,14 @@
                                                             <td>Product Demand</td>
                                                             <td><input   type="checkbox" name="menu[6][28]" @if(in_array('28',$role_menu)) checked @endif value="Product Demand,admin/report/userProductDemand"  style="margin-left:440px"/></td>
                                                         </tr> 
-                                                      
-                                                        
+                                                        <tr>
+                                                        <td>Product Sell  Report</td>
+                                                        <td><input   type="checkbox" name="menu[6][30]" @if(in_array('30',$role_menu)) checked @endif value="Product Sell  Report,admin/ProductSellReport"  style="margin-left:440px"/></td>
+                                                       </tr> 
+                                                       <tr>
+                                                            <td>Stock Check</td>
+                                                            <td><input   type="checkbox" name="menu[6][31]" @if(in_array('31',$role_menu)) checked @endif value="Stock Check,admin/productStockCheck"  style="margin-left:440px"/></td>
+                                                        </tr> 
                                                     </table>
                                     </li>
                            </div>
@@ -310,7 +328,7 @@
                      
                              <li>
                                         <span>Menu Permisssion</span>   
-                                        <input   type="checkbox" name="parent[500]" @if(in_array('500',$role_menu)) checked @endif value="Menu Permisssion,admin/menuPermission , fa fa-facebook"  style="margin-left:460px"/>
+                                        <input   type="checkbox" name="parent[500]" @if(in_array('500',$role_menu)) checked @endif value="Menu Permisssion,admin/menuPermission , fa fa-book"  style="margin-left:460px"/>
                                                 
                              </li>
                         </div>

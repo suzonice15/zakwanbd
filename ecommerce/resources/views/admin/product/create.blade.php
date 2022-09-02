@@ -114,14 +114,14 @@
 
                                 <div class="form-group">
                                     <label for="commision_percent">affiliate  commision %</label>
-                                    <input type="number" class="form-control" name="commision_percent"
+                                    <input type="text" class="form-control" name="commision_percent"
                                            id="commision_percent"
                                            value="" autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="discount_price">affiliate  Commision</label>
-                                    <input type="number" class="form-control" name="top_deal"
+                                    <input type="text" class="form-control" name="top_deal"
                                            id="top_deal"
                                            value="" autocomplete="off">
                                 </div>
@@ -436,9 +436,9 @@
 
             $('#product_price , #discount_price,#purchase_price').on('input', function () {
 
-                let purchase_price=parseInt($("#purchase_price").val());
-                let product_price=parseInt($("#product_price").val());
-                let discount_price=parseInt($("#discount_price").val());
+                let purchase_price=parseFloat($("#purchase_price").val());
+                let product_price=parseFloat($("#product_price").val());
+                let discount_price=parseFloat($("#discount_price").val());
                 let sell_price=0;
                 if(purchase_price <=0 ){
                     alert("please Enter Purchase Price")
@@ -448,13 +448,16 @@
                 } else {
                     sell_price=product_price;
                 }
-                let product_profit=sell_price-purchase_price;
-               $("#product_profite").val(product_profit);
+                let product_profit=sell_price-purchase_price
+                product_profit.toFixed(2)
+              
+               
+                $("#product_profite").val(product_profit.toFixed(2));
             });
 
             $('#commision_percent').on('input', function () {
                 let commision_percent=parseInt($(this).val());
-                let product_profite=parseInt($("#product_profite").val());
+                let product_profite=parseFloat($("#product_profite").val());
                 let affilite_profit=parseFloat((commision_percent*product_profite)/100);
                  $("#top_deal").val(affilite_profit);
             });

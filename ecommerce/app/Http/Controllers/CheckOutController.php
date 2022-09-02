@@ -80,7 +80,7 @@ if($wordFound >0){
 
         $set_user_id2=0;
         $items = \Cart::getContent();        
-        $data['order_status'] = 'new';
+        $data['order_status'] = '';
         $data['shipping_charge'] = $request->shipping_charge;
         if( $request->affiliate_discount >0) {
             $data['affiliate_discount'] = $request->affiliate_discount;
@@ -107,8 +107,7 @@ if($wordFound >0){
         }else{
             $data['transaction_id'] = $request->transaction_id_mobile;
             $data['account_number'] = $request->account_number_mobile; 
-        }       
-        
+        } 
 
         $get_cookies = Cookie::get('unique_code');
         $get_link_id = Cookie::get('link_id');

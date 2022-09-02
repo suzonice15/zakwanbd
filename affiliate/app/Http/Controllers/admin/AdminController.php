@@ -39,7 +39,11 @@ class AdminController extends Controller
             $id = $result->admin_id;
             $name = $result->name;
             $picture = $result->picture;
-            $status = $result->status;
+			$status ="staff";
+			if($result->status==1){
+			$status = "super-admin";	
+			}
+            
             Session::put('id', $id);
             Session::put('status', $status);
             Session::put('name', $name);

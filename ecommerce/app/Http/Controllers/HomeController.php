@@ -151,7 +151,6 @@ class HomeController extends Controller
         }
     }
 
-
     public function allProducts()
     {
 
@@ -170,9 +169,8 @@ class HomeController extends Controller
         if ($request->ajax()) {
             $order_by = $request->get('order_by');
             $query = DB::table('product')
-                ->select('product.product_id', 'discount_price', 'product_price', 'product_name', 'folder', 'feasured_image', 'product_title')
+            ->select('product.product_id', 'discount_price', 'product_price', 'product_name', 'folder', 'feasured_image', 'product_title','product_subtitle')
                 ->where('product.status', '=', 1);
-
             if($order_by=="name_asc"){
                 $query->orderBy('product_title', 'ASC');
             }else if($order_by=="name_desc"){
@@ -184,8 +182,7 @@ class HomeController extends Controller
             } else{
                 $query->orderBy('modified_time', 'DESC');
             }
-            $products= $query->simplePaginate(30);
-        
+            $products= $query->simplePaginate(30);       
             
             $view = view('website.all_product_by_ajax', compact('products'))->render();
             return response()->json(['html' => $view]);

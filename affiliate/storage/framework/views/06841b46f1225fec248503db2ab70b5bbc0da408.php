@@ -149,7 +149,7 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-                <?php if($status=='super-admin' || session::get('email')=='suzonice15@gmail.com'): ?>
+                <?php if($status=='super-admin' || session::get('email')=='suzonice15@gmail.com' || session::get('email')=='admin@zakwanbd.com'): ?>
                     <li class="dropdown messages-menu">
                         <a   id="show_admin_note" style="color: white;font-weight: bold;" target="_blank"   >
                             <i class="fa fa-plus"></i>
@@ -158,12 +158,6 @@
                     </li>
                     <?php endif; ?>
                     
-                     <li class="dropdown messages-menu">
-                        <a  style="color: yellow;font-weight: bold;" target="_blank" class="padding_class_a blink_me" href="https://zakwanbd.com/customer/login/affiliate/<?php echo e(Session::get('id')); ?>" >
-                               Login to zakwanbd.com
-                        </a>
-
-                    </li>
                     
                     <li class="dropdown messages-menu">
                         <a  class="padding_class_a" href="<?php echo e(url('/cart')); ?>" >

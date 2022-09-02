@@ -73,23 +73,14 @@
 
 
 
-
-    <?php
-
-    if(session::get('status')=='super-admin' || session::get('status')=='admin'){
-    ?>
+ 
     <span class="order-report">
 
     @include('admin.order.orderReportView')
 
-</span>
-    <?php } ?>
-
-
-
+</span> 
     <script>
-        $(document).ready(function(){
-
+        $(document).ready(function(){ 
 
             function fetch_data(month,day)
             {
@@ -107,11 +98,7 @@
                          $('.order-report').html(data);
                     }
                 })
-            }
-
-
-
-
+            } 
             $(document).on('click', '#submit', function(event){
               var month= $("#month").val();
               var day= $("#day").val();
@@ -119,9 +106,6 @@
                 fetch_data(month,day);
             });
         });
-    </script>
-
-
-
+    </script> 
 @endsection
 

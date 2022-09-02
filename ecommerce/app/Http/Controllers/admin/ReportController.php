@@ -87,6 +87,21 @@ class ReportController extends Controller
        $data['orders']= DB::table('order_data')->where('order_date',$today)->orderBy('order_id', 'desc')->paginate(10);
         return view('admin.report.order_report',$data);
     }
+    
+    public function heightSellProduct()
+    {
+        
+        $data['main'] = 'Top Sell Products';
+        $data['active'] = 'Top Sell Products';
+        $data['title'] = '  '; 
+       
+       $data['products']= DB::table('order_details')
+       ->select([DB::raw("SUM(qnt) as total"),'product_id'])       
+       ->groupBy('product_id')->orderBY('total','desc')->get(); 
+        return view('admin.report.heightSellProduct',$data);
+    }
+
+    
 
     public function stockReport(Request $request)
     {

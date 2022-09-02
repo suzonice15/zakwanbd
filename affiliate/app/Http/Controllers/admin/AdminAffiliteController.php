@@ -1531,6 +1531,18 @@ class AdminAffiliteController extends Controller
         return redirect('admin/affilator_list');
     }
 
+    public function changedPasswordOfAffiliate(Request $request)
+    {
+        $user=DB::table('users_public')->where('id',$request->user_id)->first();
+        if($user){
+            $data['password']=md5($request->password);
+            DB::table('users_public')->where('id',$request->user_id)->update($data);
+            return response()->json(['success'=>'Successfully Changed']);
+        }
+        return response()->json(['success'=>'Failed  Changed']);
+
+    }
+
     public function single_affilite_show(Request $request)
     {
         $affilite_id = $request->get('affilite_id');

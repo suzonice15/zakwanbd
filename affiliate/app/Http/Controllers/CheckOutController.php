@@ -188,16 +188,11 @@ class CheckOutController extends Controller
         $affiliate_user=Session::get('status');
         if($affiliate_user==''){
             Redirect::to('/login')->send();
-
         }
         $data['share_picture']=get_option('home_share_image');
-
         $data['seo_title']=get_option('home_seo_title');
         $data['seo_keywords']=get_option('home_seo_keywords');
-        $data['seo_description']=get_option('home_seo_content');
-   /////     $data['order']=DB::table('order_data')->where('order_id',$id)->first();
-    //    $data['categories']=DB::table('category')->select('category_id','category_title','category_name')->where('parent_id',0)->get();
-
+        $data['seo_description']=get_option('home_seo_content'); 
         return view('website.cart',$data);
 
     }

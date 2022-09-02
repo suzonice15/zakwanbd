@@ -66,16 +66,11 @@ table, th, td {
                 </thead>
                 <tbody>
 
-                <?php
-
-                 
-                $order_items = DB::table('order_details')->where('order_id',$order->order_id)->get();     
-
-
+                <?php                 
+                $order_items = DB::table('order_details')->where('order_id',$order->order_id)->get();   
                 $html = null;
                 $subtotal=0;
-                $count=0;
-              
+                $count=0;              
                     foreach ($order_items as $product_id => $item) {  
                           
                         $product = single_product_information($item->product_id);
@@ -92,7 +87,7 @@ table, th, td {
 
                 <?php   } ?>
                 <tr>
-                <td rowspan="3" colspan="2" style="text-align:center">Full Paid</td>  
+                <td rowspan="4" colspan="2" style="text-align:center">Full Paid</td>  
                     <td colspan="1" style="text-align:right">Total Amount</td>                      
                     <td style="text-align: center">{{$subtotal}} </td> 
                 </tr>
@@ -104,6 +99,10 @@ table, th, td {
                     <td colspan="1" style="text-align:right">Paid Amount</td>                      
                     <td style="text-align: center">{{$order->advabced_price}} </td> 
                 </tr>
+                <tr>
+                    <td colspan="1" style="text-align:right">Return Amount</td>                      
+                    <td style="text-align: center">{{abs($order->order_total)}} </td> 
+                </tr>
 
                 </tbody>
             </table>
@@ -111,7 +110,7 @@ table, th, td {
 
 <div class="product" style="margin-top:-10px;">
    <p style="text-align:center;margin-left:150px">
-   <u> Sujon</u>
+   <u> {{Session::get('name')}}</u>
 </p> 
 <p style="text-align:right;font-size:12px;margin-top:-15px;"> 
    Zakwan Pharma & Supershop

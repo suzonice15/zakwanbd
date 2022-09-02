@@ -13,25 +13,25 @@
                 <tr>
 
                     <td>Name:</td>
-                    <td>{{$affilate->name}}</td>
+                    <td><?php echo e($affilate->name); ?></td>
 
                 </tr>
                 <tr>
 
                     <td>Phone:</td>
-                    <td>{{$affilate->phone}}</td>
+                    <td><?php echo e($affilate->phone); ?></td>
 
                 </tr>
                 <tr>
 
                     <td>Email:</td>
-                    <td>{{$affilate->email}}</td>
+                    <td><?php echo e($affilate->email); ?></td>
 
                 </tr>    
                 <tr>
 
                     <td>Address:</td>
-                    <td>{{$affilate->address}}</td>
+                    <td><?php echo e($affilate->address); ?></td>
 
                 </tr>
                 <tr>
@@ -43,7 +43,7 @@
                 <tr>
 
                     <td>Total Withdraw:</td>
-                    <td>{{$total_withdraw}}</td>
+                    <td><?php echo e($total_withdraw); ?></td>
 
                 </tr>
 
@@ -70,7 +70,7 @@
                 <tr>
 
                     <td>Total Referral:</td>
-                    <td>{{$total_referral}}</td>
+                    <td><?php echo e($total_referral); ?></td>
 
                 </tr>
                 <tr>
@@ -105,7 +105,7 @@
                         <input type="password" class='form-control' name="password" id="password" > 
                     </td>
                     <td>
-                        <button type="button" class='btn btn-info btn-sm' onclick='PasswordChanged({{$user->id}})'>Update</button>   
+                        <button type="button" class='btn btn-info btn-sm' onclick='PasswordChanged(<?php echo e($user->id); ?>)'>Update</button>   
                     </td>
                 </tr>
                 <tr>
@@ -113,7 +113,7 @@
                     <td>Login to Affiliate Panel</td>
                     <td>
 
-                         <a  target="_blank" href="{{url('/')}}/adminLoginToAffiliate/{{$user->id}}" class="btn btn-success">Login To Affiliate</a>
+                         <a  target="_blank" href="<?php echo e(url('/')); ?>/adminLoginToAffiliate/<?php echo e($user->id); ?>" class="btn btn-success">Login To Affiliate</a>
 
                     </td>
 
@@ -142,7 +142,7 @@
   var confirm_message= confirm("Are You want to change password");
   if(confirm_message){
     $.ajax({
-        url:"{{url('/')}}/changedPasswordOfAffiliate",
+        url:"<?php echo e(url('/')); ?>/changedPasswordOfAffiliate",
         data:{
             user_id:id,
             password:password
@@ -162,4 +162,4 @@
   }
     
 }
-    </script>
+    </script><?php /**PATH C:\SXampp\htdocs\Jacwan\affiliate\resources\views/admin/affilate/single_affilite_view.blade.php ENDPATH**/ ?>

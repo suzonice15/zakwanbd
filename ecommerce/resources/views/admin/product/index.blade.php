@@ -5,21 +5,15 @@
 @section('mainContent')
 <div class="box-body">
     <div class="row">
+        @if(Session::get('status') !=4)
         <div class="col-md-2">
 <a href="{{url('/admin/product/create')}}" class="form-control btn btn-success">
     Add New Product
 
 </a>      </div>
+@endif 
 
-        {{--<div class="col-md-5  ">--}}
-
-            {{--<select name="field" id="field" class="form-control">--}}
-                {{--<option name="product_title">Product Title</option>--}}
-                {{--<option name="sku">Product Code</option>--}}
-
-            {{--</select>--}}
-        {{--</div>--}}
-
+      
         <div class="col-md-5 pull-right ">
             <input type="text" id="serach" name="search" placeholder="Search Product By Product Code Or Product Name" class="form-control" >
         </div>
@@ -35,40 +29,24 @@
                 <th>Product Code</th>
                 <th>Bar Code</th>
                 <th>Product</th>
-                <?php
-                $status= Session::get('status');
-                if ($status != 'editor') {
-                ?>
+                @if(Session::get('status') !=4)
                 <th>Purchase Price</th>
-                <?php
-                    }
-                ?>
+               @endif
                 <th>Sell Price</th>
                 <th>Discount Price</th>
-                <?php
-                $status= Session::get('status');
-                if ($status != 'editor') {
-                    ?>
+                @if(Session::get('status') !=4)
                 <th>Product Profite</th>
                 <th>Affiliate Commision % </th> <th> Affiliate Profit</th>
-                <?php
-                }
-                ?>
+                @endif
 
                 <th>Published Status</th>
                 <th>Stock</th>
                 <th>Total Sold</th>
                 <th>Created date</th>
 
-                <?php
-              //  $admin_user=Session::get('status');
-             //   if($admin_user !='editor' && $admin_user !='office-staff') {
-                ?>
+               
                 <th>Action</th>
-
-                <?php
-                //}
-                ?>
+ 
 
 
             </tr>

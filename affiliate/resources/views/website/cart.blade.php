@@ -142,14 +142,7 @@
                                                 For Customer</a>
                                             <p>কাস্টমারের জন্য অর্ডার করুন</p>
 
-                                        </div>
-                                        <div class="col-md-4">
-                                            <a style="margin-left: 1px; margin-bottom: 5px;"
-                                               href="{{ url('/') }}/checkout" class="btn btn-success">Order For Me</a>
-                                            <p>নিজের জন্য অর্ডার করুন</p>
-
-
-                                        </div>
+                                        </div>                                       
                                         <div class="col-md-4">
                                             <a style="margin-bottom: 5px;"
                                                href="{{ url('/admin/affilite/buy_products') }}"

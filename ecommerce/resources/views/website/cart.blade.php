@@ -146,7 +146,7 @@
           let quantity=$('#cart_quantity_'+product_id).text();
             quantity=quantity.trim();
             let product_stock = $('#limit_stock_' + product_id).val();
-            if(product_stock >quantity) {
+           
                 jQuery.ajax(
                         {
                        url: "{{url('/plus_cart_item')}}?product_id=" + product_id,
@@ -159,9 +159,7 @@
 
                         });
                        }
-                    else {
-                    alert("Only "+product_stock +" available ")
-                }
+                   
         })
     </script>
     <script>

@@ -117,12 +117,9 @@
             if (quantity) {
                 quantity = quantity + 1;
             }
-            let product_stock = $('#limit_stock_product').val();
-            if(product_stock >=quantity) {
+           
                 $("#quantity").text(quantity);
-            } else {
-                alert("Only "+ product_stock +" available ")
-            }
+            
         }
         function DecrementFunction() {
             var quantity = parseInt($("#quantity").text());

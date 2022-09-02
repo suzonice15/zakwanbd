@@ -81,18 +81,21 @@
     <section class="header-top text-white font-weight-bold py-1" style="background: #5B5959;height: 32px;">
         <div class="container">
             <div class="row">
-                <div class="col-5 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
+                <div class="col-4 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
                     <a href="tel:+8809602444444" class="text-white font-weight-bold text-start">
                         <i class="fa fa-phone text-white font-weight-bold"></i> &nbsp;01970010605
                     </a>
                 </div>
-                <div class="col-7 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">
+                <div class="col-8 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">
                     <ul class="header-right-ul">
+                    <li class="">
+                            <a href="{{url('/')}}/all-products" class="text-reset py-2 text-white font-weight-bold">Products</a>
+                        </li>
                         <li class="">
                             <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold">Affiliate</a>
                         </li>
                         <li class="">
-                            <a href="{{url('/')}}/category/offer" class="text-reset py-2 text-white font-weight-bold">Offer</a>
+                            <a href="{{url('/')}}/hot-deal-product" class="text-reset py-2 text-white font-weight-bold">Offer</a>
                         </li>
 
 
@@ -183,14 +186,11 @@
             </div>
         </div>
         <div class="stellarnav mobile-menu-responsive">
-            <ul>
-                <li><a href="{{url('/')}}/category/free-delivery">Free Delivery </a></li>
-                <li><a href="{{url('/')}}/category/buy-one-get-one">Buy 1 get 1 Free </a></li>
-                <li><a href="{{url('/')}}/category/offer">Hot Deals </a></li>
-                <li><a href="https://zakwanaffiliate.com/">Affiliate </a></li>
-                <li><a href="{{url('/track-your-order')}}">Track My Order</a></li>
-
+            <ul>  
+                <li><a href="{{url('/')}}/hot-deal-product">Hot Deals </a></li>
+                <li><a href="https://zakwanaffiliate.com/">Affiliate </a></li>               
                 <li><a href="{{url('/all-products')}}">All Products</a></li>
+                <li><a href="{{url('/track-your-order')}}">Track My Order</a></li>
                 <?php
                 $categories = getAllParentCategoryForWebsite();
                 if($categories){

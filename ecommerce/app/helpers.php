@@ -90,7 +90,7 @@ function shopStockReduce($shop_id,$product_id,$qnt)
 
 function single_product_information($product_id)
 {
-    $result = DB::table('product')->select('sku', 'vendor_id','top_deal', 'product_name', 'product_title', 'product_stock','purchase_price','folder','feasured_image')->where('product_id', $product_id)->first();
+    $result = DB::table('product')->select('sku', 'product_profite','vendor_id','top_deal', 'product_name', 'product_title', 'product_stock','purchase_price','folder','feasured_image')->where('product_id', $product_id)->first();
 
     if ($result) {
         return $result;

@@ -33,6 +33,7 @@
                 <p style="color:white;font-weight: bold">{{ Session::get('name')}}</p>
                 <?php
                 $status= Session::get('status');
+
                 ?>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 @if($status=='user')
@@ -69,7 +70,7 @@
            @include('layouts.includes.affiliate_sidebar')
             <?php
                 }
-            if($status =='super-admin'){
+            if($status =="super-admin"){
             ?>
             @include('layouts.includes.admin_sidebar')
 

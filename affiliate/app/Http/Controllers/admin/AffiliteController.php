@@ -442,6 +442,7 @@ use Pusher\Pusher;
         $data['city']=  $request->city;
         $data['post_code']=  $request->post_code;
         $data['address']=  $request->address;
+        $data['email']=  $request->email;
         $data['nation_id_number']=  $request->nation_id_number;
 
         if($pass){

@@ -95,8 +95,8 @@
             <div class="col-sm-12 col-md-12  col-xs-12 col-lg-12" style="display:flex;flex-direction:row;margin-top: -14px;">
                 <img style="width: 47px;padding: 10px;margin-bottom: -6px;"
                      class="img-responsive pull-left mobile-icon"
-                     src="http://www.egbazar.com//front_asset/d.png"
-                     alt="Call azibto" title="Call azibto">
+                     src="{{url('/')}}/public/logo/d.png"
+                     alt="Zakwan bd" title="Zakwan bd">
                 <h3 class="font-size-title-mobile"
                     style="font-weight: bold;font-size: 14px;text-align:left;margin-top: 15px;">
                     ঢাকায় ডেলিভারি খরচ:
@@ -105,8 +105,8 @@
             <div class="col-sm-12 col-md-12 col-xs-12" style="display:flex;flex-direction:row;">
                 <img style="width: 47px;padding: 10px;margin-top: -7px;"
                      class="img-responsive pull-left  mobile-icon"
-                     src="http://www.egbazar.com//front_asset/od.png"
-                     alt="Call azibto" title="Call azibto">
+                     src="{{url('/')}}/public/logo/od.png"
+                     alt="Zakwan bd" title="Zakwan bd">
                 <h3 class="font-size-title-mobile"
                     style="font-weight: bold;font-size: 14px;text-align:left;margin-top: 8px;">
                     ঢাকার বাইরের ডেলিভারি খরচ: ৳<?=$product->delivery_out_dhaka?>
@@ -116,8 +116,8 @@
             <div class="col-sm-12 col-md-12 col-xs-12" style="display:flex;flex-direction:row;">
                 <img style="width: 47px;padding: 10px;margin-top: -12px;"
                      class="img-responsive pull-left  mobile-icon"
-                     src="http://www.egbazar.com//front_asset/bk.png"
-                     alt="Call azibto" title="Azibto  ">
+                     src="{{url('/')}}/public/logo/bk.png"
+                     alt="Zakwan bd" title="Azibto  ">
                 <h3 class="font-size-title-mobile"
                     style="font-weight: bold;font-size: 14px;text-align:left;margin-top: 3px;">
                     বিকাশ নাম্বার: <?=get_option('bkash')?>

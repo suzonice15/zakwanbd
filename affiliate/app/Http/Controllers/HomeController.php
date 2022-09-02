@@ -188,7 +188,7 @@ class HomeController extends Controller
                     }
                     if($customerEmail) {
                         $messageBody = '<html><body>';
-                        $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                        $messageBody .= "<h1>Hi,Successfully Order for zakwanaffiliate.com </h1>";
                         $messageBody .= "<br>";
                         $messageBody .= '<h3>Your Order Details</h3>';
                         $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -208,7 +208,7 @@ class HomeController extends Controller
                         $messageBody .= "</table>";
                         $messageBody .= "</body></html>";
                         Mail::send([], [], function ($message) use ($customerEmail, $messageBody, $senderEmail) {
-                            $message->from($senderEmail, 'Sohoj Affilate');
+                            $message->from($senderEmail, 'Zakwan Affilate');
                             $message->subject("Order Details");
                             $message->setBody($messageBody);
                             $message->setBody($messageBody, 'text/html');
@@ -218,7 +218,7 @@ class HomeController extends Controller
 
                     /*  vendor email */
                     $messageBody = '<html><body>';
-                    $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                    $messageBody .= "<h1>Hi,Successfully Order for zakwanaffiliate.com </h1>";
                     $messageBody .= "<br>";
                     $messageBody .= '<h3>Your Order Details</h3>';
                     $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -245,7 +245,7 @@ class HomeController extends Controller
                             $messageBody .= "</body></html>";
                             Mail::send([], [], function ($message) use ($vendorEmail, $messageBody, $senderEmail) {
 
-                                $message->from($senderEmail, 'Sohoj Affilate');
+                                $message->from($senderEmail, 'Zakwan Affilate');
 
                                 $message->subject("Order Details");
                                 $message->setBody($messageBody);
@@ -384,7 +384,7 @@ class HomeController extends Controller
 
                 if($customerEmail) {
                     $messageBody = '<html><body>';
-                    $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                    $messageBody .= "<h1>Hi,Successfully Order for  zakwanaffiliate.com </h1>";
                     $messageBody .= "<br>";
                     $messageBody .= '<h3>Your Order Details</h3>';
                     $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -406,7 +406,7 @@ class HomeController extends Controller
                     $messageBody .= "</table>";
                     $messageBody .= "</body></html>";
                     Mail::send([], [], function ($message) use ($customerEmail, $messageBody, $senderEmail) {
-                        $message->from($senderEmail, 'Sohoj Affilate');
+                        $message->from($senderEmail, 'Zakwan Affilate');
 
                         $message->subject("Order Details");
                         $message->setBody($messageBody);
@@ -416,7 +416,7 @@ class HomeController extends Controller
                 }
                 /*  vendor email */
                 $messageBody = '<html><body>';
-                $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                $messageBody .= "<h1>Hi,Successfully Order for  zakwanaffiliate.com </h1>";
                 $messageBody .= "<br>";
                 $messageBody .= '<h3>Your Order Details</h3>';
                 $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -439,7 +439,7 @@ class HomeController extends Controller
                         $messageBody .= "</table>";
                         $messageBody .= "</body></html>";
                         Mail::send([], [], function ($message) use ($vendorEmail, $messageBody, $senderEmail) {
-                            $message->from($senderEmail, 'Sohoj Affilate');
+                            $message->from($senderEmail, 'Zakwan Affilate');
 
                             $message->subject("Order Details");
                             $message->setBody($messageBody);
@@ -575,7 +575,7 @@ class HomeController extends Controller
                 }
 
                 $data['customer_phone'] = $request->customer_phone;
-                $data['order_from'] = "sohojaffiliates.com";
+                $data['order_from'] = "zakwanaffiliate.com";
                 $data['customer_email'] = $request->customer_email;
                 $data['customer_address'] = $request->customer_address;
                 $data['staff_id'] =  selectRandomStuff();
@@ -610,7 +610,7 @@ class HomeController extends Controller
                 $customerEmail = $request->customer_email;
                 if($customerEmail) {
                     $messageBody = '<html><body>';
-                    $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                    $messageBody .= "<h1>Hi,Successfully Order for  zakwanaffiliate.com </h1>";
                     $messageBody .= "<br>";
                     $messageBody .= '<h3>Your Order Details</h3>';
                     $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -630,7 +630,7 @@ class HomeController extends Controller
                     $messageBody .= "</table>";
                     $messageBody .= "</body></html>";
                     Mail::send([], [], function ($message) use ($customerEmail, $messageBody, $senderEmail) {
-                        $message->from($senderEmail, 'Sohoj Affilate');
+                        $message->from($senderEmail, 'Zakwan Affilate');
                         $message->subject("Order Details");
                         $message->setBody($messageBody);
                         $message->setBody($messageBody, 'text/html');
@@ -807,7 +807,7 @@ class HomeController extends Controller
             if($customerEmail) {
 
                 $messageBody = '<html><body>';
-                $messageBody .= "<h1>Hi,Successfully Order for sohojaffiliates.com </h1>";
+                $messageBody .= "<h1>Hi,Successfully Order for  zakwanaffiliate.com </h1>";
                 $messageBody .= "<br>";
                 $messageBody .= '<h3>Your Order Details</h3>';
                 $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
@@ -831,7 +831,7 @@ class HomeController extends Controller
                 $messageBody .= "</body></html>";
                 Mail::send([], [], function ($message) use ($customerEmail, $messageBody, $senderEmail) {
 
-                    $message->from($senderEmail, 'Sohoj Affilate');
+                    $message->from($senderEmail, 'Zakwan Affilate');
 
                     $message->subject("Order Details");
                     $message->setBody($messageBody);
@@ -1096,15 +1096,22 @@ class HomeController extends Controller
     {
         $parrentIncome=0;
         $session_code = Session::get('code');
-        $email_id = DB::table('users_public')->where('email', $request->email)->first();
+       
         $phone_id = DB::table('users_public')->where('phone', $request->phone)->first();   
-        $nation_id_number = DB::table('users_public')->where('nation_id_number', $request->nation_id_number)->first();   
+         
+ 
+        if($request->email){
+        $email_id = DB::table('users_public')->where('email', $request->email)->first();
         if ($email_id) {
             return redirect('registration')->with('error', "This email already exist try with other");
         }
+    }
+    if($request->nation_id_number){
+    $nation_id_number = DB::table('users_public')->where('nation_id_number', $request->nation_id_number)->first();  
         if ($nation_id_number) {
             return redirect('registration')->with('error', "This National Id already exist try with other");
         } 
+    }
         if ($phone_id) {
             return redirect('registration')->with('error', "This Phone  already exist try with other");
         } 
@@ -1146,6 +1153,8 @@ class HomeController extends Controller
                     ->update($dataUpdateBonus);
                 $this->lebelIncomeUpdate($parentInfo,$statusInfo->referrer_amount);
             }
+        }else{
+            $data['parent_id'] = 2;
         }
 
         $data['name'] = $request->name;
@@ -1294,7 +1303,7 @@ class HomeController extends Controller
             $data['token'] = md5(rand(1111111111, 9999999999));
             $token = $data['token'];
             $token = url('/') . "/reset/$token";
-            $subject = "Thank you for password change request to sohojaffiliates.com";
+            $subject = "Thank you for password change request to https://zakwanaffiliate.com";
             $to = $request->email;
             $message = "Dear  $email_id->name click here to reset your password   $token ";
             // Always set content-type when sending HTML email

@@ -33,6 +33,7 @@
                 <p style="color:white;font-weight: bold"><?php echo e(Session::get('name')); ?></p>
                 <?php
                 $status= Session::get('status');
+
                 ?>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 <?php if($status=='user'): ?>
@@ -69,7 +70,7 @@
            <?php echo $__env->make('layouts.includes.affiliate_sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php
                 }
-            if($status =='super-admin'){
+            if($status =="super-admin"){
             ?>
             <?php echo $__env->make('layouts.includes.admin_sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 

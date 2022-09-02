@@ -14,13 +14,7 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                     @else
                     <span  class="label label-success" style="background-color: #5f046c !important;">Outside Dhaka</span>
                     @endif
-                <?php
-                $admin_user_status=Session::get('status');
-                if($admin_user_status !='office-staff' || $admin_user_status !='editor') {
-                ?>
-                <input style="width: 15px;text-align: center" type="checkbox" value="{{ $order->order_id }}" class="checkAll ">
-
-                <?php } ?>
+                
 
             </td>
             <td>{{ $order->customer_name }} <br>
