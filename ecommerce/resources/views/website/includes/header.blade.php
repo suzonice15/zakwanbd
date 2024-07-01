@@ -61,6 +61,7 @@
           rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     @yield('css')
+    <?= get_option('facebook_pixel') ?>
 </head>
 <body>
 
@@ -81,21 +82,21 @@
     <section class="header-top text-white font-weight-bold py-1" style="background: #5B5959;height: 32px;">
         <div class="container">
             <div class="row">
-                <div class="col-4 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
-                    <a href="tel:+8809602444444" class="text-white font-weight-bold text-start">
+                <div class="col-5 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
+                    <a href="tel:+8809602444444" class="text-white font-weight-bold text-start header-top_font">
                         <i class="fa fa-phone text-white font-weight-bold"></i> &nbsp;01970010605
                     </a>
                 </div>
-                <div class="col-8 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">
+                <div class="col-7 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">
                     <ul class="header-right-ul">
                     <li class="">
-                            <a href="{{url('/')}}/all-products" class="text-reset py-2 text-white font-weight-bold">Products</a>
+                            <a href="{{url('/')}}/all-products" class="text-reset py-2 text-white font-weight-bold header-top_font">Products</a>
                         </li>
                         <li class="">
-                            <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold">Affiliate</a>
+                            <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold header-top_font">Affiliate</a>
                         </li>
                         <li class="">
-                            <a href="{{url('/')}}/hot-deal-product" class="text-reset py-2 text-white font-weight-bold">Offer</a>
+                            <a href="{{url('/')}}/hot-deal-product" class="text-reset py-2 text-white font-weight-bold header-top_font">Offer</a>
                         </li>
 
 
@@ -112,9 +113,7 @@
             <div class="col-8 col-md-8 col-lg-8 col-xl-9 col-xxl-9">
                 <form autocomplete="off" action="{{ url('search') }}" method="get">
                     <div class="input-group">
-                        <input style="border: 1px solid #e91b2a;height: 40px;
-"  type="text" name="search" required  class="form-control searchbox desktop-search-field"
-                               placeholder="Search For Products">
+                        <input style="border: 1px solid #e91b2a;height: 40px;"  type="text" name="search" required  class="form-control searchbox desktop-search-field"  placeholder="Search For Products">
                         <div class="input-group-append">
                             <button class="btn btn-secondary search" style="background-color: #e91b2a;border: #e91b2a;height: 40px;border-radius: 3px;" type="submit">
                                 <i class="fa fa-search" style="color:white;"></i>
@@ -295,7 +294,7 @@
             </div>
             <div class="col-md-9 col-xl-9 col-xxl-9 col-lg-10 header-menu-anchore-parent" >
                 <a href="{{url('/')}}/category/free-delivery" class="header-menu-anchore"  >Free Delivery</a>
-                <a href="{{url('/')}}/category/buy-one-get-one" class="header-menu-anchore" >Buy   1 get 1 Free</a>
+                <a href="{{url('/')}}/package" class="header-menu-anchore" >Package</a>
                 <a href="{{url('/')}}/category/offer" class="header-menu-anchore"  >Hot Deals</a>
                 <a href="{{url('/')}}/all-products" class="header-menu-anchore"> All Product</a>
 

@@ -35,12 +35,14 @@ Route::get('/checkCouponCode/{coupon_code}', 'HomeController@checkCouponCode');
 
 Route::get('/search_engine', 'HomeController@search_engine');
 Route::get('/product/click', 'HomeController@product_click');
-Route::get('/visitor', 'HomeController@visitor');
+Route::get('/visitor', 'HomeController@visitor'); 
 Route::get('/search', 'HomeController@search');
 Route::get('/search_ajax', 'HomeController@search_ajax');
 Route::get('/hot_home_product', 'HomeController@hot_home_product');
 Route::get('/home_page_category_ajax', 'HomeController@home_page_category_ajax');
 Route::get('/add-to-cart', 'AjaxController@add_to_cart');
+Route::get('/AddTOCartPlusMinus', 'AjaxController@AddTOCartPlusMinus');
+Route::get('/visitorAdd', 'AjaxController@visitorAdd');
 Route::get('/related/product', 'AjaxController@relatedProduct');
 Route::get('/hotProductList', 'AjaxController@hotProductList');
 Route::get('/hotdeal/product', 'AjaxController@hotdealProduct');
@@ -70,6 +72,9 @@ Route::post('/admin/wallet/{id}', 'admin\AdminController@walletUpdate');
 Route::post('/login_check', 'admin\AdminController@loginCheck');
 Route::get('/sohoj-admin-login', 'admin\AdminController@sohoj_admin');
 Route::get('/dashboard', 'admin\DashboardController@index');
+Route::get('/shop_visitor_count', 'admin\DashboardController@shop_visitor_count');
+Route::get('/admin/shopVisitorList', 'admin\DashboardController@shopVisitorList');
+Route::get('/admin/visitorDetail/{ip}/{date}', 'admin\DashboardController@visitorDetail');
 
 
 /****=============== admin section    =====================  ******/
@@ -169,7 +174,12 @@ Route::get('admin/productBarCodeGenerate', 'admin\ProductController@productBarCo
 
 /****=============== Order section    =====================  ******/
 Route::get('admin/onlineOrders', 'admin\OrderController@onlineOrders');
+Route::get('admin/order/PersonalSellReport', 'admin\OrderReportController@PersonalSellReport');
+
 Route::get('admin/sellTransfer', 'admin\OrderController@sellTransfer');
+
+Route::post('admin/ManagersellTransfer', 'admin\OrderController@ManagersellTransfer');
+
 Route::post('admin/sellTransfer', 'admin\OrderController@sellTransferUpdate');
 Route::get('admin/orders', 'admin\OrderController@index');
 Route::get('admin/orders/posPrint/{id}', 'admin\OrderController@posPrint');
@@ -205,6 +215,8 @@ Route::get('admin/order/confirmPayment/{id}', 'admin\OrderController@confirmPaym
 
 /**************************** Order report          **************************/ 
 
+Route::get('admin/report/bankTransaction', 'admin\ReportController@bankTransaction');
+Route::get('admin/report/bankReceive/{id}', 'admin\ReportController@BankReceive');
 Route::get('admin/report/order_report', 'admin\ReportController@order_report');
 Route::get('admin/report/heightSellProduct', 'admin\ReportController@heightSellProduct');
 Route::get('admin/report/stockReport', 'admin\ReportController@stockReport');
@@ -355,6 +367,7 @@ Route::post('vendor/insert-withdrow-amount', 'VendorController@insertVandorWithd
 Route::post('/vendor/mobile_update', 'VendorController@mobile_update');
 Route::post('/vendor/bank_update', 'VendorController@bank_update');
 Route::get('/all-products', 'HomeController@allProducts');
+Route::get('/package', 'HomeController@package');
 Route::get('/coin', 'HomeController@coin');
 Route::get('/getCoinDataByAjax', 'HomeController@getCoinDataByAjax');
 Route::get('/getCoinBonusById/{id}', 'HomeController@getCoinBonusById');
@@ -364,12 +377,13 @@ Route::get('all_ajax_products', 'HomeController@ajaxAllProducts');
 Route::get('/ip', 'HomeController@ip');
 
 Route::get('/clear-cache', function() {
+    
      Artisan::call('cache:clear');
     Artisan::call('view:clear');
       return redirect('dashboard');
 });
 Route::get('/product/{id}', 'HomeController@product');
-Route::get('/{id}', 'HomeController@product');
+Route::get('/{id}', 'HomeController@product')->name('product_route');
 Route::get('/{name}/{id}', 'HomeController@affiliate_check_controller');
 
 

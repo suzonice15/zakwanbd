@@ -1,0 +1,3 @@
+ALTER TABLE `product` ADD `package` VARCHAR(50) NULL AFTER `seo_content`, ADD `unit` VARCHAR(100) NULL AFTER `package`;
+
+visitors table dite hobe

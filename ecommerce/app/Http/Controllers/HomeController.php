@@ -152,9 +152,7 @@ class HomeController extends Controller
     }
 
     public function allProducts()
-    {
-
-
+    { 
         $data['products'] = DB::table('product')
             ->select('product.product_id', 'discount_price', 'product_price', 'product_name', 'folder', 'feasured_image', 'product_title','product_subtitle')
             ->where('product.status', '=', 1)
@@ -162,6 +160,17 @@ class HomeController extends Controller
             ->simplePaginate(36);
         return view('website.all_products', $data);
     }
+    public function package()
+    { 
+        $data['products'] = DB::table('product')
+            ->select('product.product_id', 'discount_price', 'product_price', 'product_name', 'folder', 'feasured_image', 'product_title','product_subtitle')
+            ->where('product.status', '=', 1)
+            ->whereNotNull('product.package')
+            ->orderBy('modified_time', 'desc')
+            ->get();
+        return view('website.package', $data);
+    }
+    
 
     public function ajaxAllProducts(Request $request)
     {

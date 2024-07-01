@@ -55,8 +55,10 @@ class OrderController extends Controller
 
     public function pagination(Request $request)
     {
-        if ($request->ajax()) {
+        
+        
             $status = $request->get('status');
+           
             $admin_user_status=Session::get('status');
             $staff_id=Session::get('id');            
             $shop_id=Session::get('shop_id');            
@@ -66,22 +68,23 @@ class OrderController extends Controller
                 }else{
                     $orders = DB::table('order_data')->where('shop_id',$shop_id)->where('order_status', $status)->orderBy('order_id', 'desc')
                         ->paginate(10);
-                } 
+                }
+                
             return view('admin.order.pagination', compact('orders'));
-        }
+       
     }
 
     public function pagination_by_search(Request $request)
     {
 
-        if ($request->ajax()) {
+       
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $orders = DB::table('order_data')->orWhere('order_id', 'LIKE', '%' . $query . '%')
                 ->orderBy('order_id', 'desc')
                 ->paginate(10);
             return view('admin.order.pagination', compact('orders'));
-        }
+        
 
     }
 
@@ -101,7 +104,7 @@ class OrderController extends Controller
     public function pagination_search_by_phone(Request $request)
     {
 
-        if ($request->ajax()) {
+        
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $orders = DB::table('order_data')
@@ -109,14 +112,14 @@ class OrderController extends Controller
                 ->orderBy('order_id', 'desc')
                 ->paginate(500);
             return view('admin.order.pagination', compact('orders'));
-        }
+        
 
     }
 
     public function pagination_search_by_product_code(Request $request)
     {
 
-        if ($request->ajax()) {
+       
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $orders = DB::table('order_data')
@@ -125,7 +128,7 @@ class OrderController extends Controller
                 ->orderBy('order_data.order_id', 'desc')
                 ->paginate(100);
             return view('admin.order.pagination', compact('orders'));
-        }
+        
 
     }
 
@@ -133,7 +136,7 @@ class OrderController extends Controller
     public function pagination_search_by_affiliate_id(Request $request)
     {
         $shop_id= Session::get('shop_id');       
-        if ($request->ajax()) {
+      
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $orders = DB::table('order_data')
@@ -142,14 +145,14 @@ class OrderController extends Controller
                 ->orderBy('order_id', 'desc')
                 ->paginate(500);
             return view('admin.order.pagination', compact('orders'));
-        }
+        
 
     }
 
 
     public function pagination_by_status(Request $request)
     {
-        if ($request->ajax()) {
+        
             $status = $request->get('status');
             $admin_user_status=Session::get('status');
             $staff_id=Session::get('id');
@@ -163,7 +166,7 @@ class OrderController extends Controller
                     ->paginate(10);
             }
             return view('admin.order.pagination', compact('orders'));
-        }
+        
 
     }
 
@@ -236,12 +239,17 @@ class OrderController extends Controller
                 $order_details['staff_id']=Session::get('id');
                 DB::table('order_details')->insert($order_details);
                 shopStockReduce($shop_id,$product_id,$quantity);
-
             }     
+
             $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
-            $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');     
+            $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');   
+            
+            if($request->discount_price !=$commision){
+
+                $this->commisionDistribution($order_id, $commision,$total_profit);  
+            }
            
-            $this->commisionDistribution($order_id, $commision,$total_profit);   
+            
 
             return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
         } else {
@@ -504,7 +512,7 @@ class OrderController extends Controller
     }
     public function courierViewReportPagination(Request $request)
     {
-        if ($request->ajax()) {
+        
 
 
             $courier_id = $request->get('courier_id');
@@ -543,7 +551,7 @@ class OrderController extends Controller
                 ->orderBy('order_id', 'desc')
                 ->paginate(10);
             return view('admin.order.courierViewReportPagination', compact('orders'), $data);
-        }
+        
     }
     public function invoicePrint($id)
     {
@@ -562,8 +570,10 @@ class OrderController extends Controller
         $data['title'] = 'Sell Transfer';
         $data['admins'] = DB::table('admin')->where('shop_id',session::get('shop_id'))
         ->where('admin_id','!=',session::get('id'))
-        ->get();    
+        ->get();   
+
         $data['company_balance'] = DB::table('admin')->where('admin_id',session::get('id'))->value('company_balance');    
+        $data['amounts'] = DB::table('amount_transfer_to_bank')->where('created_by',session::get('id'))->orderBy('id','desc')->get();    
 
         return view('admin.order.sellTransfer.index', $data);
     }
@@ -597,6 +607,49 @@ class OrderController extends Controller
         return redirect('admin/sellTransfer')->with('success', 'Balance Transfer successfully.');        
 
     }
+    public function ManagersellTransfer(Request $request)
+    {
+    
+     $check=DB::table('amount_transfer_to_bank')->where('date',date("Y-m-d"))->where('created_by',session::get('id'))->first();
+     if($check){
+        return redirect('admin/sellTransfer')->with('error', 'You already Given Balance to Bank Today');   
+     }
+
+        $sell_man_balance=DB::table('admin')->where('admin_id',session::get('id'))->first();  
+        if($sell_man_balance->company_balance > 0){            
+            $history['created_by']=session::get('id');
+            $history['approved_by']=0;
+            $history['status']=0;          
+            $history['zone_id']=session::get('zone_id');
+            $history['shop_id']=session::get('shop_id');
+            $history['amount']=$request->main_manager_account;
+            $history['bank_name']=$request->bank_name;
+            $history['voucer_no']=$request->voucer_no;
+            $history['note']=$request->note;
+            $history['year']=date("Y");
+            $history['month']=date("m",strtotime($request->date));
+            $history['date']=date("Y-m-d");
+            $history['created_at']=date("Y-m-d H:i:s");
+            $history['updated_at']=date("Y-m-d H:i:s");
+
+            $image = $request->file('picture');
+
+            if ($image) {    
+                $image_name = session::get('id').date("_d_m_Y"). '.' . $image->getClientOriginalExtension();    
+                $destinationPath = public_path('/voucer');    
+                $resize_image = Image::make($image->getRealPath());    
+                $resize_image->resize(300, 300, function ($constraint) {    
+                })->save($destinationPath . '/' . $image_name);  
+                $history['picture'] = $image_name;
+            }
+    
+            DB::table('amount_transfer_to_bank')->insert($history);
+        }else{
+            return redirect('admin/sellTransfer')->with('error', 'Balance Transfer Failed.');   
+        }
+        return redirect('admin/sellTransfer')->with('success', 'Balance Transfer successfully.');        
+
+    }   
 
     public function orderModalPrint($id)
     {
@@ -607,19 +660,17 @@ class OrderController extends Controller
             ->select('c.*')
             ->first();
         return view('admin.order.modal_invoice', $data);
-    }
-
-    
+    }    
     public function confirmPayment($id)
     {
            $paid = DB::table('order_data')
-            ->where('order_id', $id)
-            ->update(['is_paid'=>1]);        
-       if($paid){
-        echo "done";
-       }else{
-        echo "failed";
-       }
+                    ->where('order_id', $id)
+                    ->update(['is_paid'=>1]);        
+            if($paid){
+                echo "done";
+            }else{
+                echo "failed";
+            }
 
     }
     public function orderEditHistory($id)

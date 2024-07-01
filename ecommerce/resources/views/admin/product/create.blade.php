@@ -134,7 +134,7 @@
                                         <option value="1">Published</option>
                                         <option value="0">Unpublished</option>
                                     </select></div>
-                                <div class="form-group ">
+                                <div class="form-group " style="display:none">
                                     <label for="product_promotion_active">Promosion Product
                                         </label> <select name="product_promotion_active"
                                                                class="form-control">

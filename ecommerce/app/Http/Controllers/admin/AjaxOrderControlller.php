@@ -48,7 +48,8 @@ class AjaxOrderControlller extends Controller
             <input id="product_quntity_'.$product->barcode.'" onchange="quantityChange(this.value,'.$product->product_id.')"   type="number" name="products['.$product->product_id.']" class="form-control" value="1"   style="width:70px;">
             <input    type="hidden" name="price['.$product->product_id.']" class="form-control" value="'.$sell_price.'"   style="width:70px;">
             <input    type="hidden"   class="form-control barcode" value="'.$product->barcode.'"   >
-        </td> <td class="text-center" >'.$product->top_deal.'</td>
+            <input    type="hidden"  id="affiliate_original_profite_'.$product->product_id.'"  class="form-control" value="'.$product->top_deal.'"   >
+        </td> <td class="text-center affiliate-income-price" id="affiliate_profite_'.$product->product_id.'" >'.$product->top_deal.'</td>
         <td class="text-center" id="price_'.$product->product_id.'">'.$sell_price.'</td>
        
          <td class="text-center subtotal_price" id="subtotal_'.$product->product_id.'">'.$sell_price.'</td>

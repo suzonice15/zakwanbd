@@ -93,13 +93,51 @@ class ReportController extends Controller
         
         $data['main'] = 'Top Sell Products';
         $data['active'] = 'Top Sell Products';
-        $data['title'] = '  '; 
-       
+        $data['title'] = '  ';        
        $data['products']= DB::table('order_details')
        ->select([DB::raw("SUM(qnt) as total"),'product_id'])       
        ->groupBy('product_id')->orderBY('total','desc')->get(); 
         return view('admin.report.heightSellProduct',$data);
     }
+    public function bankTransaction()
+    {
+        
+        $data['main'] = 'Bank Transaction';
+        $data['active'] = 'Bank Transaction';
+        $data['title'] = '  ';        
+       $data['banks']= DB::table('amount_transfer_to_bank')    
+       ->orderBy('id','desc')->orderBy('status','asc')->get(); 
+        return view('admin.report.bankTransaction',$data);
+    }
+    public function BankReceive($id)
+    {
+               
+       $bank= DB::table('amount_transfer_to_bank')    
+       ->where('id',$id)->first(); 
+       if($bank->status==0){
+          $admin_user=DB::table('admin')->where('admin_id',$bank->created_by)->first();  
+          if($admin_user->company_balance >= $bank->amount) {
+            $admin_data['company_balance']=$admin_user->company_balance-$bank->amount;
+            DB::table('admin')->where('admin_id',$bank->created_by)->update($admin_data);
+          //  update balance
+            $history['approved_by']= Session::get('id');
+            $history['status']= 1;
+            DB::table('amount_transfer_to_bank')->where('id',$id)->update($history);
+            return redirect('/admin/report/bankTransaction')->with('success','Approved Successfully');
+          }else{
+            return redirect('/admin/report/bankTransaction')->with('error','Low Blance Of Manager');
+          }
+      
+       }else{
+        return redirect('/admin/report/bankTransaction')->with('error','Already Approved');
+       }
+
+        
+    }
+
+    
+
+    
 
     
 
@@ -131,10 +169,7 @@ class ReportController extends Controller
                 $product_ids=DB::table('product_stocks')->where('shop_id', $shop_id)->where('stock', '>',0)->pluck('product_id')->toArray(); 
                 $data['products']=DB::table('product')->whereNotIn('product_id', $product_ids)->get();
             }
-
         }
-
-
         $data['reports']= Zone::latest()->get();
         return view('admin.report.stockReport',$data);
     }

@@ -78,18 +78,10 @@
 
         function sorting(order){
             $("#order_by").val(order)
-
-
                 jQuery("#post-data").empty();
-
-
-            loadMoreData(1);
+                            loadMoreData(1);
 
         }
-
-
-
-
         function loadMoreData(page){
    var category_name=$('#category_name').val();
    var order_by=$('#order_by').val();
@@ -106,6 +98,7 @@
                 })
         }
 
+       
     </script>
 
 

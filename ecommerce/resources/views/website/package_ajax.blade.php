@@ -14,11 +14,11 @@
                             <div class="freepeoduct"> <strong>-</strong> {{$product->product_price- $product->discount_price}} Tk</div>
                         @endif
                         <div class="box">
-                            <a  href="{{ url('/') }}/{{$product->product_name}}" >
+                            <a  href="{{ url('/') }}/package/{{$product->product_name}}" >
                                 <img  style="width: 100%" class="img-fluid p-2"  src="{{ url('/public/uploads') }}/{{ $product->folder }}/thumb/{{ $product->feasured_image }}" alt="{{$product->product_title}}">
                       </a>  </div>
                         <div class="card-body">
-                            <p class="product-title"><a  href="{{ url('/') }}/{{$product->product_name}}" >{{$product->product_title}} </a></p>
+                            <p class="product-title"><a  href="{{ url('/') }}/package/{{$product->product_name}}" >{{$product->product_title}} </a></p>
                             <p class="product-title">  {{ $product->product_subtitle }}</p>
                             <div class="text-center price ">
                                 <?php

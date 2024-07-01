@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Session;
 
 class MenuPermission extends Controller
 {
@@ -120,9 +121,14 @@ class MenuPermission extends Controller
 
 
 
-$result=DB::table('roles')->where('id',$id)->update(['html'=>$htmls]); 
+$result=DB::table('roles')->where('id',$id)->update(['html'=>$htmls,'updated_at'=>date("Y-m-d H:i:s")]); 
  
         if ($result) {
+          $session_role_id=Session::get('status');
+          if($session_role_id==$id){
+            $menuList=DB::table('roles')->where('id',$id)->value('html'); 
+            Session::put('htmls', $menuList);
+          }
             return redirect('admin/menuPermission')
                 ->with('success', 'Updated successfully.');
         } else {

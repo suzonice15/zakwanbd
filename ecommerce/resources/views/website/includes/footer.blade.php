@@ -208,12 +208,7 @@ height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/user.jpg">
 @yield('js')
 <script>
     $(document).ready(function ($) {
-        $.ajax({
-            url: "{{url('/visitor')}}",
-            method: "get",
-            success: function (data) {
-            }
-        });
+       
         jQuery('#customerMessage').click(function(){
             var customer_phone = $('#mobile_number').val();
             var customermessagebody = $('#customermessagebody').val();
@@ -361,6 +356,22 @@ height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/user.jpg">
             }
         })
     })
+    <?php $routeName=\Request::route()->getName();  ?>
+    @if($routeName !='product_route')
+    AddTOCartPlusMinus();
+    @endif
+
+    function AddTOCartPlusMinus(product_id=null){
+            $.ajax({
+            type: "GET",
+            url: "{{url('visitorAdd')}}",
+            data:{product_id,url:"{{url()->current()}}"},
+            success: function (data) {
+              
+            }
+        })
+        }
+   
 </script>
 </body>
 </html>

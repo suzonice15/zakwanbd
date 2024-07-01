@@ -17,11 +17,10 @@
               <?php if(isset($main) ) {  echo $main ; }    ?>
               <small>Control panel</small>
           </h1>
-          {{--<marquee class="btn btn-info">--}}
-          {{----}}
-          {{--</marquee>--}}
+        <!-- <marquee class="btn btn-info">  
+          </marquee>  -->
           <ol class="breadcrumb">
-              <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+              <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
               <li class="active">  <?php if(isset($active) ) {  echo $active ; }    ?></li>
           </ol>
       </section>

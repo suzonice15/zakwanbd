@@ -112,15 +112,14 @@
                             <label for="default_product_terms">Default Product Terms</label>
                             <textarea class="form-control ckeditor" rows="10" name="default_product_terms"><?= get_option('default_product_terms') ?></textarea>
                         </div>
-                        <div class="form-group " style="display: none">
-                            <label for="default_product_terms">Promosion Offer Active</label>
-                            <select class="form-control" name="promosion_offer_active">
-                                <option>Select</option>
-                                <option value="1">Active</option>
-                                <option value="0">In Active</option>
 
-                            </select>
+                        <div class="form-group ">
+                            <label for="facebook_pixel">Facebook Pixel </label>
+                            <textarea class="form-control" rows="20" name="facebook_pixel"><?= get_option('facebook_pixel') ?></textarea>
                         </div>
+
+
+                      
 
                     </div>
                 </div>

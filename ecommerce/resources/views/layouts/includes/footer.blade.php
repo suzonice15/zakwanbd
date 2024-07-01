@@ -54,22 +54,9 @@
 
             });
 //
-     //  $(".datepicker").datepicker().datepicker("setDate", new Date());
+      $(".datepicker").datepicker().datepicker("setDate", new Date());
 
         $(":selected").css("background-color", "green");
-//        $('.timepicker').timepicker({
-//            showInputs: false,
-//        });
-
-
-
-
-// Add the following attributes into your BODY tag
-
-
-
-
-
     });
 </script>
 <script>

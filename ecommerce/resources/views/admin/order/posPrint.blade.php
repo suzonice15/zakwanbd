@@ -117,11 +117,16 @@ table, th, td {
 </p> 
   </div>
 
-  <script >
- 
-    window.print();
- 
+  <script> 
+    window.print(); 
 
+  setTimeout(redirectFunction, 3000);
+  
+function redirectFunction() {
+   window.location.href = '{{url('/')}}/admin/order/create';
+}
+
+     
 </script>
 
 

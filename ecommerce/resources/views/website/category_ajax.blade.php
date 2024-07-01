@@ -32,16 +32,16 @@
                                     }
                                     ?>
                                 <p> @money($sell_price)</p>
-                            </div>
-                            <span class="star-rating text-center "><span style="position: relative;top: 5px;">({{totalProductRiviewCount($product->product_id)}})</span></span>
+                            </div>  
+                            
+                            @include('website.includes.add_to_cart')
+
 
 
                         </div>
+                      
                     </div>
-                </div>
-
-
-
+                </div>  
     @endforeach
 @endif
 

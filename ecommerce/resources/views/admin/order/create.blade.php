@@ -118,7 +118,7 @@ Add New Order
                                    <th class="text-center" width="5%">Code</th>
                                    <th class="image text-center" width="5%">Image</th>
                                    <th class="quantity text-center" width="5%">Qty</th>
-                                   <th class="quantity text-center" width="5%">Commision</th>
+                                   <th class="quantity text-center" width="5%">Affiliate Profit</th>
                                    <th class="price text-center" width="10%">Price</th>
                                    <th class="total text-center" width="10%">Sub-Total</th>
                                    <th class="total text-center" width="3%">Delete</th>
@@ -128,7 +128,9 @@ Add New Order
                                 <tbody id="product_show">
 
                                 <tr> 
-                                    <td class="text-right" colspan='6'>  Total Amount</td> 
+                                  <td class="text-right" colspan='4'>Total Affiliate Profit</td> 
+                                   <td class="text-center" id="total_affiliate_profite_sum" ></td> 
+                                    <td class="text-right" >  Total Amount</td> 
                                     <td class="text-center"><span id="total_subtotal_price"></span></td> 
                                     <td>
                                 </tr>
@@ -206,14 +208,28 @@ Add New Order
                 function quantityChange(quantity,product_id){
                  
                     if(quantity >=1 ){     
-                        console.log("here...")              
+                               
                             let price=parseInt($("#price_"+product_id).text());
                             let total_sub_total=price*quantity;
                             $("#subtotal_"+product_id).text(total_sub_total)
+
+                              let affiliate_profite=parseInt($("#affiliate_original_profite_"+product_id).val());
+                             let affiliate_total_profite=affiliate_profite*quantity;
+                            $("#affiliate_profite_"+product_id).text(affiliate_total_profite) 
+
                             subTotalGenerate();
                             }else{
                                 alert("minimum 1 quantity need")
                             }                   
+                }
+
+                function TotalAffiliateIncome(){ 
+                  var price = 0;
+                    $('.affiliate-income-price').each(function(){
+                        price += parseFloat($(this).text());  
+                    }); 
+                  $("#total_affiliate_profite_sum").text(price);  
+                 
                 }
 
                 
@@ -225,19 +241,22 @@ Add New Order
                     }); 
                   $("#total_subtotal_price").text(price);  
                   totalGenerate();
+                  TotalAffiliateIncome();
                 }
+
                 function totalGenerate(){
 
                    let subtotal= parseInt($("#total_subtotal_price").text());   
-                   let shipping_charge= parseInt($("#shipping_charge").val());   
+                 
                    let discount_price= parseInt($("#discount_price").val()); 
-                   let advabced_price= parseInt($("#advabced_price").val()); 
+                   let advabced_price= parseInt($("#advabced_price").val()) ?  parseInt($("#advabced_price").val()) :0; 
                    
-                   let summation=subtotal+shipping_charge;
+                   let summation=subtotal;
                    let subtract=advabced_price+discount_price;
                    let total=summation-subtract;
                     $("#total_amount").text(total);
-                    $("#order_total").val(total);                    
+                    $("#order_total").val(total);  
+                              
                 }
 
                 $('#shipping_charge , #discount_price  , #advabced_price').on("input",function(e){                    

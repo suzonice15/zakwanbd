@@ -182,6 +182,30 @@
                                         </select>
                                     </div>
 
+                                    <div class="form-group ">
+                                        <label for="product_type">Packages</label>
+                                        <select name="package[]" id="package"  class="form-control select2"  multiple>
+                                               <option    value="">Select Product</option>
+                                               <?php 
+                                               $productIds=array();
+                                               if($product->package){
+                                                $productIds = json_decode($product->package); // Decodes JSON string into PHP array
+                                                // Convert each element to integer
+                                                $productIds = array_map('intval', $productIds);
+                                               }
+                                               ?>
+                                               @foreach($products as $product_row)
+                                               <option
+                                                @foreach($productIds as $p_id) 
+                                                 @if($p_id==$product_row->product_id)
+                                                 selected 
+                                                 @endif
+                                                   @endforeach  
+                                                     value="{{$product_row->product_id}}">{{$product_row->product_title}} ({{$product_row->sku}}) </option>
+                                               @endforeach
+                                        </select>
+                                    </div>
+
 
                                 </div>
                             </div>

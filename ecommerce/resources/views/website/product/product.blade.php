@@ -136,5 +136,17 @@
             $(".xzoom").attr('src', image);
             $(".xzoom").attr('xoriginal', image);
         })
+        AddTOCartPlusMinus({{$product->product_id}});
+       
+    function AddTOCartPlusMinus(product_id=null){
+            $.ajax({
+            type: "GET",
+            url: "{{url('visitorAdd')}}",
+            data:{product_id,url:"{{url()->current()}}"},
+            success: function (data) {
+              
+            }
+        })
+        }
     </script>
 @endsection

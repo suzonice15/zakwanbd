@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Cart;
+use Session;
+use Jenssegers\Agent\Agent;
+
 
 class AjaxController extends Controller
 {
@@ -59,6 +62,43 @@ class AjaxController extends Controller
 
 
 
+    }
+    public function AddTOCartPlusMinus(Request $request){
+        $product_id=$request->product_id;
+        $quntity=$request->quntity;
+       
+         $product=DB::table('product')->where('product_id',$product_id)->first();  
+         if($product->discount_price){
+             $price=$product->discount_price; 
+         } else{
+             $price=$product->product_price;
+         }
+         $product_title=$product->product_title; 
+         $picture= url('/public/uploads').'/'.$product->folder.'/thumb/'.$product->feasured_image;
+        
+         Cart::add(array(
+             'id' => $product_id, // inique row ID
+             'name' => $product_title,
+             'price' => $price,
+             'quantity' => $quntity,
+             'attributes' => array('picture'=>$picture)
+         ));
+        
+         $items = \Cart::getContent(); 
+        
+         $total=0;
+         $quantity=0;
+         foreach($items as $row) { 
+             $total = \Cart::getTotal();
+             $quantity +=$row->quantity; 
+         }
+          $quantity= Cart::getContent()->count(); 
+         $data1=[
+             'total'=>$total,
+             'count'=>$quantity,
+         ]; 
+         return response()->json(['result'=>$data1]);
+ 
     }
 
     public function hotdealProduct(Request $request){
@@ -118,6 +158,54 @@ class AjaxController extends Controller
       DB::table('review')->insert($data);
     }
 
+    public function visitorAdd(Request $request){ 
+
+       $admin_login= Session::get('status');
+       if($admin_login){
+        // for admin account stop 
+        exit();
+       }
+        $website=$request->url;
+        $user_location=''; 
+        $data['product_id']=$request->product_id;
+        $data['website']=$website;
+        $data['ip']=$request->ip();
+        $user_ip = $data['ip'];
+        $location = $this->getLocation($user_ip);
+       
+        if ($location) { 
+            if (!$location || !isset($location['city']) || !isset($location['region']) || !isset($location['country'])) {
+                $user_location=''; 
+            }  else{
+            $user_location=$location['city'] .','.$location['region'] .','. $location['country'] ;
+            }
+        }  
+       date_default_timezone_set('Asia/Dhaka');
+
+        $data['created_at']=date('Y-m-d h:i:s');
+        $data['location']=$user_location;
+        $data['referer']= $request->headers->get('referer');       
+        $agent = new Agent();
+        $device = $agent->isDesktop();
+        if ($agent->isDesktop() == 1) {
+            $device= "desktop";
+        } elseif ($agent->isTablet() == 1) {
+            $device=  "tablet";
+        } else {
+             $device= "mobile";
+        }
+        $data['agent']=$device;
+        DB::table('visitors')->insert($data);
+    } 
     
+    function getLocation($ip) {
+        $url = "https://ipinfo.io/{$ip}/json";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $locationData = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($locationData, true);
+    } 
 
 }

@@ -176,8 +176,6 @@ public  function commentUpdate(Request $request,$id){
             $messageBody .= "<br>";
             $messageBody .= '<table rules="all" style="border-color: #666;" cellpadding="10">';
             $messageBody .= "<tr style='background: #eee;'><td>" . $request->comment_from_admin . "</td></tr>";
-
-
             $messageBody .= "</table>";
             $messageBody .= "</body></html>";
             Mail::send([], [], function ($message) use ($email, $messageBody, $senderEmail) {
@@ -194,11 +192,7 @@ public  function commentUpdate(Request $request,$id){
     } catch (Exception $e){
 
     }
-
-
     return redirect('admin/questions');
-
-
 }
 
 
@@ -269,9 +263,7 @@ public  function commentUpdate(Request $request,$id){
         $email = $request->email;
         $redirect = $request->redirect;
         $password = md5($request->password) . 'admin';
-        // echo "<pre/>";
-        // print_r($password);
-        // exit();
+       
         $result = DB::table('admin')->where('email', $email)->where('password', $password)->first();
         if ($result) {
             $id = $result->admin_id;
@@ -301,6 +293,7 @@ public  function commentUpdate(Request $request,$id){
 
     }
     public function getShopData($zone_id){
+
         $html='<select required class="form-control select2 " name="shop_id" id="shop_id"  >
         <option value="" >Select Option</option>';
        $shops=Shop::where('zone_id',$zone_id)->get();
@@ -309,7 +302,6 @@ public  function commentUpdate(Request $request,$id){
        }
        $html .='</select>';
        echo $html;
-
 
     }
 

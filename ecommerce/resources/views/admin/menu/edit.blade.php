@@ -45,7 +45,10 @@
                                                         <td>Order  Report</td>
                                                         <td><input   type="checkbox" name="menu[1][205]" @if(in_array('205',$role_menu)) checked @endif value="Order  Report,admin/order/report"  style="margin-left:440px"/></td>
                                                     </tr> 
-                                                   
+                                                    <tr>
+                                                        <td>Personal  Sell Report</td>
+                                                        <td><input   type="checkbox" name="menu[1][207]" @if(in_array('207',$role_menu)) checked @endif value="Personal  Sell Report,admin/order/PersonalSellReport"  style="margin-left:440px"/></td>
+                                                    </tr>                                                    
                                                      
                                                 </table>
                                </li>
@@ -177,6 +180,10 @@
                                                        <tr>
                                                             <td>Stock Check</td>
                                                             <td><input   type="checkbox" name="menu[6][31]" @if(in_array('31',$role_menu)) checked @endif value="Stock Check,admin/productStockCheck"  style="margin-left:440px"/></td>
+                                                        </tr> 
+                                                        <tr>
+                                                            <td>Bank Transaction</td>
+                                                            <td><input   type="checkbox" name="menu[6][33]" @if(in_array('33',$role_menu)) checked @endif value="Bank Transaction,admin/report/bankTransaction"  style="margin-left:440px"/></td>
                                                         </tr> 
                                                     </table>
                                     </li>

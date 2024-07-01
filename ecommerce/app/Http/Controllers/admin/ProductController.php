@@ -108,11 +108,11 @@ public  function  unpublishedProduct(){
             //  return redirect('admin');
             Redirect::to('admin')->with('redirect', $url)->send();
         }
-        $sku= DB::table('product')->select('product_id')->orderBy('product_id','desc')->value('product_id');
+        $sku= DB::table('product')->select('product_id')->max('product_id');
 
         if($sku < 10){
             $value=$sku+1;
-            $data['sku']  ='0000'.$value;
+            $data['sku']  ='000'.$value;
            
         } else if( $sku > 10 and $sku < 100){
                $value=$sku+1;
@@ -120,7 +120,7 @@ public  function  unpublishedProduct(){
             
         } else {
                 $value=$sku+1;
-            $data['sku']  ='00'.$value;
+            $data['sku']  =$value;
             
         }
         
@@ -381,7 +381,7 @@ public  function  unpublishedProduct(){
 
     public function edit($id)
     {
-
+      $data['products']=DB::table('product')->orderBy('product_id', 'desc')->get();
         $data['product'] = DB::table('product')->where('product_id', $id)->first();
         if( $data['product'] ){
             $data['main'] = 'Products';
@@ -407,6 +407,7 @@ public  function  unpublishedProduct(){
     public function update(Request $request, $product_id)
     {
 
+       
         date_default_timezone_set('Asia/Dhaka');
         $discount_price_row=DB::table('product')->select('discount_price')->where('product_id',$product_id)->first();
         if($discount_price_row){
@@ -457,6 +458,11 @@ public  function  unpublishedProduct(){
             $pont_price=round(($sell_price*10)/100);
         }
         $data['barcode'] =  $request->barcode;
+        if($request->package){
+           // $data['package'] = json_encode($request->package); 
+            DB::table('product')->whereIn('product_id',$request->package)->update(['package'=>json_encode($request->package)]);
+        }
+        
         $data['product_subtitle'] =  $request->product_subtitle;
         $data['hot_deal_product'] = $request->hot_deal_product;
         $data['product_point'] = $pont_price;

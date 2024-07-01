@@ -39,8 +39,7 @@ if(session::get('status') !=1 ){
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>{{$new}}</h3>
-                    <h4>@money($new_sum)</h4>
-
+                  
                     <p>New Orders</p>
                 </div>
                 <div class="icon">
@@ -56,7 +55,7 @@ if(session::get('status') !=1 ){
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>{{$processing}}</h3>
-                    <h4>@money($processing_sum)</h4>
+                  
 
                     <p>On Process</p>
                 </div>
@@ -72,7 +71,7 @@ if(session::get('status') !=1 ){
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>{{$on_courier}}</h3>
-                    <h4>@money($on_courier_sum)</h4>
+                   
 
                     <p>With Courier</p>
                 </div>
@@ -87,9 +86,7 @@ if(session::get('status') !=1 ){
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>{{$delivered}}</h3>
-                <h4>@money($delivered_sum)</h4>
-
+                <h3>{{$delivered}}</h3> 
                 <p>Delivered</p>
             </div>
             <div class="icon">
@@ -108,9 +105,7 @@ if(session::get('status') !=1 ){
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>{{$refund}}</h3>
-                <h4>@money($refund_sum)</h4>
-
+                <h3>{{$refund}}</h3> 
                 <p>Refunded</p>
             </div>
             <div class="icon">
@@ -125,8 +120,7 @@ if(session::get('status') !=1 ){
         <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>{{$cancled}}</h3>
-                <h4>@money($cancled_sum)</h4>
-
+              
                 <p>Cancelled</p>
             </div>
             <div class="icon">
@@ -141,8 +135,7 @@ if(session::get('status') !=1 ){
         <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>{{$completed}}</h3>
-                <h4>@money($completed_sum)</h4>
-
+                
                 <p>Completed</p>
             </div>
             <div class="icon">
@@ -157,7 +150,7 @@ if(session::get('status') !=1 ){
         <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>{{$today_order}}</h3>
-                <h4>@money($today_order_sum)</h4>
+               
 
                 <p>Today Orders</p>
             </div>
@@ -205,22 +198,7 @@ if(session::get('status') !=1 ){
             </a>
     </div>
 
-    <div class="col-lg-3 col-xs-6">
-        <a href="{{url('admin/unpublishedProduct')}}" style="color: white;" >
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>{{$sohojbuyVisitor}}</h3>
 
-
-                    <p>Today Shop Visitor </p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-         
-            </div>
-        </a>
-    </div>
     <div class="col-lg-3 col-xs-6">
         <a href="{{url('admin/unpublishedProduct')}}" style="color: white;" >
             <div class="small-box bg-aqua">
@@ -254,7 +232,12 @@ if(session::get('status') !=1 ){
         </div>  
 </div>
 
-
+<div class="col-lg-12 col-xs-12">
+        <a href="{{url('admin/shopVisitorList')}}" style="color: black;" >  
+                    <h3 style="font-size: 25px;font-weight: bold;color: red;text-align: center;">Today Shop Visitor: <span id="shop_counter">{{$sohojbuyVisitor}}</span></h3>   
+                
+        </a>
+    </div>
 <?php
 }
 
@@ -420,8 +403,41 @@ if(session::get('status')==1 || session::get('status')=='admin'){
 </section>
     <?php } ?>
 
+    <input type="hidden"  id="old_v_shop" value="{{$sohojbuyVisitor}}" />
 
     <script>
+ 
+      function visitorCounter(target,initialvalue,counter){
+        target= parseInt(target);
+        let count = initialvalue; 
+            let duration = 10 * 1000; // 10 seconds
+            let interval = duration / target;
+            let intervalID = setInterval(function() {
+                console.log(count,target)
+                $('#'+counter).text(count);
+                if (count === target) {
+                    clearInterval(intervalID);
+                }
+                count++;
+            }, interval);
+      }
+      setInterval(() => {
+        $.ajax({
+            type: "GET",
+            url: "{{url('shop_visitor_count')}}", 
+            success: function (data) { 
+                let old_v_shop=parseInt($("#old_v_shop").val()); 
+                if(data > old_v_shop){
+                    console.log("run software")
+                     $("#old_v_shop").val(data);
+                     visitorCounter(data,old_v_shop,'shop_counter')
+                }              
+            }
+        })       
+      }, 30000);
+      
+           
+        
         
 window.onscroll = function() {scrollFunction()};
 

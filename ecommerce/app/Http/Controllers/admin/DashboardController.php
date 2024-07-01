@@ -17,10 +17,11 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
+      
     }
     public function index()
     {
-        date_default_timezone_set("Asia/Dhaka");
+        date_default_timezone_set("Asia/Dhaka");  
         $user_id=AdminHelper::Admin_user_autherntication();
         if($user_id < 1){
             //  return redirect('admin');
@@ -28,126 +29,45 @@ class DashboardController extends Controller
         }
 
        $status= Session::get('status');
-        if($status=='vendor'){
+   
             // $data['orders']= DB::table('order_data')->select('advabced_price','order_status')->get();
             $today = date('Y-m-d');
             $data['new'] = DB::table('order_data')->where('order_status', 'new')->count();
-            $data['new_sum'] = DB::table('order_data')->where('order_status', '=', 'new')->sum('advabced_price');
            
-            $data['processing'] = DB::table('order_data')->where('order_status', 'processing')->count();
-            $data['processing_sum'] = DB::table('order_data')->where('order_status', 'processing')->sum('advabced_price');
-            $data['on_courier'] = DB::table('order_data')->where('order_status', 'on_courier')->count();
-            $data['on_courier_sum'] = DB::table('order_data')->where('order_status', 'on_courier')->sum('advabced_price');
-            $data['delivered'] = DB::table('order_data')->where('order_status', 'delivered')->count();
-            $data['delivered_sum'] = DB::table('order_data')->where('order_status', 'delivered')->sum('advabced_price');
-            $data['refund'] = DB::table('order_data')->where('order_status', 'refund')->count();
-            $data['refund_sum'] = DB::table('order_data')->where('order_status', 'refund')->sum('advabced_price');
-            $data['cancled'] = DB::table('order_data')->where('order_status', 'cancled')->count();
-            $data['cancled_sum'] = DB::table('order_data')->where('order_status', 'cancled')->sum('advabced_price');
-            $data['completed'] = DB::table('order_data')->where('order_status', 'completed')->count();
-            $data['vendorTotalOrder'] = DB::table('vendor_orders')
-                ->join('order_data','order_data.order_id','=','vendor_orders.order_id')
-                ->where('vendor_orders.vendor_id',Session::get('id'))
-                ->groupBy('order_data.order_id')
-                ->orderBy('vendor_orders.order_id', 'desc')
-                ->count();
-            $data['completed_sum'] = DB::table('order_data')->where('order_status', 'completed')->sum('advabced_price');
-            $data['today_order'] = DB::table('order_data')->where('order_date', $today)->count();
-            $data['today_order_sum'] = DB::table('order_data')->where('order_date', $today)->sum('advabced_price');
-            $data['products'] = DB::table('product')->where('vendor_id',Session::get('id'))->count();
-             
-            $data['myBalance']=DB::table('vendor')->where('vendor_id',Session::get('id'))->first();
-            $data['verify']=DB::table('vendor')->where('vendor_id',Session::get('id'))->first();
-            $data['totalWithdrawAmount'] = DB::table('vendor_withdraw_amount')->where('vendorId',Session::get('id'))->where('status','1')->sum('withdrawAmount');
-            $data['total_pending_order'] = DB::table('product')->where('status','=',0)->where('vendor_id',Session::get('id'))->count();
-            $data['total_approved_order'] = DB::table('product')->where('status','=',1)
-                ->where('vendor_id',Session::get('id'))->count();
-            $data['total_cancel_order'] = DB::table('vendor_orders')->join('order_data','order_data.order_id','=','vendor_orders.order_id')->where('vendor_orders.vendor_id',Session::get('id'))->where('order_data.order_status','cancled')->orderBy('vendor_orders.order_id', 'desc') ->groupBy('vendor_orders.order_id')->count();
-            $data['total_refund_order'] = DB::table('vendor_orders')->join('order_data','order_data.order_id','=','vendor_orders.order_id')->where('vendor_orders.vendor_id',Session::get('id'))->where('order_data.order_status','refund')->orderBy('vendor_orders.order_id', 'desc') ->groupBy('vendor_orders.order_id')->count();
-
-
-            $total_order = DB::table('vendor_orders')
-                ->select('order_status')
-                ->join('order_data','order_data.order_id','=','vendor_orders.order_id')
-                ->where('vendor_orders.vendor_id',Session::get('id'))
-                ->orderBy('vendor_orders.order_id', 'desc')
-                ->get();
-
-            $data['total_new']=0;
-            $data['total_orders']=0;
-            $data['total_cancled']=0;
-            $data['total_refund']=0;
-            $data['total_completed']=0;
-            $data['total_on_courier']=0;
-            $data['total_pending_payment']=0;
-            $data['total_phone_pending']=0;
-
-            foreach($total_order as $order){
-                $data['total_orders'] +=1;
-                if($order->order_status=='new'){
-                    $data['total_new'] +=1;
-                }
-                if($order->order_status=='cancled' ){
-                    $data['total_cancled'] +=1;
-                }
-                if( $order->order_status=='refund' ){
-                    $data['total_refund'] +=1;
-                }
-
-               
-
-                if( $order->order_status=='completed' ){
-                    $data['total_completed'] +=1;
-                }
-                if( $order->order_status=='on_courier' ){
-                    $data['total_on_courier'] +=1;
-                }
-
-                if( $order->order_status=='pending_payment' ){
-                    $data['total_pending_payment'] +=1;
-                }
-                 if( $order->order_status=='phone_pending
-' ){
-                     $data['total_phone_pending'] +=1;
-                 }  
-            }
-
-            return view('layouts.vendor_dashboard', $data);
-
-        } else  {
-            // $data['orders']= DB::table('order_data')->select('advabced_price','order_status')->get();
-            $today = date('Y-m-d');
-            $data['new'] = DB::table('order_data')->where('order_status', 'new')->count();
-            $data['new_sum'] = DB::table('order_data')->where('order_status', '=', 'new')->sum('advabced_price');
-          
             
             $data['processing'] = DB::table('order_data')->where('order_status', 'processing')->count();
-            $data['processing_sum'] = DB::table('order_data')->where('order_status', 'processing')->sum('advabced_price');
-            $data['on_courier'] = DB::table('order_data')->where('order_status', 'on_courier')->count();
-            $data['on_courier_sum'] = DB::table('order_data')->where('order_status', 'on_courier')->sum('advabced_price');
-            $data['delivered'] = DB::table('order_data')->where('order_status', 'delivered')->count();
-            $data['delivered_sum'] = DB::table('order_data')->where('order_status', 'delivered')->sum('advabced_price');
-            $data['refund'] = DB::table('order_data')->where('order_status', 'refund')->count();
-            $data['refund_sum'] = DB::table('order_data')->where('order_status', 'refund')->sum('advabced_price');
-            $data['cancled'] = DB::table('order_data')->where('order_status', 'cancled')->count();
-            $data['cancled_sum'] = DB::table('order_data')->where('order_status', 'cancled')->sum('advabced_price');
-            $data['completed'] = DB::table('order_data')->where('order_status', 'completed')->count();
-            $data['completed_sum'] = DB::table('order_data')->where('order_status', 'completed')->sum('advabced_price');
-            $data['today_order'] = DB::table('order_data')->where('order_date', $today)->count();
-            $data['today_order_sum'] = DB::table('order_data')->where('order_date', $today)->sum('advabced_price');
-            $data['products'] = DB::table('product')->count();
-          
+             $data['on_courier'] = DB::table('order_data')->where('order_status', 'on_courier')->count();
+             $data['delivered'] = DB::table('order_data')->where('order_status', 'delivered')->count();
+             $data['refund'] = DB::table('order_data')->where('order_status', 'refund')->count();
+             $data['cancled'] = DB::table('order_data')->where('order_status', 'cancled')->count();
+             $data['completed'] = DB::table('order_data')->where('order_status', 'completed')->count();
+             $data['today_order'] = DB::table('order_data')->where('order_date', $today)->count();
+             $data['products'] = DB::table('product')->count(); 
             $data['unpublishedProduct'] = DB::table('product')->select('prouct_id')->where('vendor_id',0)->where('status',0)->orderBy('product_id', 'desc')->count();
-
-          
+  
             $data['vendor_profit'] = DB::table('vendor_product_price_history')->sum('amount');
             $data['vendor_pending_product'] = DB::table('product')->where('vendor_id','!=',0)->where('status','=',0)->count();
-            $data['sohojbuyVisitor'] = DB::table('hitcounter')->where('date',$today)->count();
+           
             $data['affiliateVisitor'] = DB::table('affiliate_hitcounter')->where('date',$today)->count();
-            $data['admin'] = DB::table('admin')->where('admin_id',session::get('id'))->first();
 
+            $data['admin'] = DB::table('admin')->where('admin_id',session::get('id'))->first();
+            $data['sohojbuyVisitor'] = DB::table('visitors')
+             ->whereDate('created_at', $today) 
+            ->select(DB::raw('count(DISTINCT ip) as distinct_ip_count')) 
+            ->groupBy('ip')
+            ->get()->count(); 
+             
             return view('layouts.dashboard', $data);
-        }
+        
+    }
+    public function shop_visitor_count(){
+        date_default_timezone_set("Asia/Dhaka");
+        $today = date('Y-m-d');
+       return DB::table('visitors')
+            ->whereDate('created_at', $today) 
+            ->select(DB::raw('count(DISTINCT ip) as distinct_ip_count')) 
+            ->groupBy('ip')
+            ->get()->count(); 
     }
 
     /**
@@ -155,10 +75,42 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function shopVisitorList(Request $request)
     {
-        //
+        date_default_timezone_set("Asia/Dhaka");
+        $data['main'] = 'Visitor';
+        $data['active'] = 'All Visitor';
+        $data['title'] = '  ';
+        $start_date = date('Y-m-d');
+        $end_date = $start_date;
+        if($request->all()){
+            $start_date=$request->start_date;
+            $end_date=$request->end_date; 
+        } 
+
+        $data['visitors']=DB::table('visitors')
+            ->whereDate('created_at', '>=',$start_date)  
+            ->whereDate('created_at', '<=',$end_date)  
+             ->groupBy('ip')
+             ->orderBy('id','desc')
+             ->get(); 
+        return view('admin.visitor.index',compact('start_date','end_date') ,$data);
     }
+    public function visitorDetail($ip,$date)
+    {
+        $data['main'] = 'Visitor';
+        $data['active'] = 'Visitor Details';
+        $data['title'] = '  ';
+     
+        $data['visitors']=DB::table('visitors')
+           ->whereDate('created_at', $date)  
+           ->where('ip', $ip)  
+          ->get(); 
+        return view('admin.visitor.visitorDetail', $data);
+    }
+
+
+    
 
     /**
      * Store a newly created resource in storage.
