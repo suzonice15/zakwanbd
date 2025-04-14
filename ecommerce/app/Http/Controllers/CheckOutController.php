@@ -87,11 +87,20 @@ if($wordFound >0){
             $data['coupon_code'] = $request->coupon_code;
         }
 
+        $admin = DB::table('admin')->where('email', 'admin@zakwanbd.com')->where('status',1)->first();
+        if ($admin) { 
+            $data['zone_id']= $admin->zone_id;
+            $data['shop_id']=$admin->shop_id;
+        }
+
+
+
         $data['created_time'] = date("Y-m-d h:i:s");
         $data['created_by'] = 'Customer';
         $data['modified_time'] = date("Y-m-d h:i:s");
         $data['order_date'] = date("Y-m-d");
         $data['order_total'] = 0 ;   
+        $data['order_status'] = 'new' ;   
         $data['advabced_price'] = $request->order_total;   
         $data['customer_name'] = $request->customer_name;
         $data['customer_phone'] = $request->customer_phone;

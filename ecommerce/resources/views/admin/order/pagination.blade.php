@@ -37,12 +37,12 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
                 if(isset($order_items)) {
                     foreach ($order_items as $key => $item) {                        
                         $product = single_product_data($item->product_id);
-                        $featured_image=url('/public/uploads').'/'. $product->folder.'/thumb/'.$product->feasured_image;
+                        $featured_image=url('/public/uploads').'/'. @$product->folder.'/thumb/'.@$product->feasured_image;
                     
 
                         ?>
-<a  target="_blank" href="{{url('/')}}/{{ $product->product_name }}">
-    <span class="label label-info" style="width: 150px;display: block;overflow: hidden;" >{{ $product->product_title }}</span>
+<a  target="_blank" href="{{url('/')}}/{{ @$product->product_name }}">
+    <span class="label label-info" style="width: 150px;display: block;overflow: hidden;" >{{ @$product->product_title }}</span>
     <br/>
     <img  src="<?=$featured_image?>"  width="50"/>
     ✖
@@ -134,7 +134,8 @@ box-shadow: 1px 2px 5px 1px #000000;"> <td><span  style="background: red !import
 
 
             <td>
-                @if($order->is_paid==1)
+                 @if($order->is_paid ==0 || $order->is_paid==1)
+
                 <a title="edit" target="_blank" href="{{ url('admin/order') }}/{{ $order->order_id }}">
                     <span class="glyphicon glyphicon-edit btn btn-success"></span>
                 </a>

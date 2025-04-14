@@ -7,6 +7,9 @@ use DB;
 use  Session;
 use Image;
 use AdminHelper;
+use App\Models\Affiliate;
+use App\Models\IncomeCommisionHistory;
+use App\Models\IncomeConfig;
 use URL;
 use App\Models\Zone;
 use Illuminate\Support\Facades\Redirect;
@@ -241,15 +244,10 @@ class OrderController extends Controller
                 shopStockReduce($shop_id,$product_id,$quantity);
             }     
 
-            $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
-            $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');   
-            
-            if($request->discount_price !=$commision){
-
-                $this->commisionDistribution($order_id, $commision,$total_profit);  
-            }
-           
-            
+            // $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
+            // $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit'); 
+  
+            $this->commisionDistribution2025($order_id,$request->user_id);   
 
             return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
         } else {
@@ -292,7 +290,7 @@ class OrderController extends Controller
     {
 
         /* product stock variation */
-        $order_details = DB::table('order_data')->select('products', 'order_date','order_status')->where('order_id', $id)->first(); 
+        $order_details = DB::table('order_data')->select('products', 'order_date','order_status','user_id')->where('order_id', $id)->first(); 
         $order_number = $id;
         
         $data['order_status'] = $request->order_status;
@@ -331,16 +329,12 @@ class OrderController extends Controller
 
         $order_data = DB::table('order_data')->where('order_id', $order_number)->update($data); 
         if ($order_status == 'completed') { 
-            $info = DB::table('users_public')->where('id', $request->user_id)->first();
-           
-            if ($info) {               
-                $affiliate_active['status'] = 1;
-                 DB::table('users_public')->where('id', $info->id)->update($affiliate_active);
-                } 
+            
+                // $commision=DB::table('order_details')->where('order_id',$order_number)->sum('commision');     
+                // $total_profit=DB::table('order_details')->where('order_id',$order_number)->sum('total_profit');
+                // $this->commisionDistribution($order_number, $commision,$total_profit); 
+                 $this->commisionDistribution2025($order_number,$order_details->user_id); 
 
-                $commision=DB::table('order_details')->where('order_id',$order_number)->sum('commision');     
-                $total_profit=DB::table('order_details')->where('order_id',$order_number)->sum('total_profit');     
-            $this->commisionDistribution($order_number, $commision,$total_profit);  
         } 
         if ($order_data) { 
             return redirect()->back()->with('success', 'Updated successfully.');
@@ -348,6 +342,97 @@ class OrderController extends Controller
             return redirect()->back()->with('success', 'Error to update this order');
         }
     }
+
+    function ordinal($number)
+{
+    $suffixes = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
+    if (($number % 100) >= 11 && ($number % 100) <= 13) {
+        return $number . 'th';
+    }
+    return $number . $suffixes[$number % 10];
+}
+
+function commisionDistribution2025($order_id, $user_id)
+{
+    $affiliate = Affiliate::where('id', $user_id)->first();
+    if (!$affiliate) {
+        return true;
+    }
+
+    $configs = IncomeConfig::get()->keyBy('type')->toArray();
+    $year = date("Y");
+    $month = date("m");
+    $date = date("Y-m-d");
+
+    // Direct Commission
+    $directComm = $configs['direct']['pay_per_order'] ?? 0;
+
+    $this->updateCommisionDataForAffiliate($user_id, [
+        'earning_balance' => $affiliate->earning_balance + $directComm,
+        'life_time_earning' => $affiliate->life_time_earning + $directComm,
+        'status' => 1,
+    ]);
+
+    $this->earningHistoryGenerate($order_id, $affiliate->name, $user_id, $directComm, $user_id, 1);
+
+    // Multi-level Commission
+    $currentParentId = $affiliate->parent_id;
+
+    for ($i = 1; $i <= 8; $i++) {
+        if (!$currentParentId) break;
+
+        $parent = Affiliate::where('id', $currentParentId)->first();
+        if (!$parent) break;
+
+        $layerKey = $this->ordinal($i); // Correct key: '1st', '2nd', ..., '8th'
+        $layerConfig = $configs[$layerKey] ?? [];
+
+        $layer = $layerConfig['referar'] ?? 0;
+        $amount = $layerConfig['pay_per_order'] ?? 0;
+        $pay_limit = $layerConfig['pay_limit'] ?? 0;
+
+        if ($layer > 0 && $amount > 0) {
+            $incomeCheck = IncomeCommisionHistory::where('year', $year)
+                ->where('month', $month)
+                ->where('income_for', $parent->id)
+                ->where('layer', $layer)
+                ->count();
+
+            if ($incomeCheck < $layer) {
+                IncomeCommisionHistory::create([
+                    'income_for' => $parent->id,
+                    'income_from' => $user_id,
+                    'layer' => $layer,
+                    'amount' => $amount,
+                    'date' => $date,
+                    'year' => $year,
+                    'month' => $month,
+                ]);
+
+                $layerField = "income_layer_{$i}";
+                $parent->$layerField = $parent->$layerField + $amount;
+                $parent->save();
+            }
+
+            // Check if eligible to transfer layer income to earning_balance
+            $layerIncomeField = "income_layer_{$i}";
+            if ($parent->$layerIncomeField >= $pay_limit) {
+                $income = $pay_limit;
+                $parent->$layerIncomeField -= $income;
+                $parent->earning_balance += $income;
+                $parent->life_time_earning += $income;
+                $parent->save();
+                $this->earningHistoryGenerate($order_id, $parent->name, $parent->id, $income, $user_id, $i + 1);
+            }
+        }
+
+        // Move to next parent
+        $currentParentId = $parent->parent_id;
+    }
+
+    return true;
+}
+
   
 
     function commisionDistribution($order_id, $commision_price,$total_profit)
@@ -468,7 +553,7 @@ class OrderController extends Controller
         $data['permission'] = $permission;
         DB::table('earning_history')->insert($data);
         UpdateStatisticCommisionData($commision);
-        $this->lebelIncomeUpdate($earner_id,$permission,$commision);
+      //  $this->lebelIncomeUpdate($earner_id,$permission,$commision);
     }
     public function courierViewReport()
     {

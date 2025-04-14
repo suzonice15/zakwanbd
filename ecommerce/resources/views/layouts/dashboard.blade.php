@@ -231,13 +231,14 @@ if(session::get('status') !=1 ){
         </a>
         </div>  
 </div>
-
+{{--
 <div class="col-lg-12 col-xs-12">
         <a href="{{url('admin/shopVisitorList')}}" style="color: black;" >  
                     <h3 style="font-size: 25px;font-weight: bold;color: red;text-align: center;">Today Shop Visitor: <span id="shop_counter">{{$sohojbuyVisitor}}</span></h3>   
                 
         </a>
     </div>
+    --}}
 <?php
 }
 
