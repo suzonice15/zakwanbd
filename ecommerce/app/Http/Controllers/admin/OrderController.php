@@ -243,10 +243,7 @@ class OrderController extends Controller
                 DB::table('order_details')->insert($order_details);
                 shopStockReduce($shop_id,$product_id,$quantity);
             }     
-
-            // $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');   
-            // $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit'); 
-  
+ 
             $this->commisionDistribution2025($order_id,$request->user_id);   
 
             return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
@@ -378,7 +375,7 @@ function commisionDistribution2025($order_id, $user_id)
     // Multi-level Commission
     $currentParentId = $affiliate->parent_id;
 
-    for ($i = 1; $i <= 8; $i++) {
+    for ($i = 1; $i <= 7; $i++) {
         if (!$currentParentId) break;
 
         $parent = Affiliate::where('id', $currentParentId)->first();
@@ -392,38 +389,67 @@ function commisionDistribution2025($order_id, $user_id)
         $pay_limit = $layerConfig['pay_limit'] ?? 0;
 
         if ($layer > 0 && $amount > 0) {
+
             $incomeCheck = IncomeCommisionHistory::where('year', $year)
                 ->where('month', $month)
                 ->where('income_for', $parent->id)
                 ->where('layer', $layer)
+                ->groupBy('income_from')
                 ->count();
 
-            if ($incomeCheck < $layer) {
+                // only this type income one time will get 
+
+                $incomeCheckUnique = IncomeCommisionHistory::where('year', $year)
+                ->where('month', $month)
+                ->where('income_for', $parent->id)
+                ->where('layer', $layer)
+                ->where('income_from',$user_id)
+                ->count();
+
+            if (($incomeCheck < $layer) &&  $incomeCheckUnique==0) {
+                $layerField = "income_layer_{$i}";
                 IncomeCommisionHistory::create([
                     'income_for' => $parent->id,
                     'income_from' => $user_id,
                     'layer' => $layer,
                     'amount' => $amount,
                     'date' => $date,
+                    'order_id' => $order_id,
                     'year' => $year,
                     'month' => $month,
+                    'previous_income' => $parent->$layerField,
+                    'after_income' => $parent->$layerField + $amount,
                 ]);
 
-                $layerField = "income_layer_{$i}";
+               
                 $parent->$layerField = $parent->$layerField + $amount;
                 $parent->save();
             }
 
             // Check if eligible to transfer layer income to earning_balance
             $layerIncomeField = "income_layer_{$i}";
-            if ($parent->$layerIncomeField >= $pay_limit) {
-                $income = $pay_limit;
-                $parent->$layerIncomeField -= $income;
-                $parent->earning_balance += $income;
-                $parent->life_time_earning += $income;
-                $parent->save();
-                $this->earningHistoryGenerate($order_id, $parent->name, $parent->id, $income, $user_id, $i + 1);
-            }
+            if ($parent->$layerIncomeField >= $pay_limit) {  
+
+                $permission=$i + 1;
+                $earner_id=$parent->id;
+                $earning_from_id=$user_id; 
+
+               $earningHistoryCheck= DB::table('earning_history')
+                                ->where('permission',$permission)
+                                ->where('earning_for_id',$earner_id)
+                                ->whereYear('date',date('Y'))
+                                ->whereMonth('date',date('m'))
+                                ->first(); 
+
+                        if(!$earningHistoryCheck){ 
+                            $income = $pay_limit;
+                            $parent->$layerIncomeField -= $income;
+                            $parent->earning_balance += $income;
+                            $parent->life_time_earning += $income;
+                            $parent->save();
+                            $this->earningHistoryGenerate($order_id, $parent->name, $parent->id, $income, $earning_from_id, $permission);
+                        } 
+          }
         }
 
         // Move to next parent
@@ -794,10 +820,8 @@ function commisionDistribution2025($order_id, $user_id)
         $data['delivered_sum'] = $this->orderSum('delivered', $today);
         $data['refund_sum'] = $this->orderSum('refund', $today);
         $data['completed_sum'] = $this->orderSum('completed', $today);
-        $data['cancled_sum'] = $this->orderSum('cancled', $today);
-
-        return view('admin.order.orderReport', $data);
-
+        $data['cancled_sum'] = $this->orderSum('cancled', $today); 
+        return view('admin.order.orderReport', $data); 
     }
 
     public function orderReportGeneration(Request $request)

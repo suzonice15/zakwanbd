@@ -7,28 +7,28 @@
 
             <div class="col-md-3 col-sm-6 col-xs-6 ">
                 <a href="<?=sohojby_get_option('youtube')?>" target="_blank">
-                    <img   src="{{url('/')}}/images/youtube.png">
+                    <img   src="<?php echo e(url('/')); ?>/images/youtube.png">
                 </a>
 
 
             </div>
             <div class="col-md-3 col-sm-6  col-xs-6">
                 <a href="<?=sohojby_get_option('facebook')?>" target="_blank">
-                    <img    src="{{url('/')}}/images/facebook_page.png">
+                    <img    src="<?php echo e(url('/')); ?>/images/facebook_page.png">
                 </a>
 
 
             </div>
             <div class="col-md-3 col-sm-6  col-xs-6">
                 <a href="<?=sohojby_get_option('linked')?>" target="_blank">
-                    <img    src="{{url('/')}}/images/facebook_gorup.jpg">
+                    <img    src="<?php echo e(url('/')); ?>/images/facebook_gorup.jpg">
                 </a>
 
 
             </div>
             <div class="col-md-3 col-sm-6  col-xs-6">
                 <a href="<?=sohojby_get_option('twitter')?>" target="_blank">
-                    <img   src="{{url('/')}}/images/jibonpata.png">
+                    <img   src="<?php echo e(url('/')); ?>/images/jibonpata.png">
                 </a>
             </div>
         </div>
@@ -43,15 +43,15 @@
     </div>
     <div class="box-body">
         <div class="text-center ">
-            @foreach ($products as $product)
+            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                 <div class="col-md-2 col-sm-6 col-xs-6">
 
 
-                    <img class="img-responsive" src="{{ env('APP_ECOMMERCE') }}/public/uploads/{{ $product->folder }}/thumb/{{ $product->feasured_image }}">
+                    <img class="img-responsive" src="<?php echo e(env('APP_ECOMMERCE')); ?>/public/uploads/<?php echo e($product->folder); ?>/thumb/<?php echo e($product->feasured_image); ?>">
                     <br/>
 
-                    <p class="name" style="height: 38px;text-align: center;overflow: hidden;" > <a href="{{ env('APP_ECOMMERCE') }}/{{$product->product_name}}"> {{$product->product_title}} </a>
+                    <p class="name" style="height: 38px;text-align: center;overflow: hidden;" > <a href="<?php echo e(env('APP_ECOMMERCE')); ?>/<?php echo e($product->product_name); ?>"> <?php echo e($product->product_title); ?> </a>
                     </p>
                     <p  style="text-align: center;" >Price :
                         <?php
@@ -71,14 +71,14 @@
                         Profit:
                         <?php echo   $product->top_deal;?>Tk
                     </p>
-                    {{--<p style="margin-top: -5px;">Point :{{$product->product_point}}</p>--}}
+                    
 
-                    <button type="button" style="margin-bottom: 15px;margin-left:22px;"onclick="return link_generator({{ $product->product_id }})" class="btn btn-success" data-toggle="modal" data-target="#modal-productShare">
+                    <button type="button" style="margin-bottom: 15px;margin-left:22px;"onclick="return link_generator(<?php echo e($product->product_id); ?>)" class="btn btn-success" data-toggle="modal" data-target="#modal-productShare">
                         Get Link
                     </button>
                 </div>
 
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
         </div>
@@ -92,7 +92,7 @@
 
         $.ajax({
             type:"GET",
-            url:"{{url('product/link/id')}}?product_id="+id,
+            url:"<?php echo e(url('product/link/id')); ?>?product_id="+id,
             success:function(data)
             {
 
@@ -100,4 +100,4 @@
             }
         });
     }
-</script>
+</script><?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/layouts/affiliate_dashboard_hot_product_social_media.blade.php ENDPATH**/ ?>

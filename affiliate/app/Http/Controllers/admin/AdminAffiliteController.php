@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Affiliate;
+use App\IncomeConfig;
+use App\IncomeHistory;
 use Illuminate\Http\Request;
 use DB;
 use  Session;
@@ -34,6 +37,43 @@ class AdminAffiliteController extends Controller
             return view('login');
         }
     }
+
+    public function commisionSetting()
+    {
+        $status = Session::get('status');
+        if ($status == 'super-admin' || $status == 'editor' || $status == 'office-staff') {
+            $data['main'] = 'Affilate';
+            $data['active'] = 'Campain list';
+            $data['savedIncomeData'] =  IncomeConfig::get()->toArray();
+          
+            return view('admin.affilate.commisionSetting', $data);
+        } else {
+            return view('login');
+        }
+    }
+
+    public function storeIncomeConfig(Request $request)
+{
+    $types = $request->input('type');
+    $referars = $request->input('referar');
+    $payPerOrders = $request->input('pay_per_order');
+    $payLimits = $request->input('pay_limit');
+
+    foreach ($types as $index => $type) {
+        IncomeConfig::updateOrCreate(
+            ['type' => $type],
+            [
+                'referar' => $referars[$index],
+                'pay_per_order' => $payPerOrders[$index],
+                'pay_limit' => $payLimits[$index],
+            ]
+        );
+    }
+
+    return back()->with('success', 'Income configs saved!');
+}
+
+
 
     public function affiliateActive($id)
     {
@@ -1891,9 +1931,45 @@ class AdminAffiliteController extends Controller
             return view('admin.affilate.admin_incomeHistory', $data);
         } else {
             return view('login');
-        }
+        } 
+    }
 
+    public function labelHistory()
+    {
 
+        $status = Session::get('status');
+        if ($status == 'super-admin') {
+            $data['main'] = 'Income History';
+            $data['active'] = 'All Income History';
+            $data['title'] = '  ';
+            $data['configs']= IncomeConfig::where('type','!=','direct')->pluck('type','referar')->toArray(); 
+            $query=IncomeHistory::with('incomeFor','incomeFrom');
+            if(request()->ajax()){
+
+                if(request()->income_from){
+                    $query->where('income_from',request()->income_from);
+                }
+                if(request()->income_for){
+                    $query->where('income_for',request()->income_for);
+                }
+                if(request()->layer){
+                    $query->where('layer',request()->layer);
+                }
+                if(request()->order_id){
+                    $query->where('order_id',request()->order_id);
+                }
+
+                $data['incomes'] =  $query->orderBy('id','desc')->paginate(15);  
+                return view('admin.affilate.admin_labelHistoryPagination', $data);
+            }
+
+         
+            $data['affiliates']=Affiliate::pluck('name','id')->toArray(); 
+            $data['incomes'] =  $query->orderBy('id','desc')->paginate(15); 
+            return view('admin.affilate.admin_labelHistory', $data);
+        } else {
+            return view('login');
+        } 
     }
 
     public function incomeHistoryPagination(Request $request)

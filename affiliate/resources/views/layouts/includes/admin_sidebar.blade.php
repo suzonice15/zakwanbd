@@ -39,6 +39,12 @@
 
                  Income History</a>
         </li>
+        <li><a href=" {{ url('admin/labelHistory') }}">
+
+                <i class="fs-small fa fa-arrow-circle-right"></i>
+
+             Label  Income History</a>
+        </li>
         <li><a href=" {{ url('admin/purchase/history') }}">
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Purchase History</a>
@@ -46,10 +52,7 @@
         <li><a href=" {{ url('admin/wallet') }}">
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Wallet History </a>
-        </li>
-
-
-
+        </li> 
 
     </ul>
 </li>
@@ -82,11 +85,7 @@
         <li><a href=" {{ url('admin/inactive/affiliate') }}">
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Inactive Affiliate</a>
-        </li>
-
-
-
-
+        </li>  
     </ul>
 </li>
  
@@ -98,6 +97,10 @@
 </li>
 <li>
     <a href=" {{ url('admin/campain/report') }}"><i class="fa fa-circle-o" style="font-size: 20px"></i> Campaign Report</a>
+</li>
+
+<li>
+    <a href=" {{ url('admin/commisionSetting') }}"><i class="fa fa-arrow-right" style="font-size: 20px"></i> Commision Setting</a>
 </li>
  
 <!-- <li>

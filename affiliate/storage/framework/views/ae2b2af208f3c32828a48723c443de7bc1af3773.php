@@ -1,8 +1,8 @@
-@extends('layouts.master')
-@section('pageTitle')
+
+<?php $__env->startSection('pageTitle'); ?>
     Affiliate  Dashboard
-@endsection
-@section('mainContent')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('mainContent'); ?>
 <?php
 function RemainingOrder($total_order,$status){
     return $status-$total_order;
@@ -23,7 +23,7 @@ function RemainingOrder($total_order,$status){
             <div class="col-md-12 col-xs-12"><br>
 
 
-                @if(get_option('dashboard_notice'))
+                <?php if(get_option('dashboard_notice')): ?>
                 <div class='noticeboard' style="padding: 5px 20px;background: #ddd;margin: 8px 16px;color: black;text-align: center;"> 
                 <p style="  color: red;
   text-align: center;
@@ -44,17 +44,17 @@ function RemainingOrder($total_order,$status){
     text-align: justify;
 " ><?=get_option('dashboard_notice')?></div>
             </div>
-            @endif
+            <?php endif; ?>
         </div>
-        @include('layouts.affiliate_dashboard_top')
+        <?php echo $__env->make('layouts.affiliate_dashboard_top', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
        
-        @if($user->status !=1)
+        <?php if($user->status !=1): ?>
          <div class="row" style="background-color: red;color:white;margin-left: 12px;margin-right: 14px;">
             <div class="col-md-12 col-sm-12 col-xs-12"  >
                 <h3 class="you-need">Your account is limited you will not get 2nd level commision ,you need 1 sell to remove limitation. </h3>
             </div>
         </div>
-         @endif 
+         <?php endif; ?> 
 
         <div class="container-fluid mt-3">
         <div class="row">
@@ -67,7 +67,7 @@ function RemainingOrder($total_order,$status){
                        </th>
                        <td>
                            Your referer link:     <input id="link_id" style="font-size: 18px;" type="text"
-                                                                                value="{{url('/')}}/reffer/<?php echo $user->id; ?>"
+                                                                                value="<?php echo e(url('/')); ?>/reffer/<?php echo $user->id; ?>"
                                                                                 class="form-control">
                        </td>
                        <td>
@@ -98,12 +98,12 @@ function RemainingOrder($total_order,$status){
         </div>
         </div>
 
-        @include('layouts.affiliate_dashboard_hot_product_social_media')
+        <?php echo $__env->make('layouts.affiliate_dashboard_hot_product_social_media', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
        
 
-        @include('layouts.affiliate_dashboard_price')
+        <?php echo $__env->make('layouts.affiliate_dashboard_price', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
         function myFunction() {
             $("#reffer_link_id").show();
@@ -164,11 +164,11 @@ function RemainingOrder($total_order,$status){
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
-                                <form method="post" action="{{url('/')}}">
+                                <form method="post" action="<?php echo e(url('/')); ?>">
 
                                     <div class="form-group">
 
-                                      <img src="{{url('/')}}/images/Jp-Bkash.jpg" class="img-responsive"/>
+                                      <img src="<?php echo e(url('/')); ?>/images/Jp-Bkash.jpg" class="img-responsive"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Transaction Id</label>
@@ -229,14 +229,14 @@ function RemainingOrder($total_order,$status){
             }
 
             $.ajax({
-                url:"{{url('/')}}/add-wallet/balance",
+                url:"<?php echo e(url('/')); ?>/add-wallet/balance",
                 method:"post",
                 data:{
                     transaction_id:$("#transaction_id").val(),
                     sender_number:$("#sender_number").val(),
                     amount:$("#amount").val(),
                     note:$("#note").val(),
-                    "_token":"{{csrf_token()}}"
+                    "_token":"<?php echo e(csrf_token()); ?>"
 
                 },
                 success:function(data){
@@ -256,5 +256,7 @@ function RemainingOrder($total_order,$status){
 
         })
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/layouts/affiliate_dashboard_1.blade.php ENDPATH**/ ?>

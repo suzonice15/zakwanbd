@@ -11,7 +11,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p>{{$supend_account->message}}</p>
+                        <p><?php echo e($supend_account->message); ?></p>
                     </div>
                     <div class="col-md-6">
                         Suspention period:
@@ -66,7 +66,7 @@
             <div class="small-box bg-yellow" style="height: 120px">
                 <a class="small-box-footer" style="color: white; font-weight: bold; font-size: 18px">Total Referrals</a>
                 <div class="inner">
-                    <h3 style="font-size: 30px;"> {{$totals_refer}}</h3>
+                    <h3 style="font-size: 30px;"> <?php echo e($totals_refer); ?></h3>
 
 
                 </div>
@@ -205,7 +205,7 @@
         <tbody>
             
 
-                        @php
+                        <?php
                     $incomeTypes = [ 
                         '1st Label  ' => '1',
                         '2nd Label  ' => '2',
@@ -218,23 +218,24 @@
                     ];
                     $savedData = collect([])->keyBy('type');
 
-                @endphp
+                ?>
 
-                @foreach($incomeTypes as $label => $type)
-                @php
+                <?php $__currentLoopData = $incomeTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $label => $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
                     $data = $savedData->get($type, ['referar' => '', 'pay_per_order' => '', 'pay_limit' => '']);
-                @endphp
+                ?>
                 <tr>
-                    <th class="text-center">{{ $label }}</th>
+                    <th class="text-center"><?php echo e($label); ?></th>
                     <th class="text-center">
-                    {{ $user->{'income_layer_' . $type} }} 
+                    <?php echo e($user->{'income_layer_' . $type}); ?> 
                 
                     </th>
                 </tr>
-                @endforeach 
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
 
             </tbody>
     </table>
      </div> 
 </div>
 
+<?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/layouts/affiliate_dashboard_top.blade.php ENDPATH**/ ?>

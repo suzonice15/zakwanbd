@@ -71,6 +71,8 @@ Route::post('admin/campain/date_wise_report', 'admin\AdminAffiliteController@dat
 Route::get('/admin/online/ajax', 'admin\AdminAffiliteController@online_user_ajax');
 Route::get('/admin/online/ajax_total', 'admin\AdminAffiliteController@online_user_ajax_total');
 Route::get('/admin/affilator_list', 'admin\AdminAffiliteController@affilator_list');
+Route::get('/admin/commisionSetting', 'admin\AdminAffiliteController@commisionSetting');
+Route::post('/admin/commisionSetting', 'admin\AdminAffiliteController@storeIncomeConfig');
 Route::get('/admin/affiliate_varification_list', 'admin\AdminAffiliteController@affiliate_varification_list');
 Route::get('/admin/affiliate_varification_list/{id}', 'admin\AdminAffiliteController@singleAffiliate_varification_list');
 Route::post('/singleAffiliateVarificationUpdate', 'admin\AdminAffiliteController@singleAffiliateVarificationUpdate');
@@ -108,6 +110,7 @@ Route::get('admin/affilite/editProfile/{id}', 'admin\AdminAffiliteController@edi
 Route::post('admin/affilite/updateProfile/{id}', 'admin\AdminAffiliteController@updateProfile');
 Route::get('/admin/withdraw', 'admin\AdminAffiliteController@withdraw');
 Route::get('/admin/income/history', 'admin\AdminAffiliteController@incomeHistory');
+Route::get('/admin/labelHistory', 'admin\AdminAffiliteController@labelHistory');
  
 Route::get('/admin/purchase/history', 'admin\AdminAffiliteController@purchaseHistory');
 Route::get('/admin/purchase/history/pagination', 'admin\AdminAffiliteController@purchaseHistoryPagination');
