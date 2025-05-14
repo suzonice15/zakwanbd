@@ -11,7 +11,7 @@
 
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar" style="background-color: #9f29ff">
+    <section class="sidebar" style="background-color: #2d3b45">
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">

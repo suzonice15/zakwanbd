@@ -51,6 +51,30 @@
             margin: 20px 0;
             border-radius: 4px;
         }
+
+        /* Hover effect for sidebar links */
+.nav-sidebar .nav-link:hover {
+    background-color: #34495e !important; /* Lighter shade of the sidebar color */
+}
+
+/* Active link in sidebar */
+.nav-sidebar .nav-link.active {
+    background-color: #16a085 !important;; /* Emerald Green */
+}
+
+/* Optional: change the brand logo background color */
+  .logo {
+    background-color: #16a085 !important; /* Emerald Green */
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: #34495e; /* Lighter shade of the sidebar color */
+}
+
+/* Active link in sidebar */
+.nav-sidebar .nav-link.active {
+    background-color: #16a085; /* Emerald Green */
+}
     </style>
 </head>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
@@ -59,7 +83,7 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-    <header class="main-header">
+    <header class="main-header" >
         <!-- Logo -->
         <a href="{{ url('/')  }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -140,7 +164,7 @@
                     padding: 10px 8.5px !important;
             }
         </style>
-        <nav class="navbar navbar-static-top">
+        <nav class="navbar navbar-static-top" style="background-color: #1e2a37 !important;">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>

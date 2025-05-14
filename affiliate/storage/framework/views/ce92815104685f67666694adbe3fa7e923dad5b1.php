@@ -1,208 +1,212 @@
-
-<?php $__env->startSection('mainContent'); ?>
-
-<style>
-    .input-container {
-      display: -ms-flexbox; /* IE10 */
-      display: flex;
-      width: 100%;
-      margin-bottom: 15px;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Zakwan Affiliate</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .icon {
-      padding: 15px;
-      background: #9f29ff;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: white;
-      min-width: 40px;
+    }
+
+    .login-container {
+      background-color: #1f2937; /* Dark background for the form */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
       text-align: center;
-      height: 47px;
-      margin-top: 9px;
-}
+    }
+
+    .login-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .login-title a {
+      color: #4CAF50; /* Green for Sign-up link */
+      text-decoration: none;
+    }
+
+    .input-container {
+      position: relative;
+      margin: 20px 0;
     }
 
     .input-field {
       width: 100%;
       padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #2d3748;
+      color: white;
       outline: none;
     }
 
     .input-field:focus {
-      border: 2px solid #9f29ff;
-    }
-    .panel{
-        background-color: #c2ceff00;
-    }
-    .panel-success .panel-heading {
-        color: #3c763d00;
-        background-color: #dff0d800;
-        border-color: #d6e9c600;
-    }
-    .panel-success {
-        border-color: #d6e9c600;
+      border-color: #4CAF50; /* Green focus border */
     }
 
-    form {border: 3px solid #f1f1f1;
-        width: 468px;
-        margin-left: 16%;
-        border-radius: 18px;
+    .icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #ccc;
     }
 
-    input[type=text], input[type=password] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
+    .icon-hide {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      color: #ccc;
+      cursor: pointer;
     }
 
     .button_class {
-        background-color:#9f29ff;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 10px;
     }
 
-
-
-    .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        background-color: #f44336;
+    .button_class:hover {
+      background-color: #45a049;
     }
 
-    .imgcontainer {
-        text-align: center;
-        margin: 24px 0 12px 0;
+    .forgot-password {
+      font-size: 0.9rem;
+      color: white;
+      margin-top: 10px;
+      display: inline-block;
     }
 
-    img.avatar {
-        width: 40%;
-        border-radius: 50%;
+    .forgot-password a {
+      color: white;
+      text-decoration: none;
     }
 
-    .container_login {
-        padding: 16px;
-        background-color: #ffffff80
+    .forgot-password a:hover {
+      text-decoration: underline;
     }
 
-    /* Change styles for span and cancel button on extra small screens */
-    @media  screen and (max-width: 600px) {
-        span.psw {
-            display: block;
-            float: none;
-        }
-
-        form {
-            border: 3px solid #f1f1f1;
-            width: 100%;
-            margin-left: 0px !important;
-        }
-        .login-title{
-            text-align: center;
-  color: white;
-  position: relative;
-  margin-right: -72px;
-        }
+    /* Success and error messages */
+    .success-msg, .error-msg {
+      font-size: 1rem;
+      margin-bottom: 10px;
     }
-    .login-title{
-        text-align: right;color: white;position: relative;margin-right: 50px;
+
+    .success-msg {
+      color: green;
     }
-    .icon-hide{
-        position: relative;float: right;top: -51px;margin-right: 8px;color: #a29b9b;font-weight: bold;
-        cursor: pointer;
+
+    .error-msg {
+      color: red;
     }
-</style>
-<section style="min-height: 950px;
-background-position: center;
-overflow:hidden;
-background-repeat: no-repeat;
-background-attachment: fixed;
-background-size: cover;
-background-image: url('images/loginCover.jpg')
-" >
 
-    <div class="container-fluid">
-        <div class="row" style="margin-top: 100px">
-            <marquee scrollamount="6" style="color: white;font-weight: bold;font-size: 20px"><?=get_option('notice')?></marquee>
+    @media (max-width: 600px) {
+      .login-container {
+        width: 90%;
+        padding: 20px;
+      }
 
-            <div style="display: flex;justify-content: end;" class="col-md-11">
+      .login-title {
+        font-size: 1.5rem;
+      }
 
+      .input-field {
+        font-size: 0.9rem;
+      }
 
-            <div class="panel panel-success">
-        <div class="panel-heading"><h2 class="login-title" >Login/ <a href="<?php echo e(url('/')); ?>/registration" style="color:white"  >Sign up</a></h2>
-</div>
-  <div class="panel-body">
-<form onsubmit="return validateForm()" action="<?php echo e(url('/')); ?>/affilite_login_check" method="post" >
-<?php echo csrf_field(); ?>
-<?php if(count($errors) > 0): ?>
-    <div>
-        <ul>
+      .button_class {
+        font-size: 0.9rem;
+      }
+    }
+    label{float:left}
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-title">Login</div>
+    <form action="<?php echo e(url('/')); ?>/affilite_login_check" method="post" onsubmit="return validateForm()">
+      <?php echo csrf_field(); ?>
+
+      <?php if(count($errors) > 0): ?>
+        <div class="error-msg">
+          <ul>
             <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php echo e($error); ?>
-
+              <li><?php echo e($error); ?></li>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </ul>
-    </div>
-<?php endif; ?>
-    <div class="container_login">
-        <h3 style="color:green"><?php echo e(Session::get('success')); ?></h3>
-        <h3 style="color:red"><?php echo e(Session::get('error')); ?></h3>
-        <label for="uname"><b>User Email</b></label>
-        <div class="input-container">
-            <i class="fa fa-envelope icon"></i>
-            <input style="width: 100%; margin-top: 8px" class="input-field" type="text" placeholder="Email or  phone number" name="email" >
+          </ul>
         </div>
+      <?php endif; ?>
+
+      <div class="success-msg" style="color:green"><?php echo e(Session::get('success')); ?></div>
+      <div class="error-msg" style="color:red"><?php echo e(Session::get('error')); ?></div>
+
+      <div class="input-container">
+        <label for="uname"><b>UserName</b></label>
+        <input type="text" name="email" placeholder="" class="input-field">
+      </div>
+
+      <div class="input-container">
         <label for="psw"><b>Password</b></label>
-        <div class="input-container">
-            <i class="fa fa-key icon"></i>
-            <input type="password" placeholder="Enter Password" id="password" name="password" required class="input-field" required>
-
-        </div>
+        <input type="password" id="password" name="password" placeholder="" class="input-field" required>
         <i class="fa fa-eye icon-hide"></i>
-        <button class="button_class" type="submit" style="font-weight: 600; float:right;border-radius: 5px;width: 30%;bottom: 21px;position: relative;" >Login</button>
-        <div style="margin-top: 5px; font-size: 15px; font-weight: 600; display: inline-flex;;">
+      </div>
 
-            <span><a style="color: black" href="<?php echo e(URL::to('/forgot-password')); ?>">Forgot Your Password?</a></span>
-        </div>
+      <button class="button_class" type="submit">Login</button>
 
-    </div>
+      <div class="forgot-password">
+        <span><a href="<?php echo e(URL::to('/forgot-password')); ?>">Forgot Your Password?</a></span>
+      </div>
+    </form>
+  </div>
 
+  <script>
+    // Add password visibility toggle for the "eye" icon
+    document.querySelector('.icon-hide').addEventListener('click', function() {
+      const passwordField = document.getElementById('password');
+      const icon = this;
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.add("fa-eye-slash");
+        icon.classList.remove("fa-eye");
+      } else {
+        passwordField.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    });
 
-</form>
-</div>
-
-</br>
-</div>
-</div>
-        </div>
-    </div>
-
-
-
-
-
- </section>
- <script type="text/javascript">
-  function validateForm() {
-    var a = document.forms["Form"]["email"].value;
-    var b = document.forms["Form"]["password"].value;
-    if (a == null || a == "", b == null || b == "") {
-      alert("Please Fill All Required Field");
-      return false;
+    function validateForm() {
+      // Add your custom form validation here if needed
+      return true;
     }
-  }
-     $(".icon-hide").click(function(){
-         if($('#password').attr('type')=='text'){
-             $('#password').get(0).type = 'password';
-         }else{
-             $('#password').get(0).type = 'text';
-         }
-     })
-</script>
-<?php $__env->stopSection(); ?>
+  </script>
 
-<?php echo $__env->make('website.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/website/login.blade.php ENDPATH**/ ?>
+</body>
+</html>
+<?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/website/login.blade.php ENDPATH**/ ?>

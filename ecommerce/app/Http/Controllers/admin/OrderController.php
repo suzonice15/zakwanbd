@@ -243,9 +243,13 @@ class OrderController extends Controller
                 DB::table('order_details')->insert($order_details);
                 shopStockReduce($shop_id,$product_id,$quantity);
             }     
- 
-            $this->commisionDistribution2025($order_id,$request->user_id);   
 
+            
+                $commision=DB::table('order_details')->where('order_id',$order_id)->sum('commision');     
+                $total_profit=DB::table('order_details')->where('order_id',$order_id)->sum('total_profit');
+                  $this->commisionDistribution2025($order_id,$request->user_id,$commision,$total_profit); 
+ 
+ 
             return redirect('admin/orders/posPrint/'.$order_id.'')->with('success', 'Created successfully.');
         } else {
             return redirect('admin/orders/')->with('error', 'Error to Create this order');
@@ -327,10 +331,10 @@ class OrderController extends Controller
         $order_data = DB::table('order_data')->where('order_id', $order_number)->update($data); 
         if ($order_status == 'completed') { 
             
-                // $commision=DB::table('order_details')->where('order_id',$order_number)->sum('commision');     
-                // $total_profit=DB::table('order_details')->where('order_id',$order_number)->sum('total_profit');
+                $commision=DB::table('order_details')->where('order_id',$order_number)->sum('commision');     
+                $total_profit=DB::table('order_details')->where('order_id',$order_number)->sum('total_profit');
                 // $this->commisionDistribution($order_number, $commision,$total_profit); 
-                 $this->commisionDistribution2025($order_number,$order_details->user_id); 
+                 $this->commisionDistribution2025($order_number,$order_details->user_id,$commision,$total_profit); 
 
         } 
         if ($order_data) { 
@@ -349,7 +353,7 @@ class OrderController extends Controller
     return $number . $suffixes[$number % 10];
 }
 
-function commisionDistribution2025($order_id, $user_id)
+function commisionDistribution2025($order_id, $user_id,$commision,$total_profit)
 {
     $affiliate = Affiliate::where('id', $user_id)->first();
     if (!$affiliate) {
@@ -362,7 +366,8 @@ function commisionDistribution2025($order_id, $user_id)
     $date = date("Y-m-d");
 
     // Direct Commission
-    $directComm = $configs['direct']['pay_per_order'] ?? 0;
+    $directComm = $commision;//$configs['direct']['pay_per_order'] ?? 0;
+    $total_commision_paid_to_affiliate=$directComm;
 
     $this->updateCommisionDataForAffiliate($user_id, [
         'earning_balance' => $affiliate->earning_balance + $directComm,
@@ -376,7 +381,7 @@ function commisionDistribution2025($order_id, $user_id)
     $currentParentId = $affiliate->parent_id;
 
     for ($i = 1; $i <= 7; $i++) {
-        if (!$currentParentId) break;
+        if (empty($currentParentId) || $currentParentId == 0) break; 
 
         $parent = Affiliate::where('id', $currentParentId)->first();
         if (!$parent) break;
@@ -424,6 +429,7 @@ function commisionDistribution2025($order_id, $user_id)
                
                 $parent->$layerField = $parent->$layerField + $amount;
                 $parent->save();
+                $total_commision_paid_to_affiliate +=$amount;
             }
 
             // Check if eligible to transfer layer income to earning_balance
@@ -455,6 +461,9 @@ function commisionDistribution2025($order_id, $user_id)
         // Move to next parent
         $currentParentId = $parent->parent_id;
     }
+ 
+               DB::table('order_data')->where('order_id', $order_id)->update(['total_profit_for_company'=>$total_profit,'total_commision_paid_to_affiliate'=>$total_commision_paid_to_affiliate]); 
+
 
     return true;
 }

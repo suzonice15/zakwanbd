@@ -192,7 +192,7 @@
 
 <div class="row">
      <div class="col-md-6 col-12">
-     <table class="table table-bordered">
+     <!-- <table class="table table-bordered">
         <thead>
               <tr>
                 <th colspan="2" class="text-center" style="background:#ddd">Referral Income Report	 </th> 
@@ -234,7 +234,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
 
             </tbody>
-    </table>
+    </table> -->
      </div> 
 </div>
 

@@ -27,15 +27,15 @@
       border-radius: 10px;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
       text-align: center;
     }
 
     .login-title {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: bold;
       color: white;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .login-title a {
@@ -45,18 +45,19 @@
 
     .input-container {
       position: relative;
-      margin: 20px 0;
+      margin: 4px 0;
     }
 
     .input-field {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #2d3748;
-      color: white;
-      outline: none;
+    margin-top: 4px;
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #2d3748;
+    color: white;
+    outline: none;
     }
 
     .input-field:focus {
@@ -89,11 +90,7 @@
       width: 100%;
       cursor: pointer;
       margin-top: 10px;
-    }
-
-    .button_class:hover {
-      background-color: #45a049;
-    }
+    } 
 
     .forgot-password {
       font-size: 0.9rem;
@@ -144,43 +141,71 @@
       }
     }
     label{float:left}
+    a:hover{
+        text-decoration: none;
+    }
   </style>
 </head>
 <body>
 
   <div class="login-container">
-    <div class="login-title">Login</div>
-    <form action="{{url('/')}}/affilite_login_check" method="post" onsubmit="return validateForm()">
-      @csrf
+    <div class="login-title">Registration Form
+    </div>
+    <form action="<?php echo e(url('/')); ?>/affilite_login_check" method="post" onsubmit="return validateForm()">
+      <?php echo csrf_field(); ?>
 
-      @if(count($errors) > 0)
+      <?php if(count($errors) > 0): ?>
         <div class="error-msg">
           <ul>
-            @foreach($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </ul>
         </div>
-      @endif
+      <?php endif; ?>
 
-      <div class="success-msg" style="color:green">{{Session::get('success')}}</div>
-      <div class="error-msg" style="color:red">{{Session::get('error')}}</div>
+      <div class="success-msg" style="color:green"><?php echo e(Session::get('success')); ?></div>
+      <div class="error-msg" style="color:red"><?php echo e(Session::get('error')); ?></div>
 
       <div class="input-container">
-        <label for="uname"><b>UserName</b></label>
-        <input type="text" name="email" placeholder="" class="input-field">
+        <label for="parent_id"><b>Referral ID</b></label>
+        <input type="text" placeholder="" id="parent_id"  name="parent_id" value="<?php echo  Cookie::get('referrer_user')?>" autocomplete="off" class="input-field">
       </div>
 
+      <div class="input-container">
+        <label for="nation_id_number"><b>NID</b></label>
+        <input type="text"  placeholder="NID" id="nation_id_number" name="nation_id_number" autocomplete="off" class="input-field">
+      </div>
+
+ 
+
+      <div class="input-container">
+        <label for="phone"><b>Phone</b></label>
+        <input type="text"  placeholder="Phone" id="customer_phone" name="phone" autocomplete="off" class="input-field" >
+      </div>
+
+      <div class="input-container">
+        <label for="uname"><b>Email</b></label>
+        <input type="text"placeholder="Email" id="email" name="email" autocomplete="off" class="input-field">
+      </div>
+ 
       <div class="input-container">
         <label for="psw"><b>Password</b></label>
         <input type="password" id="password" name="password" placeholder="" class="input-field" required>
         <i class="fa fa-eye icon-hide"></i>
       </div>
+      <div class="input-container">
+      <input  required type="checkbox" name="checkbox" value="1" />
+            <span style="color:#fff">  I have read and agree with the </span><a style="color:#fff" href="<?php echo e(url('/')); ?>/terms-condition" target="_blank">Terms & Conditions</a>
+ 
+      </div>
 
-      <button class="button_class" type="submit">Login</button>
+     
+
+      <button class="button_class" type="submit">Submit</button>
 
       <div class="forgot-password">
-        <span><a href="{{URL::to('/forgot-password')}}">Forgot Your Password?</a></span>
+        <span><a href="<?php echo e(URL::to('/login')); ?>" >Already have an account ? Login</a></span>
       </div>
     </form>
   </div>
@@ -209,3 +234,4 @@
 
 </body>
 </html>
+<?php /**PATH D:\xampp7\htdocs\zakwanbd\affiliate\resources\views/website/sign_up.blade.php ENDPATH**/ ?>

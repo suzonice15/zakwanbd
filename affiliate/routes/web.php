@@ -29,6 +29,8 @@ Route::get('/affiliate/contest', 'HomeController@sponsor');
 Route::get('/website/contest/{id}', 'HomeController@websiteContestResult');
 Route::post('/affilite_login_check', 'HomeController@login_check');
 Route::get('/registration', 'HomeController@registration');
+Route::get('/registrationB', 'HomeController@registrationB');
+Route::get('/home', 'HomeController@hometest');
 Route::post('/registration', 'HomeController@store');
 Route::get('varify/{id}', 'HomeController@varify');
 Route::get('reset/{id}', 'HomeController@reset');
@@ -272,7 +274,9 @@ Route::get('/check-vendor-cashback', 'HomeController@check_vendor_cashback');
 Route::get('/admin/active/affiliate/{id}','admin\AdminController@activeUser');
 
 Route::get('/affilite/email_check', 'HomeController@email_check');
-Route::get('/', 'HomeController@login');
+ Route::get('/login', 'HomeController@login');
+ Route::get('/loginSignUp', 'HomeController@loginSignUp');
+Route::get('/', 'HomeController@home');
 
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');

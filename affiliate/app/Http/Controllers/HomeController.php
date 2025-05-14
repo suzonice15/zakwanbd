@@ -973,6 +973,22 @@ class HomeController extends Controller
         return view('website.home',compact('total_user','total_income','total_product'));
     }
 
+    
+    public function home()
+    {  
+        
+        return view('website.new_home');
+    }
+
+    public function loginSignUp()
+    {  
+        
+        return view('website.loginSignUp');
+    }
+    
+
+    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -999,13 +1015,7 @@ class HomeController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        $emailValueGet=$request->email;
-        $passwordValueGet=$request->password;
-        if ($emailValueGet=='') {
-            return redirect('/')->with('error', "Email Field Empty");
-        }else if($passwordValueGet==''){
-            return redirect('/')->with('error', "Password Field Empty");
-        }
+         
         date_default_timezone_set('Asia/Dhaka');
         $user = DB::table('users_public')
             ->where('password', md5($request->password))
@@ -1013,11 +1023,11 @@ class HomeController extends Controller
                 return $query->where('phone', $request->email)
                     ->orWhere('email', $request->email);
             })->first();
-        // ->OrWhere('phone',$request->email)->first();
+    
         if ($user) {
             $token = $user->token;
             if ($token !== 'ok') {
-                return redirect('/')->with('error', "Email Not Varified");
+                return redirect('/login')->with('error', "Email Not Varified");
             } else {
                 $today = date('Y-m-d');
                 $login_status['user_id'] = $user->id;
@@ -1067,10 +1077,10 @@ class HomeController extends Controller
                     Session::put('picture', $user->picture);
                     return redirect('dashboard');
                 } else {
-                    return redirect('/')->with('error', "Email Or Phone is invalid");
+                    return redirect('/login')->with('error', "Email Or Phone is invalid");
                 }
             } else {
-                return redirect('/')->with('error', "Email Or Password is invalid");
+                return redirect('/login')->with('error', "Email Or Password is invalid");
             }
         }
     }
@@ -1086,11 +1096,12 @@ class HomeController extends Controller
 
 
     public function registration()
-    {
-        
-        
-        return view('website.sign_up');
+    {  return view('website.sign_up');
     }
+    public function registrationB()
+    {  return view('website.sign_up_back_up');
+    }
+    
 
     public function store(Request $request)
     {
