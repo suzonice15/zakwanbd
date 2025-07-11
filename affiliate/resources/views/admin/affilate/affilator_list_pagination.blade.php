@@ -2,17 +2,17 @@
 
 if($affilates){
  foreach($affilates as $row ){
-$skil_point=DB::table('marketing_metarial')->where('affiliate_id',$row->id)->where('status',1)->sum('marketing_metarial.skill_point');
+//$skil_point=DB::table('marketing_metarial')->where('affiliate_id',$row->id)->where('status',1)->sum('marketing_metarial.skill_point');
 
 
-$account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderBy('account_suspend_id','desc')->first();
-        if($account_suspend){
-            $account_suspend= $account_suspend->status;
+// $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderBy('account_suspend_id','desc')->first();
+//         if($account_suspend){
+//             $account_suspend= $account_suspend->status;
 
-        } else {
-            $account_suspend=0;
+//         } else {
+//             $account_suspend=0;
 
-        }
+//         }
 
 ?>
 
@@ -22,19 +22,26 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
     <td>{{$row->name}}</td>
 
     <td>{{$row->email}}</td>
-    <td>
-        <?php
-            $lavel = DB::table('affilite_commission_lavel')->where('user_id',$row->id)->where('active', '=', 1)->orderBy('commision_lavel_id', 'desc')->first();
-            if ($lavel) {
-                echo $lavel->lavel;
-            }else{
-                echo "1";
-            }
-        ?>
-    </td>
-    <td>{{$row->phone}}</td>
+        <td>{{$row->phone}}</td> 
 
     <td>
+        <?php
+            // $lavel = DB::table('affilite_commission_lavel')->where('user_id',$row->id)->where('active', '=', 1)->orderBy('commision_lavel_id', 'desc')->first();
+            // if ($lavel) {
+            //     echo $lavel->lavel;
+            // }else{
+            //     echo "1";
+            // }
+        ?>
+    </td>
+  
+    <td>{{$row->life_time_earning}}</td>
+    <td>{{$row->earning_balance}}</td>
+    <td>{{$row->withdraw_balance}}</td> 
+    {{--  <td>{{$skil_point}}</td> --}}
+    <td>{{ date('d-m-Y',strtotime($row->created))}}</td>
+
+  <td>
        @if($row->status==1)
 
             <span class = "label label-success">Active</span>
@@ -44,13 +51,6 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
            @endif
 
     </td>
-    <td>{{$row->life_time_earning}}</td>
-    <td>{{$row->withdraw_balance}}</td>
-
-    <td>{{$skil_point}}</td>
-    <td>{{ date('d,M,Y',strtotime($row->created))}}</td>
-
-
     <td>
         @if($row->token=='ok')
 
@@ -59,22 +59,22 @@ $account_suspend=DB::table('account_suspend')->where('user_id',$row->id)->orderB
                 <span class="glyphicon glyphicon-check btn btn-info"></span>
             </a>
         @endif
-        <a id="affilite_id" data-id="{{$row->id}}" data-toggle="modal" data-target="#modal-default" href="#">
-            <span class="glyphicon glyphicon-eye-open btn btn-success"></span>
+        <a id="affilite_id" data-id="{{$row->id}}" data-toggle="modal" class="btn btn-success btn-sm" data-target="#modal-default" href="#">
+            <span class="glyphicon glyphicon-eye-open "></span>
         </a>
-
+ {{--
         <?php if($account_suspend==1){ ?>
 
-        <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="btn btn-danger" data-target="#modal-suspend" href="#">
+        <!-- <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="label label-danger" data-target="#modal-suspend" href="#">
 
-            Already Suspend
-        </a>
+              Suspended
+        </a> -->
         <?php } else { ?>
-        <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="btn btn-info" data-target="#modal-suspend" href="#">
-
-            Suspend Now
-        </a>
+        <!-- <a id="suspend_id" data-id="{{$row->id}}" data-toggle="modal" class="label label-info" data-target="#modal-suspend" href="#"> 
+            Suspend
+        </a> -->
         <?php } ?>
+        --}}
 
     </td>
 

@@ -11,36 +11,33 @@
 
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-8">
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <input type="text" class="form-control" id="serach" placeholder="Enter Affiliate Name Or Mail Or Phone">
 
                 </div>
             </div>
 
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" style="margin-top:5px">
 
             <table  class="table table-bordered table-striped   ">
                 <thead>
                 <tr>
-                    <th>Sl</th>
-                    <th>Affiliate ID</th>
+                    <th>Sl</th> 
                     <th>Name</th>
                     <th>Trx ID.</th>
                     <th>Withdraw To</th>
-                    <th>Account Name</th>
-
+                    <th>Account Name</th> 
                     <th>Account Number</th>
-                    <th>Amount</th>
+                    <th>Request Amount</th>
+                    <th>Payable Amount</th>
                     
                     <th>Status</th>
                     <th> Date</th>
-                    <th>Action</th>
-
-
+                    <th>Action</th> 
                 </tr>
                 </thead>
                 <tbody>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zakwan Affiliate  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakwan Affiliate </title>
   <style>
     * {
       margin: 0;
@@ -13,17 +14,20 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #0f172a; /* Background color */
+      background-color: #021C88;
+      /* Background color */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       color: white;
-      overflow: hidden; /* Prevents page scroll due to animation */
+      overflow: hidden;
+      /* Prevents page scroll due to animation */
     }
 
     header {
-      background-color: #1f2937; /* Dark header background */
-      padding:15px 20px; 
+      background-color: #001869;
+      /* Dark header background */
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -45,11 +49,13 @@
     /* Container that wraps the center message */
     .center-wrapper {
       flex: 1;
-      display: flex;
+      display: grid;
       justify-content: center;
       align-items: center;
-      min-height: calc(100vh - 80px); /* Adjust based on header height */
-      overflow: hidden; /* Prevent scroll */
+      min-height: calc(100vh - 80px);
+     
+      overflow: hidden;
+    
     }
 
     /* Text message with animation */
@@ -81,24 +87,33 @@
         font-size: 1.3rem;
       }
     }
-    a{
-      color:white;
+
+    a {
+      color: white;
       text-decoration: none;
-      
+
     }
+    .text-center{text-align: center;}
   </style>
 </head>
+
 <body>
   <header>
-    <div class="site-name">Zakwan Affiliate</div>
+    <div class="site-name">Zakwan</div>
     <div class="login-text"><a href="{{url('/')}}/loginSignUp">Login</a></div>
   </header>
 
   <!-- Wrapper for center message -->
-  <div class="center-wrapper">
-    <div class="center-message">
-      Welcome to Zakwan Affiliate
-    </div>
+   <div class="text-center">
+         <img src="{{url('/public/images/logo_icon.png')}}"   style="height:300px" /> 
+   </div>
+  <div class="center-wrapperx"> 
+    <div class="center-message"> 
+       <h4>Welcome to Zakwan Affiliate</h4> 
+       <br/>
+       <h4> জাকওয়ান অ্যাফিলিয়েট   আপনার সাফল্যের নতুন দিগন্ত !</h4>
+    </div>  
   </div>
 </body>
+
 </html>

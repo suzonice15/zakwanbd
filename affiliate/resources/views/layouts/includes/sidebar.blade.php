@@ -11,9 +11,9 @@
 
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar" style="background-color: #2d3b45">
+    <section class="sidebar" style="background-color: #0f172a">
         <!-- Sidebar user panel -->
-        <div class="user-panel">
+        <div class="user-panel" style="background-color: #1f2937">
             <div class="pull-left image">
                 <?php
                $image= Session::get('picture');
@@ -24,7 +24,7 @@
 
                 <?php } else { ?>
 
-                    <img  src="{{ env('APP_ECOMMERCE') }}public/uploads/user.png" class="img-circle"
+                    <img  src="{{ url('/')}}/public/uploads/user.png" class="img-circle"
                          alt="User Image">
 
                 <?php } ?>
@@ -35,7 +35,7 @@
                 $status= Session::get('status');
 
                 ?>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#" style="color:white" ><i class="fa fa-circle text-success"></i> Online</a>
                 @if($status=='user')
                 <br>
                 <a href="{{url('/profile')}}">

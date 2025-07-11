@@ -151,7 +151,8 @@
   <div class="login-container">
     <div class="login-title">Registration Form
     </div>
-    <form action="{{url('/')}}/affilite_login_check" method="post" onsubmit="return validateForm()">
+ 
+    <form action="{{url('/')}}/registration" method="post" onsubmit="return validateForm()">
       @csrf
 
       @if(count($errors) > 0)

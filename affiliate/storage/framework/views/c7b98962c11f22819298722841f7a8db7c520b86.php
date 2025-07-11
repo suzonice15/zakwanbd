@@ -55,8 +55,8 @@
 
 
       <!-- Default box -->
-      <div class="box box-primary" style="border-top:2px solid #9f29ff">
-        <div class="box-header with-border" style="text-align: center;background-color:#9f29ff;color:#ffffff;">
+      <div class="box box-primary" style="border-top:2px solid #1f2937">
+        <div class="box-header with-border" style="text-align: center;background-color:#1f2937;color:#ffffff;">
           <h3 class="box-title"> <?php echo $__env->yieldContent('pageTitle'); ?></h3>
         </div>
           <?php echo $__env->yieldContent('mainContent'); ?>

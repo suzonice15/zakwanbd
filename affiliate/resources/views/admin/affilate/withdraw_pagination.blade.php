@@ -1,41 +1,36 @@
 @if(isset($withdraws))
     <?php $i = $withdraws->perPage() * ($withdraws->currentPage() - 1);?>
     @foreach ($withdraws as $withdraw)
-        <tr>
+        <tr> 
 
-
-
-            <td>{{$withdraw->id}}</td>
-            <td>{{$withdraw->order_id}}</td>
-            <td>{{$withdraw->date}}</td>
-
-
-
+            <td class="text-center">{{$withdraw->id}}</td>
+            <td class="text-center">{{$withdraw->order_id}}</td>
+            <td>{{$withdraw->date}}</td> 
             <td>{{$withdraw->to_user_ac}}</td>
             <td>{{$withdraw->account}}</td>
             <td>{{$withdraw->account_number}}</td>
-            <td>{{$withdraw->amount}}</td>
-
-            <td><?php
-
-                    if($withdraw->status==1){
-
-                ?>
-
+            <td>{{$withdraw->amount}}</td> 
+            <td>
+               @if($withdraw->status==1)  
                 <button class="btn btn-success">
                     Paid
                     </button>
-                <?php } elseif($withdraw->status==0) { ?>
+             @elseif($withdraw->status==0)  
 
                 <button class="btn btn-info">
                   Request
                 </button>
-                <?php } else { ?>
+                   @elseif($withdraw->status==3)  
+
+                <button class="btn btn-info">
+                  Charge
+                </button>
+                @else  
 
                 <button class="btn btn-danger">
                  Rejected
                 </button>
-                <?php } ?>
+               @endif
             </td>
 
 

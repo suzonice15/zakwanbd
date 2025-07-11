@@ -4,47 +4,68 @@
 
         <?php
 
+       $amount= $withdraw->amount;
+       $payableAmount=($amount- ($withdraw->amount * $deduction)/100);
+
+        
+
 
       $name=  DB::table('users_public')->where('id',$withdraw->from_user_id)->value('name');
 
         ?>
         <tr style="<?php if($withdraw->status==1): ?> background-color: green;color:white <?php endif; ?>">
-            <td><?php echo e(++$i); ?></td>
-            <td><?php echo e($withdraw->from_user_id); ?></td>
-            <td><?php echo e($name); ?></td>
+            <td><?php echo e(++$i); ?></td> 
+            <td><?php echo e($name); ?> (<?php echo e($withdraw->from_user_id); ?>)</td>
             <td><?php echo e($withdraw->id); ?></td>
             <td><?php echo e($withdraw->to_user_ac); ?></td>
             <td><?php echo e($withdraw->account); ?></td>
              <td >
                 <?php if($withdraw->account_number): ?>
-                <input type="text" id="<?php echo e($withdraw->id); ?>" value="<?php echo e($withdraw->account_number); ?>">
+                <input type="text"   <?php if($withdraw->status == 1): ?>  style="color:#000" <?php endif; ?> id="<?php echo e($withdraw->id); ?>" value="<?php echo e($withdraw->account_number); ?>">
+                <?php if($withdraw->status == 0): ?>
                 <button class="btn btn-success btn-sm" onclick="return AccountNumberCopy(<?php echo e($withdraw->id); ?>)">Copy</button>
                 <br/>
                 <span  style="color:green;font-weight:bold" id="result_<?php echo e($withdraw->id); ?>"></span>
+                <?php endif; ?>
                     <?php endif; ?>
             </td>
-            <td><?php echo e($withdraw->amount); ?></td>
+            <td>
+                <?php if($withdraw->status != 3): ?>
+                <?php echo e($withdraw->amount); ?>
+
+                <?php endif; ?>
             
-            <td><?php
-                if($withdraw->status==1){
-                ?>
-                <button class="btn btn-success btn-sm">Paid  </button>
-                <?php } elseif($withdraw->status==0) { ?>
-                <button class="btn btn-info btn-sm">
-                    Request
-                </button>
-                <?php } else { ?>
-                <button class="btn btn-danger btn-sm">
-                    Rejected
-                </button>
-                <?php } ?>
             </td>
+            <td>
+              <?php if($withdraw->status != 3): ?>
+              <?php echo e($payableAmount); ?>
+
+              <?php else: ?> 
+               <?php echo e($withdraw->amount); ?>
+
+              <?php endif; ?>
+            </td>
+            
+           <td>
+    <?php if($withdraw->status == 1): ?>
+        <span class="btn btn-success btn-sm">Paid</span>
+    <?php elseif($withdraw->status == 0): ?>
+        <span class="btn btn-info btn-sm">Request</span>
+    <?php elseif($withdraw->status == 3): ?>
+        <span class="btn btn-warning btn-sm">Charge</span>
+    <?php else: ?>
+        <span class="btn btn-danger btn-sm">Rejected</span>
+    <?php endif; ?>
+</td>
+
             </td>
             <td><?php echo e(date('d-F-Y H:i:s a',strtotime($withdraw->date))); ?></td>
             <td>
+                 <?php if(in_array($withdraw->status,[0,2])): ?>
                 <a href="<?php echo e(url('/admin/editWithdrawStatus/'.$withdraw->id)); ?>" >
                     <button type="button" class="btn btn-info btn-sm">Edit</button>
                 </a>
+                <?php endif; ?>
             </td>
         </tr>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

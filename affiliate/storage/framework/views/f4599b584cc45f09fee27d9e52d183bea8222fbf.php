@@ -12,37 +12,43 @@
 
             <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-md-7">
 
                     </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="serach" placeholder="Enter Affiliate Name Or Mail Or Phone">
+                    <form autocomplete="off">
+<input 
+    type="text" 
+    class="form-control" 
+    id="serachDb" 
+    name="search_affiliate" 
+    autocomplete="new-password" 
+    placeholder="search here...">
+                    </form>
 
                 </div>
             </div>
 
             </div>
-        <div class="table-responsive">
+        <div class="table-responsive " style="margin-top: 10px;">
             <table  id="main_table" class="table table-bordered table-striped   ">
                 <thead>
-                <tr>
-
+                <tr> 
                     <th>Id</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Lavel</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Life Time Income</th>
-                    <th>Life Time Withdraw</th>
-
-                    <th>Skill Point</th>
+                    <th>Email</th> 
+                    <th>Phone</th> 
+                     <th>Designation</th>
+                    <th>LT. Income</th>
+                    <th>E. Balance</th>
+                    <th>LT. Withdraw</th> 
+                    <!-- <th>Skill Point</th> -->
                     <th>Date</th>
-                    <th>Action</th>
-
+                      <th>Status</th>
+                    <th>Action</th> 
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="main_data">
 
 
               <?php echo $__env->make('admin.affilate.affilator_list_pagination', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -69,14 +75,14 @@
                     url:"<?php echo e(url('/admin/affilite/affilite_pagination')); ?>?page="+page+"&query="+query,
                     success:function(data)
                     {
-                        $('tbody').html('');
-                        $('tbody').html(data);
+                        $('#main_data').html('');
+                        $('#main_data').html(data);
                     }
                 })
             }
 
-            $(document).on('keyup input', '#serach', function(){
-                var query = $('#serach').val();
+            $(document).on('keyup input', '#serachDb', function(){
+                var query = $('#serachDb').val();
                 var page = $('#hidden_page').val();
                 if(query.length >0) {
                     fetch_data(page, query);
@@ -90,7 +96,7 @@
                 event.preventDefault();
                 var page = $(this).attr('href').split('page=')[1];
                 $('#hidden_page').val(page);
-                var query = $('#serach').val();
+                var query = $('#serachDb').val();
                 fetch_data(page, query);
             });
 
@@ -100,19 +106,14 @@
 
 
             $(document).on('click', '#affilite_id', function(){
-                var affilite_id=  $(this).attr("data-id") // will return the string "123"
-
-
-            if(affilite_id) {
-
-
+                var affilite_id=  $(this).attr("data-id") // will return the string "123" 
+            if(affilite_id) {   
                 $.ajax({
                     type: "GET",
                     url: "<?php echo e(url('/admin/affilite/affilite/show')); ?>?affilite_id=" + affilite_id,
-                    success: function (data) {
-
+                    success: function (data) {  
                         $('.affilite_details_id').empty();
-                        $('.affilite_details_id').html(data);
+                        $('.affilite_details_id').html(data); 
                     }
                 })
             }

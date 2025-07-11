@@ -151,7 +151,8 @@
   <div class="login-container">
     <div class="login-title">Registration Form
     </div>
-    <form action="<?php echo e(url('/')); ?>/affilite_login_check" method="post" onsubmit="return validateForm()">
+ 
+    <form action="<?php echo e(url('/')); ?>/registration" method="post" onsubmit="return validateForm()">
       <?php echo csrf_field(); ?>
 
       <?php if(count($errors) > 0): ?>

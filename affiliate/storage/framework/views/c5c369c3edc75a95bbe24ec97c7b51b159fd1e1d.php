@@ -33,6 +33,12 @@
 
                 Withdraw History   <small class="label pull-right bg-red"  onMouseOver="withdraw_count()" id="withdraw_count">0</small></a>
         </li>
+         <li><a href=" <?php echo e(url('admin/withdrawCharge')); ?>">
+
+                <i class="fs-small fa fa-arrow-circle-right"></i>
+
+                Withdraw Charge   <small class="label pull-right bg-red"   ></small></a>
+        </li>
         <li><a href=" <?php echo e(url('admin/income/history')); ?>">
 
                 <i class="fs-small fa fa-arrow-circle-right"></i>

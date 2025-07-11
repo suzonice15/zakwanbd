@@ -165,7 +165,7 @@ use Pusher\Pusher;
             ->join('product','product_update_notification.product_id','=','product.product_id')
             ->where('affiliate_id',$user_id)
             ->orderBy('product_update_notification.created_at','desc')
-            ->paginate(15);
+            ->paginate(20);
 
 
         return view('admin.affilate.productNotification', $data);
@@ -828,8 +828,8 @@ public  function  orderhistoryDetails($id){
 
                 $data_banck['to_user_ac'] ="Wallet Transfer";
                 $data_banck['status']=1;
-            if($amount <=499){
-                return redirect('withdraw')->with('w_error','Minimum Withdraw is 500 Taka');
+            if($amount <=99){
+                return redirect('withdraw')->with('w_error','Minimum Withdraw is 100 Taka');
             }
 
 
@@ -849,8 +849,8 @@ public  function  orderhistoryDetails($id){
 
         if($base_balance < $amount){
             return redirect('withdraw')->with('w_error','Your Main Blance is Low');
-        } elseif ($amount < 500){
-            return redirect('withdraw')->with('w_error','Minimum withdrow blance 500 Taka');
+        } elseif ($amount < 100){
+            return redirect('withdraw')->with('w_error','Minimum withdrow blance 100 Taka');
         } else {
             $data['earning_balance']=$base_balance-$amount;
             DB::table('withdraw_history')->insert($data_banck);

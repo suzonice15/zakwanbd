@@ -30,42 +30,12 @@
     </style>
 
 <br/>
-
-    <div class="container">
-
+ 
 
 
-
-
-
-
+    <div class="container"> 
 <div class="row">
-            <ul class="breadcrumb">
-                <li><a href="{{url('/')}}">Home</a></li>
-                <li>Tearms & Conditions</li>
-
-            </ul>
-            
-            </div>
-            
-            </div>
-
-
-
-    <div class="container">
-
-
-
-
-
-
-
-<div class="row">
-    <div class="col-md-12 col-xs-12">
-
-
-           
-
+    <div class="col-md-12 col-xs-12"> 
 
                <?php echo $page->page_content; ?>
             

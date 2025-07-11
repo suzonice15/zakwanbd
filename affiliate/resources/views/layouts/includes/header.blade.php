@@ -64,7 +64,7 @@
 
 /* Optional: change the brand logo background color */
   .logo {
-    background-color: #16a085 !important; /* Emerald Green */
+    background-color: #4d5764 !important; /* Emerald Green */
 }
 
 .nav-sidebar .nav-link:hover {
@@ -114,9 +114,10 @@
                       ->join('product_update_notification','product_update_notification.product_id','=','product_update_affiliate_notification.product_id')
                       ->join('product','product_update_notification.product_id','=','product.product_id')
                       ->where('affiliate_id',$user_id)
-                      ->where('product_update_affiliate_notification.status',0)
+                    //   ->where('product_update_affiliate_notification.status',0)
                       ->orderBy('product_update_notification.created_at','desc')
-                      ->paginate(10);
+                       ->limit(10)
+                ->get();
 
         $total_messages=  DB::table('message_to_affilates')
                 ->where('affiliate_id',$user_id)
@@ -129,7 +130,8 @@
                    ->where('affiliate_id',$user_id)
                 ->where('status',0)
                 ->orderBy('id','desc')
-                ->paginate(10);
+                ->limit(10)
+                ->get();
 
 
 
@@ -164,7 +166,7 @@
                     padding: 10px 8.5px !important;
             }
         </style>
-        <nav class="navbar navbar-static-top" style="background-color: #1e2a37 !important;">
+        <nav class="navbar navbar-static-top" style="background-color: #4d5764  !important;">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
@@ -214,7 +216,7 @@
                                        @foreach($messages as $message)
                                     <li>
                                         <a href="{{url('/')}}/user/message">
-                                            <p>{{$message->message}}</p>
+                                            <p>{!!$message->message!!}</p>
                                         </a>
                                     </li>
                                        @endforeach
@@ -238,7 +240,7 @@
                                        @foreach($notifications as $notification)
                                     <li>
                                         <div class="pull-left">
-                                            <img   src="https://www.sohojbuy.com/public/uploads/{{$notification->folder}}/small/{{$notification->feasured_image}}" class="img-circle" alt="User Image">
+                                            <img   src="https://www.zakwanbd.com/public/uploads/{{$notification->folder}}/small/{{$notification->feasured_image}}" class="img-circle" alt="User Image">
                                         </div>
                                         <a href="#" >
                                             <p class="{{ $notification->status==0 ? 'notification_active_class':'notification_inactive_class' }}" >{{$notification->product_title}}</p>
@@ -268,7 +270,7 @@
 
                             <?php } else { ?>
 
-                            <img style="height: 20px; width: 25px;" src="{{ env('APP_ECOMMERCE') }}public/uploads/user.png" class="img-circle"
+                            <img style="height: 20px; width: 25px;" src="{{url('/') }}/public/uploads/user.png" class="img-circle"
                                  alt="User Image">
 
                             <?php } ?>
@@ -287,7 +289,7 @@
 
                                 <?php } else { ?>
 
-                                <img src="{{ env('APP_ECOMMERCE') }}public/uploads/user.png" class="img-circle"
+                                <img src="{{ url('/') }}/public/uploads/user.png" class="img-circle"
                                      alt="User Image">
 
                                 <?php } ?>

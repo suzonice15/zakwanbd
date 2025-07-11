@@ -121,8 +121,7 @@
                         <tr>
                             <th>Trx ID.</th>
                             <th>Order Id</th>
-                            <th>Date</th>
-
+                            <th>Date</th> 
                             <th>Transfer To</th>
                             <th>Account Name</th>
                             <th>Account Number</th>

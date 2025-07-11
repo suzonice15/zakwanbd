@@ -12,6 +12,7 @@ use Image;
 use Illuminate\Support\Facades\Redirect;
 use URL;
 use Pusher\Pusher;
+    use Carbon\Carbon;
 
 class AdminAffiliteController extends Controller
 {
@@ -45,7 +46,7 @@ class AdminAffiliteController extends Controller
             $data['main'] = 'Affilate';
             $data['active'] = 'Campain list';
             $data['savedIncomeData'] =  IncomeConfig::get()->toArray();
-          
+
             return view('admin.affilate.commisionSetting', $data);
         } else {
             return view('login');
@@ -53,25 +54,25 @@ class AdminAffiliteController extends Controller
     }
 
     public function storeIncomeConfig(Request $request)
-{
-    $types = $request->input('type');
-    $referars = $request->input('referar');
-    $payPerOrders = $request->input('pay_per_order');
-    $payLimits = $request->input('pay_limit');
+    {
+        $types = $request->input('type');
+        $referars = $request->input('referar');
+        $payPerOrders = $request->input('pay_per_order');
+        $payLimits = $request->input('pay_limit');
 
-    foreach ($types as $index => $type) {
-        IncomeConfig::updateOrCreate(
-            ['type' => $type],
-            [
-                'referar' => $referars[$index],
-                'pay_per_order' => $payPerOrders[$index],
-                'pay_limit' => $payLimits[$index],
-            ]
-        );
+        foreach ($types as $index => $type) {
+            IncomeConfig::updateOrCreate(
+                ['type' => $type],
+                [
+                    'referar' => $referars[$index],
+                    'pay_per_order' => $payPerOrders[$index],
+                    'pay_limit' => $payLimits[$index],
+                ]
+            );
+        }
+
+        return back()->with('success', 'Income configs saved!');
     }
-
-    return back()->with('success', 'Income configs saved!');
-}
 
 
 
@@ -79,90 +80,80 @@ class AdminAffiliteController extends Controller
     {
         DB::table('users_public')->where('id', $id)->update(['token' => 'ok']);
         return redirect('admin/affilator_list');
-
     }
 
 
-    public function inactiveAllAffilate()
-    {
 
-        $month = date("m");
-        $previous_month = date("m") - 1;
-        $previous_year = date("Y");
-        $day = date("d");
+public function inactiveAllAffilate()
+{
+    $today = Carbon::today();
+    $ninetyDaysAgo = $today->copy()->subDays(90);
 
-        $today = date("Y") . '-' . $month . '-' . $day;
-        if ($previous_month == 0) {
-            $previous_month = 12;
-            $previous_year = date("Y") - 1;
-        }
-        if ($previous_month < 10) {
-            $previous_month = '0' . $previous_month;
-        }
-        $previous_day = $previous_year . '-' . $previous_month . '-' . $day;
+    $users = DB::table('users_public')->select('id', 'created')->get();
 
-        $users = DB::table('users_public')->select('id')->orderBy('id', 'desc')->get();
-        foreach ($users as $key => $user) {
-            $user_row = DB::table('users_public')->where('id', '=', $user->id)->first();
-            $joining_date = date_create($user_row->created);
-            $today_for_minus = date_create($today);
-            $diff = date_diff($joining_date, $today_for_minus);
-            $day = $diff->format("%R%a");
-            if ($day <= '+30') {
-                DB::table('users_public')->where('id', '=', $user->id)->update(['status' => 1]);
+    foreach ($users as $user) {
+        $joiningDate = Carbon::parse($user->created);
+
+        // If user joined within the last 30 days, keep active
+        if ($joiningDate->diffInDays($today) <= 30) {
+            DB::table('users_public')->where('id', $user->id)->update(['status' => 1]);
+        } else {
+            // Check if the user has placed any completed orders in the last 90 days
+            $orderCount = DB::table('order_data')
+                ->where('order_status', 'completed')
+                ->where('user_id', $user->id)
+                ->whereDate('modified_time', '>=', $ninetyDaysAgo)
+                ->count();
+
+            if ($orderCount == 0) {
+                DB::table('users_public')->where('id', $user->id)->update(['status' => 0]);
             } else {
-                $orderCount = DB::table('order_data')
-                    ->where('order_status', '=', 'completed')
-                    ->whereBetween('modified_time', [$previous_day, $today])
-                    ->where('user_id', '=', $user->id)->count();
-                if ($orderCount == 0) {
-                    DB::table('users_public')->where('id', '=', $user->id)->update(['status' => 0]);
-                } else {
-                    DB::table('users_public')->where('id', '=', $user->id)->update(['status' => 1]);
-                }
+                DB::table('users_public')->where('id', $user->id)->update(['status' => 1]);
             }
         }
-        return redirect()->back();
-
     }
+
+    return redirect()->back();
+}
+
 
     public function inactiveUser()
     {
 
-//        $month=date("m");
-//        $previous_month=date("m")-1;
-//        $previous_year=date("Y");
-//        $day=date("d");
-//
-//        $today=date("Y").'-'.$month.'-'.$day;
-//        if($previous_month==0){
-//            $previous_month=12;
-//            $previous_year=date("Y")-1;
-//        }
-//        if($previous_month <10){
-//            $previous_month='0'.$previous_month;
-//        }
-//        $previous_day=$previous_year.'-'.$previous_month.'-'.$day;
-//
-//
-//
-//
-//
-//        $users= DB::table('users_public')->select('id')->select('id')->get();
-//        foreach ($users as $user){
-//
-//
-//            $orderCount= DB::table('order_data')
-//                ->where('order_status','=','completed')
-//                ->whereBetween('order_date', [$previous_day, $today])
-//                ->where('user_id','=',$user->id)->count();
-//            if($orderCount==0){
-//                DB::table('users_public')->where('id','=',$user->id)->update(['status'=>0]);
-//            } else {
-//                DB::table('users_public')->where('id','=',$user->id)->update(['status'=>1]);
-//
-//            }
-//        }
+        //        $month=date("m");
+        //        $previous_month=date("m")-1;
+        //        $previous_year=date("Y");
+        //        $day=date("d");
+        //
+        //        $today=date("Y").'-'.$month.'-'.$day;
+        //        if($previous_month==0){
+        //            $previous_month=12;
+        //            $previous_year=date("Y")-1;
+        //        }
+        //        if($previous_month <10){
+        //            $previous_month='0'.$previous_month;
+        //        }
+        //        $previous_day=$previous_year.'-'.$previous_month.'-'.$day;
+        //
+        //
+        //
+        //
+        //
+        //        $users= DB::table('users_public')->select('id')->select('id')->get();
+        //        foreach ($users as $user){
+        //
+        //
+        //            $orderCount= DB::table('order_data')
+        //                ->where('order_status','=','completed')
+        //                ->whereBetween('order_date', [$previous_day, $today])
+        //                ->where('user_id','=',$user->id)->count();
+        //            if($orderCount==0){
+        //                DB::table('users_public')->where('id','=',$user->id)->update(['status'=>0]);
+        //            } else {
+        //                DB::table('users_public')->where('id','=',$user->id)->update(['status'=>1]);
+        //
+        //            }
+        //        }
 
 
         $data['affilates'] = DB::table('users_public')->where('status', "=", 0)->orderBy('id', 'desc')->paginate(10);
@@ -178,12 +169,11 @@ class AdminAffiliteController extends Controller
             ->where('status', "=", 0)
             ->where(function ($query_sql) use ($query) {
                 return (
-                $query_sql->orWhere('phone', 'LIKE', '%' . $query . '%')
+                    $query_sql->orWhere('phone', 'LIKE', '%' . $query . '%')
                     ->orWhere('name', 'LIKE', '%' . $query . '%')
                     ->orWhere('id', 'LIKE', '%' . $query . '%')
                     ->orWhere('email', 'LIKE', '%' . $query . '%')
                 );
-
             })
             ->orderBy('id', 'desc')
             ->paginate(10);
@@ -210,7 +200,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
     public function royaltyFoundDistribution()
@@ -219,8 +208,11 @@ class AdminAffiliteController extends Controller
         if ($status == 'super-admin') {
 
             $users = DB::table("order_data")
-                ->select('user_id', 'name'
-                    , DB::raw("count(order_data.user_id) as total"))
+                ->select(
+                    'user_id',
+                    'name',
+                    DB::raw("count(order_data.user_id) as total")
+                )
                 ->join('users_public', 'users_public.id', '=', 'order_data.user_id')
                 ->where('order_status', 'completed')
                 ->where('status', '=', 1)
@@ -265,94 +257,72 @@ class AdminAffiliteController extends Controller
                 } elseif ($counter == 2) {
                     $position_amount_2 = ($fund->amount * $position->commistion_lavel_2) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_2);
-
                 } elseif ($counter == 3) {
                     $position_amount_3 = ($fund->amount * $position->commistion_lavel_3) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_3);
-
                 } elseif ($counter == 4) {
                     $position_amount_4 = ($fund->amount * $position->commistion_lavel_4) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_4);
-
                 } elseif ($counter == 5) {
                     $position_amount_5 = ($fund->amount * $position->commistion_lavel_5) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_5);
-
                 } elseif ($counter == 6) {
                     $position_amount_6 = ($fund->amount * $position->commistion_lavel_6) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_6);
-
                 } elseif ($counter == 7) {
                     $position_amount_7 = ($fund->amount * $position->commistion_lavel_7) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_7);
-
                 } elseif ($counter == 8) {
                     $position_amount_8 = ($fund->amount * $position->commistion_lavel_8) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_8);
-
                 } elseif ($counter == 9) {
                     $position_amount_9 = ($fund->amount * $position->commistion_lavel_9) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_9);
-
                 } elseif ($counter == 10) {
                     $position_amount_10 = ($fund->amount * $position->commistion_lavel_10) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_10);
-
                 } elseif ($counter == 11) {
                     $position_amount_11 = ($fund->amount * $position->commistion_lavel_11) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_11);
-
                 } elseif ($counter == 12) {
                     $position_amount_12 = ($fund->amount * $position->commistion_lavel_12) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_12);
-
                 } elseif ($counter == 13) {
                     $position_amount_13 = ($fund->amount * $position->commistion_lavel_13) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_13);
-
                 } elseif ($counter == 14) {
                     $position_amount_14 = ($fund->amount * $position->commistion_lavel_14) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_14);
-
                 } elseif ($counter == 15) {
                     $position_amount_15 = ($fund->amount * $position->commistion_lavel_15) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_15);
-
                 } elseif ($counter == 16) {
                     $position_amount_16 = ($fund->amount * $position->commistion_lavel_16) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_16);
-
                 } elseif ($counter == 17) {
                     $position_amount_17 = ($fund->amount * $position->commistion_lavel_17) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_17);
-
                 } elseif ($counter == 18) {
                     $position_amount_18 = ($fund->amount * $position->commistion_lavel_18) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_18);
-
                 } elseif ($counter == 19) {
                     $position_amount_19 = ($fund->amount * $position->commistion_lavel_19) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_19);
-
                 } else {
                     $position_amount_20 = ($fund->amount * $position->commistion_lavel_20) / 100;
                     $this->affilite_royalty_commision_distribution($user->user_id, $position_amount_20);
-
                 }
 
 
                 $counter++;
-
             }
 
             UpdateStatisticCommisionData($fund->amount);
             DB::table("royalty_fund")->update(['amount' => 0]);
             return redirect()->back();
-
         } else {
             return view('login');
         }
-
     }
 
     public function leadshipAmountDistribution()
@@ -392,71 +362,54 @@ class AdminAffiliteController extends Controller
                 } elseif ($counter == 2) {
                     $position_amount_2 = ($fund->amount * $position->commistion_lavel_2) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_2);
-
                 } elseif ($counter == 3) {
                     $position_amount_3 = ($fund->amount * $position->commistion_lavel_3) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_3);
-
                 } elseif ($counter == 4) {
                     $position_amount_4 = ($fund->amount * $position->commistion_lavel_4) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_4);
-
                 } elseif ($counter == 5) {
                     $position_amount_5 = ($fund->amount * $position->commistion_lavel_5) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_5);
-
                 } elseif ($counter == 6) {
                     $position_amount_6 = ($fund->amount * $position->commistion_lavel_6) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_6);
-
                 } elseif ($counter == 7) {
                     $position_amount_7 = ($fund->amount * $position->commistion_lavel_7) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_7);
-
                 } elseif ($counter == 8) {
                     $position_amount_8 = ($fund->amount * $position->commistion_lavel_8) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_8);
-
                 } elseif ($counter == 9) {
                     $position_amount_9 = ($fund->amount * $position->commistion_lavel_9) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_9);
-
                 } elseif ($counter == 10) {
                     $position_amount_10 = ($fund->amount * $position->commistion_lavel_10) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_10);
-
                 } elseif ($counter == 11) {
                     $position_amount_11 = ($fund->amount * $position->commistion_lavel_11) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_11);
-
                 } elseif ($counter == 12) {
                     $position_amount_12 = ($fund->amount * $position->commistion_lavel_12) / 100;
                     $this->affilite_contest_commision_distribution($user->user_id, $position_amount_12);
-
                 } elseif ($counter == 13) {
                     $position_amount_13 = ($fund->amount * $position->commistion_lavel_13) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_13);
-
                 } elseif ($counter == 14) {
                     $position_amount_14 = ($fund->amount * $position->commistion_lavel_14) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_14);
-
                 } elseif ($counter == 15) {
                     $position_amount_15 = ($fund->amount * $position->commistion_lavel_15) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_15);
-
                 } elseif ($counter == 16) {
                     $position_amount_16 = ($fund->amount * $position->commistion_lavel_16) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_16);
-
                 } elseif ($counter == 17) {
                     $position_amount_17 = ($fund->amount * $position->commistion_lavel_17) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_17);
-
                 } elseif ($counter == 18) {
                     $position_amount_18 = ($fund->amount * $position->commistion_lavel_18) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_18);
-
                 } elseif ($counter == 19) {
                     $position_amount_19 = ($fund->amount * $position->commistion_lavel_19) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_19);
@@ -472,7 +425,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
 
@@ -513,87 +465,60 @@ class AdminAffiliteController extends Controller
                 } elseif ($counter == 2) {
                     $position_amount_2 = ($fund->amount * $position->commistion_lavel_2) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_2);
-
                 } elseif ($counter == 3) {
                     $position_amount_3 = ($fund->amount * $position->commistion_lavel_3) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_3);
-
                 } elseif ($counter == 4) {
                     $position_amount_4 = ($fund->amount * $position->commistion_lavel_4) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_4);
-
                 } elseif ($counter == 5) {
                     $position_amount_5 = ($fund->amount * $position->commistion_lavel_5) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_5);
-
                 } elseif ($counter == 6) {
                     $position_amount_6 = ($fund->amount * $position->commistion_lavel_6) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_6);
-
                 } elseif ($counter == 7) {
                     $position_amount_7 = ($fund->amount * $position->commistion_lavel_7) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_7);
-
                 } elseif ($counter == 8) {
                     $position_amount_8 = ($fund->amount * $position->commistion_lavel_8) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_8);
-
                 } elseif ($counter == 9) {
                     $position_amount_9 = ($fund->amount * $position->commistion_lavel_9) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_9);
-
                 } elseif ($counter == 10) {
                     $position_amount_10 = ($fund->amount * $position->commistion_lavel_10) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_10);
-
                 } elseif ($counter == 11) {
                     $position_amount_11 = ($fund->amount * $position->commistion_lavel_11) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_11);
-
                 } elseif ($counter == 12) {
                     $position_amount_12 = ($fund->amount * $position->commistion_lavel_12) / 100;
                     $this->affilite_contest_commision_distribution($user->user_id, $position_amount_12);
-
-
                 } elseif ($counter == 13) {
                     $position_amount_13 = ($fund->amount * $position->commistion_lavel_13) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_13);
-
-
                 } elseif ($counter == 14) {
                     $position_amount_14 = ($fund->amount * $position->commistion_lavel_14) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_14);
-
-
                 } elseif ($counter == 15) {
                     $position_amount_15 = ($fund->amount * $position->commistion_lavel_15) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_15);
-
-
                 } elseif ($counter == 16) {
                     $position_amount_16 = ($fund->amount * $position->commistion_lavel_16) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_16);
-
-
                 } elseif ($counter == 17) {
                     $position_amount_17 = ($fund->amount * $position->commistion_lavel_17) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_17);
-
-
                 } elseif ($counter == 18) {
                     $position_amount_18 = ($fund->amount * $position->commistion_lavel_18) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_18);
-
-
                 } elseif ($counter == 19) {
                     $position_amount_19 = ($fund->amount * $position->commistion_lavel_19) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_19);
-
                 } else {
                     $position_amount_20 = ($fund->amount * $position->commistion_lavel_20) / 100;
                     $this->affilite_contest_commision_distribution($user->affilite_id, $position_amount_20);
-
-
                 }
                 $counter++;
             }
@@ -603,7 +528,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
     public function lebelIncomeUpdate($earning_from_id, $commision)
@@ -634,16 +558,13 @@ class AdminAffiliteController extends Controller
             $row_data['permission'] = 7;
             $row_data['date'] = date("Y-m-d H:i:s");
             DB::table('earning_history')->insert($row_data);
-
         }
-
-
     }
 
 
     public function affilite_royalty_commision_distribution($affilite_id, $amount)
     {
-        $this->lebelIncomeUpdate($affilite_id,$amount);
+        $this->lebelIncomeUpdate($affilite_id, $amount);
         $affilite_user = DB::table('users_public')->select('earning_balance', 'life_time_earning')->where('id', $affilite_id)->first();
         if ($affilite_user) {
             $data['earning_balance'] = $affilite_user->earning_balance + $amount;
@@ -657,10 +578,7 @@ class AdminAffiliteController extends Controller
             $row_data['permission'] = 6;
             $row_data['date'] = date("Y-m-d H:i:s");
             DB::table('earning_history')->insert($row_data);
-
         }
-
-
     }
 
 
@@ -857,7 +775,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
 
@@ -885,7 +802,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
 
@@ -936,7 +852,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
 
@@ -996,8 +911,6 @@ class AdminAffiliteController extends Controller
             } else if ($metarial_name == 'Jibonpata Group') {
                 $data['skill_point'] = 10;
             }
-
-
         }
 
         $affilate = DB::table('marketing_metarial')->where('marketing_id', '=', $marketing_id)
@@ -1006,10 +919,7 @@ class AdminAffiliteController extends Controller
             return response()->json(['success' => 'done']);
         } else {
             return response()->json(['error' => 'false']);
-
         }
-
-
     }
 
 
@@ -1024,7 +934,6 @@ class AdminAffiliteController extends Controller
             ->join('users_public', 'users_public.id', '=', 'wallet_history.affiliate_id')
             ->orderBy('wallet_history_id', 'desc')->paginate(15);
         return view('admin.affilate.admin_wallet_history', compact('wallets'));
-
     }
 
     public function adminWallet_pagination(Request $request)
@@ -1061,8 +970,6 @@ class AdminAffiliteController extends Controller
         DB::table('wallet_history')
             ->where('wallet_history_id', '=', $wallet_id)->update($row_data);
         return redirect('admin/wallet');
-
-
     }
 
 
@@ -1079,7 +986,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
     public function product_list_pagination(Request $request)
@@ -1101,7 +1007,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
 
@@ -1138,7 +1043,6 @@ class AdminAffiliteController extends Controller
             $resize_image = Image::make($image->getRealPath());
 
             $resize_image->resize(150, 150, function ($constraint) {
-
             })->save($destinationPath);
             $data['picture'] = $image_name;
         }
@@ -1150,8 +1054,6 @@ class AdminAffiliteController extends Controller
             return redirect('/dashboard')
                 ->with('error', 'No successfully.');
         }
-
-
     }
 
     public function editProduct($id)
@@ -1189,8 +1091,6 @@ class AdminAffiliteController extends Controller
             $sell_price = $request->product_price;
             $pont_price = round(($sell_price * 10) / 100);
             $product_profite = $sell_price - $request->purchase_price;
-
-
         }
 
 
@@ -1215,7 +1115,7 @@ class AdminAffiliteController extends Controller
         $data['sku'] = $request->sku;
         $data['product_stock'] = $request->product_stock;
         $data['product_type'] = $request->product_type;
-//        $data['stock_alert']=$request->stock_alert;
+        //        $data['stock_alert']=$request->stock_alert;
         $data['vendor_id'] = 0;
         $data['product_video'] = $request->product_video;
         $data['status'] = $request->status;
@@ -1251,15 +1151,12 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_image = Image::make($featured_image_orgianal->getRealPath());
             $resize_image->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $featured_image);
 
             $resize_image->resize(200, 200, function ($constraint) {
-
             })->save($thumb . '/' . $featured_image);
 
             $resize_image->resize(50, 50, function ($constraint) {
-
             })->save($small . '/' . $featured_image);
             $data['feasured_image'] = $featured_image;
             $media_data['media_title'] = $request->product_title;
@@ -1271,8 +1168,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $featured_image;
             //DB::table('media')->insert($media_data);
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'featured_image')->update($media_data);
-
-
         }
         if ($product_image1) {
             $random_number1 = rand(10, 100);
@@ -1280,7 +1175,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image1 = Image::make($product_image1->getRealPath());
             $resize_galary_image1->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image1);
             $data['galary_image_1'] = $galary_image1;
             $media_data['media_title'] = $request->product_title;
@@ -1291,8 +1185,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image1;
             $media_data['media_type'] = 'galary_image_1';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_1')->update($media_data);
-
-
         }
         if ($product_image2) {
             $random_number2 = rand(10, 100);
@@ -1300,7 +1192,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image2 = Image::make($product_image2->getRealPath());
             $resize_galary_image2->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image2);
             $data['galary_image_2'] = $galary_image2;
 
@@ -1312,7 +1203,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image2;
             $media_data['media_type'] = 'galary_image_2';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_2')->update($media_data);
-
         }
         if ($product_image3) {
             $random_number3 = rand(10, 100);
@@ -1320,7 +1210,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image3 = Image::make($product_image3->getRealPath());
             $resize_galary_image3->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image3);
             $data['galary_image_3'] = $galary_image3;
             $media_data['media_title'] = $request->product_title;
@@ -1331,7 +1220,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image3;
             $media_data['media_type'] = 'galary_image_3';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_3')->update($media_data);
-
         }
         if ($product_image4) {
             $random_number4 = rand(10, 100);
@@ -1339,7 +1227,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image4 = Image::make($product_image4->getRealPath());
             $resize_galary_image4->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image4);
             $data['galary_image_4'] = $galary_image4;
             $media_data['media_title'] = $request->product_title;
@@ -1350,7 +1237,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image4;
             $media_data['media_type'] = 'galary_image_4';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_4')->update($media_data);
-
         }
         if ($product_image5) {
             $random_number5 = rand(10, 100);
@@ -1358,7 +1244,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image5 = Image::make($product_image5->getRealPath());
             $resize_galary_image5->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image5);
             $data['galary_image_5'] = $galary_image5;
             $media_data['media_title'] = $request->product_title;
@@ -1369,7 +1254,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image5;
             $media_data['media_type'] = 'galary_image_5';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_5')->update($media_data);
-
         }
         if ($product_image6) {
             $random_number6 = rand(10, 100);
@@ -1377,7 +1261,6 @@ class AdminAffiliteController extends Controller
             $destinationPath = $orginalpath;
             $resize_galary_image6 = Image::make($product_image6->getRealPath());
             $resize_galary_image6->resize(700, 700, function ($constraint) {
-
             })->save($destinationPath . '/' . $galary_image6);
             $data['galary_image_6'] = $galary_image6;
             $media_data['media_title'] = $request->product_title;
@@ -1388,7 +1271,6 @@ class AdminAffiliteController extends Controller
             $media_data['media_path'] = $media_path . '/' . $galary_image6;
             $media_data['media_type'] = 'galary_image_6';
             DB::table('media')->where('product_id', $product_id)->where('media_type', 'galary_image_6')->update($media_data);
-
         }
 
         DB::table('product')->where('product_id', $product_id)->update($data);
@@ -1399,7 +1281,6 @@ class AdminAffiliteController extends Controller
             $category_data['product_id'] = $product_id;
             $category_data['category_id'] = $cat;
             DB::table('product_category_relation')->updateOrInsert($category_data);
-
         }
 
 
@@ -1410,7 +1291,6 @@ class AdminAffiliteController extends Controller
             return redirect('/admin/product_list')
                 ->with('error', 'No successfully.');
         }
-
     }
 
     public function affilite_pagination(Request $request)
@@ -1429,7 +1309,6 @@ class AdminAffiliteController extends Controller
 
             return view('admin.affilate.affilator_list_pagination', compact('affilates'));
         }
-
     }
 
     public function online_user()
@@ -1455,8 +1334,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
-
     }
 
     public function online_user_ajax()
@@ -1469,8 +1346,6 @@ class AdminAffiliteController extends Controller
 
 
         return view('admin.affilate.online_user_ajax', $data);
-
-
     }
 
     public function online_user_ajax_total()
@@ -1479,8 +1354,6 @@ class AdminAffiliteController extends Controller
         $today = date('Y-m-d');
 
         echo $affilates_total = DB::table('users_public')->join('user_active_status', 'user_active_status.user_id', '=', 'users_public.id')->where('login_date', $today)->where('logout_status', '=', 0)->orderBy('user_active_id', 'desc')->count();
-
-
     }
 
     public function campain_report()
@@ -1502,7 +1375,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
     }
 
     public function date_wise_report(Request $request)
@@ -1564,7 +1436,6 @@ class AdminAffiliteController extends Controller
             DB::table('account_suspend')->where('user_id', $request->user_id)->update($data);
         } else {
             DB::table('account_suspend')->insert($data);
-
         }
 
 
@@ -1573,14 +1444,13 @@ class AdminAffiliteController extends Controller
 
     public function changedPasswordOfAffiliate(Request $request)
     {
-        $user=DB::table('users_public')->where('id',$request->user_id)->first();
-        if($user){
-            $data['password']=md5($request->password);
-            DB::table('users_public')->where('id',$request->user_id)->update($data);
-            return response()->json(['success'=>'Successfully Changed']);
+        $user = DB::table('users_public')->where('id', $request->user_id)->first();
+        if ($user) {
+            $data['password'] = md5($request->password);
+            DB::table('users_public')->where('id', $request->user_id)->update($data);
+            return response()->json(['success' => 'Successfully Changed']);
         }
-        return response()->json(['success'=>'Failed  Changed']);
-
+        return response()->json(['success' => 'Failed  Changed']);
     }
 
     public function single_affilite_show(Request $request)
@@ -1613,8 +1483,6 @@ class AdminAffiliteController extends Controller
         $data['active'] = 'Profile';
         $data['user'] = DB::table('users_public')->where('id', Session::get('id'))->first();
         return view('admin.affilate.profile', $data);
-
-
     }
 
     public function products()
@@ -1660,8 +1528,6 @@ class AdminAffiliteController extends Controller
         $data['product_link'] = "https://zakwanbd.com/" . $product->product_name . '/' . Session::get('id');
         DB::table('product_link_info')->insert($data);
         return view('admin.affilate.product_link_id', compact('product'));
-
-
     }
 
 
@@ -1705,7 +1571,6 @@ class AdminAffiliteController extends Controller
             $resize_image = Image::make($image->getRealPath());
 
             $resize_image->resize(100, 100, function ($constraint) {
-
             })->save($destinationPath . '/' . $image_name);
             $data['picture'] = $image_name;
         }
@@ -1723,7 +1588,6 @@ class AdminAffiliteController extends Controller
         $data['active'] = 'Purchase History';
         $data['orders'] = DB::table('order_data')->where('user_id', 0)->orderBy('order_id', 'desc')->paginate(10);
         return view('admin.affilate.order_history', $data);
-
     }
 
 
@@ -1731,39 +1595,36 @@ class AdminAffiliteController extends Controller
     {
         if ($request->ajax()) {
 
-//            $query = $request->get('query');
-//            $query = str_replace(" ", "%", $query);
+            //            $query = $request->get('query');
+            //            $query = str_replace(" ", "%", $query);
 
             $orders = DB::table('order_data')->where('user_id', Session::get('user_id'))->orderBy('order_id', 'desc')->paginate(10);
 
             return view('admin.affilate.order_history_pagination', compact('orders'));
         }
-
     }
 
     public function earnings()
     {
         $data['main'] = 'Affilate';
         $data['active'] = 'Earnings';
-// Session::get('user_id')
+        // Session::get('user_id')
         $data['earning_history'] = DB::table('earning_history')->where('earning_for_id', 1)->orderBy('date', 'desc')->paginate(10);
         return view('admin.affilate.earnings', $data);
-
     }
 
     public function earnings_pagination(Request $request)
     {
         if ($request->ajax()) {
 
-//            $query = $request->get('query');
-//            $query = str_replace(" ", "%", $query);
+            //            $query = $request->get('query');
+            //            $query = str_replace(" ", "%", $query);
             $users = DB::table('users_public')->where('parent_id', 1)->orderBy('id', 'desc')->paginate(15);
 
             $earning_history = DB::table('earning_history')->where('earning_for_id', 1)->orderBy('date', 'desc')->paginate(10);
 
             return view('admin.affilate.earnings_pagination', compact('earning_history'));
         }
-
     }
 
     public function statistics()
@@ -1800,7 +1661,6 @@ class AdminAffiliteController extends Controller
             } else {
                 $data['level_51'] += $earningResult->amount;
             }
-
         }
         $data['total_income'] = $data['level_11'] +
             $data['level_21'] +
@@ -1834,7 +1694,6 @@ class AdminAffiliteController extends Controller
     {
 
         return $result = DB::table('users_public')->select('id')->where('parent_id', $parent_id)->get();
-
     }
 
 
@@ -1862,12 +1721,11 @@ class AdminAffiliteController extends Controller
     {
         if ($request->ajax()) {
 
-//            $query = $request->get('query');
-//            $query = str_replace(" ", "%", $query);
+            //            $query = $request->get('query');
+            //            $query = str_replace(" ", "%", $query);
             $users = DB::table('users_public')->where('parent_id', 1)->orderBy('id', 'desc')->paginate(15);
             return view('admin.affilate.myreferrel_pagination', compact('users'));
         }
-
     }
 
 
@@ -1889,8 +1747,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
-
     }
 
     public function purchaseHistoryPagination(Request $request)
@@ -1911,7 +1767,6 @@ class AdminAffiliteController extends Controller
                 ->paginate(15);
             return view('admin.affilate.admin_purchaseHistoryPagination', compact('purchases'));
         }
-
     }
 
     public function incomeHistory()
@@ -1931,7 +1786,7 @@ class AdminAffiliteController extends Controller
             return view('admin.affilate.admin_incomeHistory', $data);
         } else {
             return view('login');
-        } 
+        }
     }
 
     public function labelHistory()
@@ -1942,34 +1797,34 @@ class AdminAffiliteController extends Controller
             $data['main'] = 'Income History';
             $data['active'] = 'All Income History';
             $data['title'] = '  ';
-            $data['configs']= IncomeConfig::where('type','!=','direct')->pluck('type','referar')->toArray(); 
-            $query=IncomeHistory::with('incomeFor','incomeFrom');
-            if(request()->ajax()){
+            $data['configs'] = IncomeConfig::where('type', '!=', 'direct')->pluck('type', 'referar')->toArray();
+            $query = IncomeHistory::with('incomeFor', 'incomeFrom');
+            if (request()->ajax()) {
 
-                if(request()->income_from){
-                    $query->where('income_from',request()->income_from);
+                if (request()->income_from) {
+                    $query->where('income_from', request()->income_from);
                 }
-                if(request()->income_for){
-                    $query->where('income_for',request()->income_for);
+                if (request()->income_for) {
+                    $query->where('income_for', request()->income_for);
                 }
-                if(request()->layer){
-                    $query->where('layer',request()->layer);
+                if (request()->layer) {
+                    $query->where('layer', request()->layer);
                 }
-                if(request()->order_id){
-                    $query->where('order_id',request()->order_id);
+                if (request()->order_id) {
+                    $query->where('order_id', request()->order_id);
                 }
 
-                $data['incomes'] =  $query->orderBy('id','desc')->paginate(15);  
+                $data['incomes'] =  $query->orderBy('id', 'desc')->paginate(15);
                 return view('admin.affilate.admin_labelHistoryPagination', $data);
             }
 
-         
-            $data['affiliates']=Affiliate::pluck('name','id')->toArray(); 
-            $data['incomes'] =  $query->orderBy('id','desc')->paginate(15); 
+
+            $data['affiliates'] = Affiliate::pluck('name', 'id')->toArray();
+            $data['incomes'] =  $query->orderBy('id', 'desc')->paginate(15);
             return view('admin.affilate.admin_labelHistory', $data);
         } else {
             return view('login');
-        } 
+        }
     }
 
     public function incomeHistoryPagination(Request $request)
@@ -1981,23 +1836,22 @@ class AdminAffiliteController extends Controller
             $query = str_replace(" ", "%", $query);
             $incomes =
                 DB::table('earning_history')
-                    ->select('name', 'email', 'phone', 'earning_history.commision', 'order_id', 'earning_history.date')
-                    ->join('users_public', 'users_public.id', '=', 'earning_history.earning_for_id')
-                    ->orWhere('phone', 'LIKE', '%' . $query . '%')
-                    ->orWhere(function ($query_row) use ($query) {
-                        return $query_row->orWhere('email', 'LIKE', '%' . $query . '%')
-                            ->orWhere('name', 'LIKE', '%' . $query . '%');;
-                    })->orderBy('earning_history.id', 'desc')
-                    ->paginate(15);
+                ->select('name', 'email', 'phone', 'earning_history.commision', 'order_id', 'earning_history.date')
+                ->join('users_public', 'users_public.id', '=', 'earning_history.earning_for_id')
+                ->orWhere('phone', 'LIKE', '%' . $query . '%')
+                ->orWhere(function ($query_row) use ($query) {
+                    return $query_row->orWhere('email', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name', 'LIKE', '%' . $query . '%');;
+                })->orderBy('earning_history.id', 'desc')
+                ->paginate(15);
 
             return view('admin.affilate.admin_incomeHistoryPagination', compact('incomes'));
         }
-
     }
 
 
 
- 
+
 
 
     public function withdraw()
@@ -2008,31 +1862,69 @@ class AdminAffiliteController extends Controller
             $data['main'] = 'Withdraw';
             $data['active'] = 'All Withdraw';
             $data['title'] = '  ';
+            $data['deduction'] = 5; //percent 
+
             // c
-            $data['withdraws'] = DB::table('withdraw_history')->orderBy('id', 'desc')->paginate(15);
+            $data['withdraws'] = DB::table('withdraw_history')->where('status','!=',3)->orderBy('id', 'desc')->paginate(15);
             return view('admin.affilate.admin_withdraw', $data);
         } else {
             return view('login');
         }
-
-
     }
 
+    
+
+    
     public function withdraw_pagination(Request $request)
     {
-        if ($request->ajax()) {
-
-
+        if ($request->ajax()) { 
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $withdraws = DB::table('withdraw_history')->orWhere('id', 'LIKE', '%' . $query . '%')
+            $withdraws = DB::table('withdraw_history')
+               ->where('status','!=',3)
+                ->orWhere('id', 'LIKE', '%' . $query . '%')
                 ->orWhere('from_user_ac', 'LIKE', '%' . $query . '%')
                 ->orWhere('to_user_ac', 'LIKE', '%' . $query . '%')
                 ->orderBy('id', 'desc')->paginate(15);
+            $data['deduction'] = 5; //percent 
 
-            return view('admin.affilate.admin_withdraw_pagination', compact('withdraws'));
+            return view('admin.affilate.admin_withdraw_pagination', compact('withdraws', 'deduction'));
         }
+    }
 
+
+
+        public function withdrawCharge()
+    {
+
+        $status = Session::get('status');
+        if ($status == 'super-admin') {
+            $data['main'] = 'Withdraw';
+            $data['active'] = 'All Withdraw';
+            $data['title'] = '  '; 
+            $data['withdraws'] = DB::table('withdraw_history')->where('status','=',3)->orderBy('id', 'desc')->paginate(15);
+            return view('admin.affilate.withdrawCharge', $data);
+        } else {
+            return view('login');
+        }
+    }
+
+    public function withdrawChargepagination(Request $request)
+    {
+        if ($request->ajax()) { 
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $withdraws = DB::table('withdraw_history')
+              ->where('status', 3)
+                ->where(function ($q) use ($query) {
+                    $q->orWhere('id', 'LIKE', '%' . $query . '%')
+                    ->orWhere('from_user_ac', 'LIKE', '%' . $query . '%')
+                    ->orWhere('to_user_ac', 'LIKE', '%' . $query . '%');
+                })
+                ->orderBy('id', 'desc')->paginate(15); 
+
+            return view('admin.affilate.withdrawChargepagination', compact('withdraws'));
+        }
     }
 
     public function editWithdrawStatus($id)
@@ -2051,9 +1943,10 @@ class AdminAffiliteController extends Controller
         if ($request->status == 1) {
 
             $affiliate = DB::table('withdraw_history')
-                ->select('from_user_id', 'amount')
+              //  ->select('from_user_id', 'amount')
                 ->where('id', $id)
                 ->first();
+
             if ($affiliate) {
 
 
@@ -2063,15 +1956,32 @@ class AdminAffiliteController extends Controller
 
                 if ($affilite_user) {
                     $withdraw['withdraw_balance'] = $affilite_user->withdraw_balance + $affiliate->amount;
+                    $deduction = 5;
+                    $payableAmount = ($affiliate->amount - ($affiliate->amount * $deduction) / 100);
 
-
-                    $result = DB::table('users_public')
+                    DB::table('users_public')
                         ->where('id', $affiliate_id)->update($withdraw);
 
+                          // Convert stdClass to array
+    $data_insert = (array) $affiliate;
+
+    // Remove the 'id' to avoid conflict on insert (if it's auto-increment)
+    unset($data_insert['id']);
+
+ $payableAmount = ($affiliate->amount * $deduction) / 100;
+
+
+    // Modify status
+    $data_insert['status'] = 3; 
+    $data_insert['amount'] = $payableAmount; 
+
+    // Update timestamps if needed
+    $data_insert['date'] =date("Y-m-d H:i:s"); 
+
+    // Insert cloned data
+    DB::table('withdraw_history')->insert($data_insert);
                 }
-
             }
-
         }
 
         $data['status'] = $request->status;
@@ -2082,9 +1992,7 @@ class AdminAffiliteController extends Controller
             return redirect('/admin/withdraw')->with('success', 'Status Change successfully done !');
         } else {
             return redirect('/admin/withdraw')->with('error', 'Status does not Change successfully !');
-
         }
-
     }
 
     public function point_pay()
@@ -2099,8 +2007,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
-
     }
 
     public function super_offer()
@@ -2122,8 +2028,6 @@ class AdminAffiliteController extends Controller
         } else {
             return view('login');
         }
-
-
     }
 
     public function super_offerPagination(Request $request)
@@ -2141,7 +2045,6 @@ class AdminAffiliteController extends Controller
 
             return view('admin.affilate.admin_super_offer_pagination', compact('offers'));
         }
-
     }
 
     public function super_offer_pagination(Request $request)
@@ -2159,7 +2062,6 @@ class AdminAffiliteController extends Controller
 
             return view('admin.affilate.admin_withdraw_pagination', compact('withdraws'));
         }
-
     }
 
     public function super_offer_delete($id)
@@ -2206,8 +2108,6 @@ class AdminAffiliteController extends Controller
         $data['active'] = 'Notification Delete';
         $data['title'] = '  ';
         return view('admin.affilate.notificationDelete', $data);
-
-
     }
 
 
@@ -2232,8 +2132,6 @@ class AdminAffiliteController extends Controller
         } else {
             return redirect('/login');
         }
-
-
     }
 
     public function message()
@@ -2243,8 +2141,6 @@ class AdminAffiliteController extends Controller
         $data['affilator'] = DB::table('users_public')->select('name', 'id')->get();
         $data['title'] = '  ';
         return view('admin.affilate.message', $data);
-
-
     }
 
     public function withdrawNotificatioCount()
@@ -2271,22 +2167,15 @@ class AdminAffiliteController extends Controller
                 $row_data[$key]['affiliate_id'] = $affilite->id;
                 $row_data[$key]['created_at'] = date("Y-m-d");
                 $row_data[$key]['status'] = 0;
-
-
             }
 
             DB::table('message_to_affilates')->insert($row_data);
-
-
         } else {
             $result = DB::table('message_to_affilates')->insert($data);
-
         }
 
 
         return redirect()->back()->with('success', "Successfully send Your Message");
-
-
     }
 
     public function notificationDeleteAction(Request $request)
@@ -2297,10 +2186,9 @@ class AdminAffiliteController extends Controller
         $result = DB::table("product_update_affiliate_notification")->where('created_at', '<', $date)->delete();
 
         return redirect('admin/product/notification/delete')->with('success', 'deleted successfully');
-
     }
 
-    
+
 
     public function getCharge()
     {
@@ -2308,55 +2196,50 @@ class AdminAffiliteController extends Controller
         $data['active'] = 'chat ';
         $data['charge'] = DB::table('service_charge')->first();
         $data['charges'] = DB::table('service_charge_history')
-        ->join('users_public','service_charge_history.user_id','=','users_public.id')
-        ->select('amount','created_date','phone','name','users_public.id')
-        ->orderBy('service_charge_history.id','desc')->get();
+            ->join('users_public', 'service_charge_history.user_id', '=', 'users_public.id')
+            ->select('amount', 'created_date', 'phone', 'name', 'users_public.id')
+            ->orderBy('service_charge_history.id', 'desc')->get();
         return view('admin.affilate.getCharge', $data);
     }
-    
+
     public function getServiceChargeFromAffiliate()
     {
-        
-        $charge=DB::table('service_charge')->first();
 
-        $this_month=date("Y-m");
-        if( $charge){
-        $system_date=$charge->charge_year.'-'.$charge->charge_month;
+        $charge = DB::table('service_charge')->first();
 
-        if($system_date <="2022-12"){
-            return redirect()->back()->with('error', "You have no permission to get charge before 2023-01-01");
+        $this_month = date("Y-m");
+        if ($charge) {
+            $system_date = $charge->charge_year . '-' . $charge->charge_month;
+
+            if ($system_date <= "2025-12") {
+                return redirect()->back()->with('error', "You have no permission to get charge before 2025-01-01");
+            }
+
+            if ($system_date == $this_month) {
+                return redirect()->back()->with('error', "You Already taken Service Charge");
+            } else {
+                $users = DB::table('users_public')->whereNotIn('id', [1, 2])->get();
+                $total_amount_get = 0;
+                foreach ($users as $user) {
+                    $pay_amount = 50;
+                    $total_amount_get += $pay_amount;
+                    $public_data['earning_balance'] = $user->earning_balance - $pay_amount;
+                    DB::table('users_public')->where('id', $user->id)->update($public_data);
+                    $history['amount'] = $pay_amount;
+                    $history['user_id'] = $user->id;
+                    $history['created_date'] = date('Y-m-d H:i:s');
+                    DB::table('service_charge_history')->insert($history);
+                }
+                $data_charge_info['amount'] = $charge->amount + $total_amount_get;
+                $data_charge_info['update_date'] = date('Y-m-d H:i:s');
+                $data_charge_info['charge_year'] = date('Y');
+                $data_charge_info['charge_month'] = date('m');
+                DB::table('service_charge')->update($data_charge_info);
+            }
         }
-
-        if($system_date==$this_month){
-            return redirect()->back()->with('error', "You Already taken Service Charge");
-        }else{
-         $users=DB::table('users_public')->whereNotIn('id',[1,2])->get();
-         $total_amount_get=0;
-         foreach( $users as $user){
-            $pay_amount=50;
-            $total_amount_get +=$pay_amount;
-           $public_data['earning_balance']=$user->earning_balance- $pay_amount;
-           DB::table('users_public')->where('id',$user->id)->update($public_data);
-           $history['amount']=$pay_amount;
-           $history['user_id']=$user->id;
-           $history['created_date']=date('Y-m-d H:i:s');
-           DB::table('service_charge_history')->insert($history);
-
-
-         }
-         $data_charge_info['amount']= $charge->amount+$total_amount_get;
-         $data_charge_info['update_date']= date('Y-m-d H:i:s');
-         $data_charge_info['charge_year']= date('Y');
-         $data_charge_info['charge_month']= date('m');
-          DB::table('service_charge')->update($data_charge_info); 
-
-        }
-
-        } 
         return redirect()->back()->with('success', "Successfully Done");
-         
     }
-    
+
 
 
     public function chat()
@@ -2378,7 +2261,6 @@ class AdminAffiliteController extends Controller
             ->orderBy('messages_id', 'desc')
             ->groupBy('affiliate_id')->get();
         return view('admin.affilate.getChatUser', $data);
-
     }
 
 
@@ -2387,7 +2269,6 @@ class AdminAffiliteController extends Controller
         $rowData['message_status'] = $status;
 
         DB::table('messages')->where('affiliate_id', $user_id)->update($rowData);
-
     }
 
 
@@ -2430,7 +2311,7 @@ class AdminAffiliteController extends Controller
         $data['message'] = $message;
         $data['message_status'] = 2;
         $data['message_by'] = 'admin';
-//        $data['is_read']  = ; // message will be unread when sending message
+        //        $data['is_read']  = ; // message will be unread when sending message
         $data['created_at'] = date("Y-m-d H:i:s"); // message will be unread when sending message
 
 
@@ -2451,7 +2332,6 @@ class AdminAffiliteController extends Controller
 
         $data = ['from' => $admin_id, 'to' => $affiliate_id]; // sending from and to user id when pressed enter
         $pusher->trigger('my-channel', 'my-event', $data);
-
     }
 
     public function affiliate_varification_list()
@@ -2460,7 +2340,6 @@ class AdminAffiliteController extends Controller
             ->where('accountVarificationStatus', '=', 4)
             ->simplePaginate(50);
         return view('admin.affilate.affiliate_varification_list', $data);
-
     }
 
     public function singleAffiliate_varification_list($id)
@@ -2469,7 +2348,6 @@ class AdminAffiliteController extends Controller
             ->where('id', '=', $id)
             ->first();
         return view('admin.affilate.singleAffiliate_varification_list', $data);
-
     }
 
     public function achievements()
@@ -2478,7 +2356,6 @@ class AdminAffiliteController extends Controller
         $affiliates = $this->achivementGenerate();
         foreach ($affiliates as $affiliate) {
             $this->achivementHistory($affiliate->user_id, $affiliate->total);
-
         }
 
 
@@ -2487,7 +2364,6 @@ class AdminAffiliteController extends Controller
             ->join('achievement', 'achievement.affiliate_id', '=', 'users_public.id')->orderBy('achievement.id', 'desc')->paginate(10);
 
         return view('admin.affilate.achievement', $data);
-
     }
 
     public function achivementHistory($user, $total)
@@ -2502,7 +2378,6 @@ class AdminAffiliteController extends Controller
                 $row_data['status'] = 0;
                 $row_data['create_time'] = date("Y-m-d H:i:s");
                 DB::table('achievement')->insert($row_data);
-
             }
         }
         if ($total >= 100) {
@@ -2513,9 +2388,7 @@ class AdminAffiliteController extends Controller
                 $row_data['status'] = 0;
                 $row_data['create_time'] = date("Y-m-d H:i:s");
                 DB::table('achievement')->insert($row_data);
-
             }
-
         }
     }
 
@@ -2528,7 +2401,6 @@ class AdminAffiliteController extends Controller
     {
         DB::table('achievement')->where('id', $id)->update(['status' => 1]);
         return redirect()->back()->with('success', 'Paid Successfully');
-
     }
 
 
@@ -2553,8 +2425,6 @@ class AdminAffiliteController extends Controller
         $result = DB::table('users_public')->where('id', '=', $id)->update($data);
 
         return redirect('admin/affiliate_varification_list');
-
-
     }
 
 
@@ -2564,6 +2434,4 @@ class AdminAffiliteController extends Controller
         $url = URL::current();
         return redirect('/admin')->with('success', 'You are successfully Logout !')->with('current', $url);
     }
-
-
 }

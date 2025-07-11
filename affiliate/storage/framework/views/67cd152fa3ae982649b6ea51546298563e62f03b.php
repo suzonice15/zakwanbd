@@ -75,12 +75,26 @@
                        </div>
         </div>
 
+
+   <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3><?php echo e($totalOrderCount); ?></h3>
+                    <p>Total Complete Order</p>
+                    <div class="icon">
+                        <i class="ion ion-man"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3><?php echo e($total_withdraw); ?></h3>
-                    <p>Total Commision Paid</p>
+                    <h3><?php echo e($total_sell); ?></h3>
+                    <p>Total Complete Sells Amount</p>
                     <div class="icon">
                         <i class="ion ion-man"></i>
                     </div>
@@ -90,16 +104,58 @@
 
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-green">
                 <div class="inner">
-                    <h3><?php echo e($total_sell); ?></h3>
-                    <p>Total Sells</p>
+                    <h3><?php echo e(round($earning_balance,2)); ?></h3>
+                    <p> Earnings Balance  </p>
+                    <div class="icon">
+                        <i class="ion ion-wallet"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3><?php echo e($pendingWithdraw); ?></h3>
+                    <p> Pending Withdraw  </p>
+                    <div class="icon">
+                        <i class="ion ion-wallet"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+         <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3><?php echo e($paidWithdraw-$withdrawCharge); ?></h3>
+                    <p> Complete Withdraw  </p>
                     <div class="icon">
                         <i class="ion ion-man"></i>
                     </div>
                 </div>
             </div>
         </div>
+
+         <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3><?php echo e($withdrawCharge); ?></h3>
+                    <p>   Withdraw Charge </p>
+                    <div class="icon">
+                        <i class="ion ion-man"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ./col -->
     </div>
 

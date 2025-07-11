@@ -5,7 +5,7 @@
         <tr class="notification" id="{{ $product->product_affiliate_notification_id }}" >
 
             <td><?php echo ++$i;?></td>
-            <td>  <img   src="https://www.sohojbuy.com/public/uploads/{{$product->folder}}/small/{{$product->feasured_image}}" class="img-circle" alt="User Image">
+            <td>  <img   src="https://www.zakwanbd.com/public/uploads/{{$product->folder}}/small/{{$product->feasured_image}}" class="img-circle" alt="User Image">
             </td>
             <td>{{ $product->product_title }}</td>
             <td>{{ $product->previous_price }}</td>

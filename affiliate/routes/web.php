@@ -111,6 +111,7 @@ Route::post('/affiliate/supend/save', 'admin\AdminAffiliteController@single_susp
 Route::get('admin/affilite/editProfile/{id}', 'admin\AdminAffiliteController@editProfile');
 Route::post('admin/affilite/updateProfile/{id}', 'admin\AdminAffiliteController@updateProfile');
 Route::get('/admin/withdraw', 'admin\AdminAffiliteController@withdraw');
+Route::get('/admin/withdrawCharge', 'admin\AdminAffiliteController@withdrawCharge');
 Route::get('/admin/income/history', 'admin\AdminAffiliteController@incomeHistory');
 Route::get('/admin/labelHistory', 'admin\AdminAffiliteController@labelHistory');
  
@@ -120,6 +121,7 @@ Route::get('/admin/income/history/pagination', 'admin\AdminAffiliteController@in
 Route::get('/admin/editWithdrawStatus/{id}', 'admin\AdminAffiliteController@editWithdrawStatus');
 Route::post('/admin/updateWithdrawStatus', 'admin\AdminAffiliteController@updateWithdrawStatus');
 Route::get('/admin/withdraw/pagination', 'admin\AdminAffiliteController@withdraw_pagination');
+Route::get('/admin/withdrawCharge/pagination', 'admin\AdminAffiliteController@withdrawChargePagination');
 Route::get('/admin/super/offer', 'admin\AdminAffiliteController@super_offer');
 Route::get('/admin/super/offer/pagination', 'admin\AdminAffiliteController@super_offerPagination');
 Route::get('/admin/super/offer/delete/{id}', 'admin\AdminAffiliteController@super_offer_delete');

@@ -1,7 +1,8 @@
 <li>
     <a href=" {{ url('user/chat/') }}"><i class="fa fa-envelope" style="font-size: 20px"></i>  Contact Support
                <span class="pull-right-container">
-               <small class="label pull-right bg-red"   id="user_chat_count">0</small>
+               <small class="label pull-right bg-red" style="display: none;"   id="user_chat_count">0</small>
+
              </span>
 
     </a>
