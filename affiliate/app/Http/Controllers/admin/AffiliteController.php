@@ -823,6 +823,11 @@ public  function  orderhistoryDetails($id){
             } else {
                 return redirect('withdraw')->with('w_error','Please Add Bank Information');
             }
+        }else if($payment_to==4){ 
+                $data_banck['account_number']="";
+                $data_banck['account']="";
+                $data_banck['to_user_ac'] =  "Cash" ;
+            
         }
         else{
 

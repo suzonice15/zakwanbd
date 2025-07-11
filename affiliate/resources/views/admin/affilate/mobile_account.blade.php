@@ -42,8 +42,10 @@
 
                                     <select id="service_name" name="service_name" class="form-control">
                                         <option value="">Select Option</option>
+                                         <option <?php if(isset($mobile_row->service_name)){  echo $mobile_row->service_name=='bKash Personal'? 'selected':'';} ?> value="bKash Personal">bKash Personal</option> 
                                         <option <?php if(isset($mobile_row->service_name)){  echo $mobile_row->service_name=='Nagad  Personal'? 'selected':'';} ?> value="Nagad  Personal">Nagad  Personal</option>
-                                        <option <?php if(isset($mobile_row->service_name)){  echo $mobile_row->service_name=='Rocket   Personal'? 'selected':'';} ?> value="Rocket   Personal">Rocket   Personal</option>
+                                        <!-- <option <?php if(isset($mobile_row->service_name)){  echo $mobile_row->service_name=='Rocket   Personal'? 'selected':'';} ?> value="Rocket   Personal">Rocket   Personal</option> -->
+                                        <!-- <option <?php if(isset($mobile_row->service_name)){  echo $mobile_row->service_name=='Rocket   Personal'? 'selected':'';} ?> value="Rocket   Personal">Rocket   Personal</option> -->
 
                                     </select>
                                  </div>
