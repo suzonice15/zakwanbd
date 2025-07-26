@@ -136,7 +136,7 @@ if(Session::get('email')){
                                         <span class="bold">  <span id="couponDiscountPrice" style="color:red"> </span></span>
 
 
-                                        <input type="hidden" id="shipping_charge" name="shipping_charge" value="{{$delivery}}">
+                                        <!-- <input type="hidden" id="shipping_charge" name="shipping_charge" value="{{$delivery}}"> -->
                                     </td>
                                 </tr>
                                 <tr>

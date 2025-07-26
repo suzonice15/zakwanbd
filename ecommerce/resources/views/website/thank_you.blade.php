@@ -197,14 +197,14 @@
                                                         class="bold totalamout"><b>@money($total) </b></span>
                                 </td>
                             </tr>
-                            <td colspan='4' class='text-end'>
+                            <!-- <td colspan='4' class='text-end'>
                                     <span class="extra bold totalamout"><b>Due</span>
                                 </td>
                                 <td class="text-center" style="width:50%">
                                                     <span
                                                         class="bold totalamout"><b>0</b></span>
                                 </td>
-                            </tr>
+                            </tr> -->
                             </table>
                         </div>
                         
