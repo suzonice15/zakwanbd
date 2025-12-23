@@ -83,8 +83,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-5 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
-                    <a href="tel:+8809602444444" class="text-white font-weight-bold text-start header-top_font">
-                        <i class="fa fa-phone text-white font-weight-bold"></i> &nbsp;01970010605
+                    <a href="tel:<?=get_option('phone')?>" class="text-white font-weight-bold text-start header-top_font">
+                        <i class="fa fa-phone text-white font-weight-bold"></i> &nbsp; <?=get_option('phone')?>
                     </a>
                 </div>
                 <div class="col-7 col-md-3 col-lg-3 col-xl-3 col-xxl-3 text-end">

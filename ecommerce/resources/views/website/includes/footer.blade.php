@@ -4,8 +4,9 @@
             <div class="col-md-6 col-12 col-lg-3  mt-3 mt-md-0 mb-0 mb-md-4"><h5 class="text-start ms-3">Contacts</h5>
                 <ul class="fa-ul foot-desc ml-0">  
                          <li class="mb-2"><span class="fa-li"><i class="fa fa-map"></i></span>Hazrat Shah Ali School & College Market Mirpur-1, Dhaka-1216</li>
-                        <li class="mb-2"><span class="fa-li"><i class="fa fa-phone"></i></span>+8801970010605</li>
-                        <li class="mb-2"><span class="fa-li"><i class="fa fa-phone"></i></span>+8801710881833</li>
+                        <li class="mb-2"><span class="fa-li"><i class="fa fa-phone"></i></span>                    <?=get_option('phone')?>
+</li>
+                        <!-- <li class="mb-2"><span class="fa-li"><i class="fa fa-phone"></i></span>+8801710881833</li> -->
                         <li class="mb-2"><span class="fa-li"><i class="fa fa-envelope"></i></span>support@zakwanbd.com</li>
                         <li><span class="fa-li"><i class="fa fa-eye"></i></span><span>Friday-Wednesday: 08:00 AM-8:00 PM</span></li>
 
@@ -42,15 +43,15 @@
                         <ul class="list-unstyled">
                             <li class="first">
                                 <img
-                                        alt="sohojbuy.com"
+                                       
                                         src="{{url('/')}}/public/logo/nagad.png"
                                                    style="float:left;margin-left:3px;width:45px;height:40px;margin-bottom:2px"><img
-                                        alt="sohojbuy.com"
+                                       
                                         src="{{url('/')}}/public/logo/bkash.png"
                                         style="float:left;margin-left:3px;width:45px;height:40px;margin-bottom:2px">                                       
                                         
                                         <img
-                                        alt="sohojbuy.com"
+                                       
                                         src="{{url('/')}}/public/logo/brack.png"
                                         style="float:left;margin-left:3px;width:45px;height:40px;margin-bottom:2px">
                             </li>
@@ -62,10 +63,10 @@
                         <ul class="list-unstyled">
                             <li class="first"><img
                                         src="{{url('/')}}/public/logo/play_store.jpg"
-                                        alt="sohojbuy.com" title="play store"></li>
+                                        title="play store"></li>
                             <li class="last mt-1"><img
                                         src="{{url('/')}}/public/logo/i-store.jpg"
-                                        alt="sohojbuy.com" title="app store"></li>
+                                        title="app store"></li>
                         </ul>
                     </div>
                 </div>
@@ -75,8 +76,8 @@
     <div style="background-color:green" class="container-fluid  d-inline-block">
         <div class="row">
             <div class="col-md-12 col-lg-7 col-12 pt-2">
-                <div class="text-start text-white ms-1"><p> © 2018 All Rights Reserved by zakwanbd.com Developed by <a
-                                target="_blank " style="color:#ffffff" >Jibonpata IT Limited.</a></p></div>
+                <div class="text-start text-white ms-1"><p> © {{date('Y')}} All Rights Reserved by zakwanbd.com Developed by <a
+                                target="_blank "  href="https://sujon.tablighshop.com/dev/zakwanbd.com" style="color:#ffffff" >SIS Solution Limited.</a></p></div>
             </div>
             <div class="col-md-12 col-lg-5 col-12 d-inline-block pt-2">
                 <ul class="social">
@@ -122,19 +123,11 @@
                 @if(Session::get('customer_id'))
                     @if(Session::get('picture'))
                         <a href="{{url('/')}}/customer/dasboard">
-                            <img style="border-radius: 50%;
-width: 24px;
-position: absolute;
-top: 0px;
-height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/users/{{Session::get('picture')}}">
+                            <img style="border-radius: 50%;width: 24px;position: absolute;top: 0px;height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/users/{{Session::get('picture')}}">
                         </a>
                     @else
                         <a href="{{url('/')}}/customer/dasboard">
-                            <img style="border-radius: 50%;
-width: 24px;
-position: absolute;
-top: 0px;
-height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/user.jpg">
+                            <img style="border-radius: 50%;width: 24px;position: absolute;top: 0px;height: 30px;" class="img-fluid" src="{{url('/')}}/public/uploads/user.jpg">
                         </a>
                     @endif
                     <br>

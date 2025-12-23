@@ -67,7 +67,7 @@ table, th, td {
             <address>
                 <strong>zakwanbd.com </strong><br>
                 Hazrat Shah Ali Girls College Market,<br> Mirpur-1, Dhaka-1216
-                Phone: 01970010605 <br>                
+                Phone: <?=get_option('phone')?> <br>                
                 Email: support@zakwanbd.com 
             </address>
         </div>
