@@ -92,11 +92,12 @@
                     <li class="">
                             <a href="{{url('/')}}/all-products" class="text-reset py-2 text-white font-weight-bold header-top_font">Products</a>
                         </li>
-                        <li class="">
-                            <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold header-top_font">Affiliate</a>
-                        </li>
+                      
                         <li class="">
                             <a href="{{url('/')}}/hot-deal-product" class="text-reset py-2 text-white font-weight-bold header-top_font">Offer</a>
+                        </li>
+                          <li class="">
+                            <a href="https://zakwanaffiliate.com/" class="text-reset py-2 text-white font-weight-bold header-top_font">Career Program</a>
                         </li>
 
 

@@ -109,9 +109,15 @@
    </div>
   <div class="center-wrapperx"> 
     <div class="center-message"> 
-       <h4>Welcome to Zakwan Affiliate</h4> 
+       <!-- <h4>Welcome to Zakwan Affiliate</h4> 
        <br/>
-       <h4> জাকওয়ান অ্যাফিলিয়েট   আপনার সাফল্যের নতুন দিগন্ত !</h4>
+       <h4> জাকওয়ান অ্যাফিলিয়েট   আপনার সাফল্যের নতুন দিগন্ত !</h4> -->
+
+        <h4>
+        Welcome to Zakwan Business Career Program</h4>
+      <br />
+      <h4>
+        Your Journey from Opportunity to Leadership</h4>
     </div>  
   </div>
 </body>

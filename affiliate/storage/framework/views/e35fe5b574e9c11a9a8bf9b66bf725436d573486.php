@@ -107,7 +107,9 @@
 
   <div class="center-wrapper">
     <div class="center-message">
-      Welcome to Zakwan Affiliate
+      <!-- Welcome to Zakwan Affiliate -->
+       Welcome to Zakwan Business Career Program
+
       <table class="styled-table">
         <tbody>
           <tr>

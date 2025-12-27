@@ -64,7 +64,7 @@
 
             <!-- small box -->
             <div class="small-box bg-yellow" style="height: 120px">
-                <a class="small-box-footer" style="color: white; font-weight: bold; font-size: 18px">Total Referrals</a>
+                <a class="small-box-footer" style="color: white; font-weight: bold; font-size: 18px">Sales Team Partner</a>
                 <div class="inner">
                     <h3 style="font-size: 30px;"> <?php echo e($totals_refer); ?></h3>
 
@@ -82,7 +82,7 @@
             <div class="small-box bg-red" style="height: 120px">
                 <a class="small-box-footer" style="color: white; font-weight: bold; font-size: 18px">My Desination</a>
                 <div class="inner">
-                    <h3 style="font-size: 20px;">  Affiliate Marketer</h3>
+                    <h3 style="font-size: 20px;">  Retail & Seller</h3>
 
 
                 </div>
@@ -192,14 +192,17 @@
 
 <div class="row">
      <div class="col-md-6 col-12">
-     <!-- <table class="table table-bordered">
+     <table class="table table-bordered">
         <thead>
               <tr>
-                <th colspan="2" class="text-center" style="background:#ddd">Referral Income Report	 </th> 
+                <th colspan="2" class="text-center" style="background:#ddd">
+                    <span style="font-size:20px">Monthly Salary Report</span>
+                    <br/>
+Target-Based Salary Statement </th> 
             </tr>
             <tr>
-                <th class="text-center">Label</th>
-                <th class="text-center">Total Amount</th>  
+                <th class="text-center">Designation      </th>
+                <th class="text-center">Monthly Salary</th>  
             </tr>
         </thead>
         <tbody>
@@ -234,7 +237,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
 
             </tbody>
-    </table> -->
+    </table>
      </div> 
 </div>
 
