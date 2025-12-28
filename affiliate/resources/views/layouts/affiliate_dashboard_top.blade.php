@@ -209,6 +209,19 @@ Target-Based Salary Statement </th>
             
 
                         @php
+
+                                        
+                    $levelTitles = [
+                        1 => 'Sales Executive',
+                        2 => 'Marketing Executive',
+                        3 => 'Marketing Manager',
+                        4 => 'Sales & Marketing Supervisor',
+                        5 => 'HR',
+                        6 => 'AGM',
+                        7 => 'GM',
+                    ];
+ 
+
                     $incomeTypes = [ 
                         '1st Label  ' => '1',
                         '2nd Label  ' => '2',
@@ -223,18 +236,32 @@ Target-Based Salary Statement </th>
 
                 @endphp
 
-                @foreach($incomeTypes as $label => $type)
+               
+
                 @php
-                    $data = $savedData->get($type, ['referar' => '', 'pay_per_order' => '', 'pay_limit' => '']);
-                @endphp
-                <tr>
-                    <th class="text-center">{{ $label }}</th>
-                    <th class="text-center">
-                    {{ $user->{'income_layer_' . $type} }} 
-                
-                    </th>
-                </tr>
-                @endforeach 
+    // Reverse the array to start checking from 7 down to 1
+    $reversedIncomeTypes = array_reverse($incomeTypes, true);
+    $shown = false; 
+@endphp
+
+@foreach($reversedIncomeTypes as $label => $type)
+    @php
+        $value = $user->{'income_layer_' . $type};
+         $finalLabel = $levelTitles[$type] ?? "";
+    @endphp
+
+    {{-- If we find a value and haven't shown anything yet --}}
+    @if(!empty($value) && !$shown)
+        <tr>
+            <th class="text-center">{{ $finalLabel }}</th>
+            <th class="text-center">
+                {{ $value }} 
+            </th>
+        </tr>
+        @php $shown = true; @endphp 
+        @break {{-- This stops the loop so no other labels are shown --}}
+    @endif
+@endforeach
 
             </tbody>
     </table>

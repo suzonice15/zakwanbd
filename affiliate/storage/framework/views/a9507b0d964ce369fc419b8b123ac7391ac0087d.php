@@ -209,6 +209,19 @@ Target-Based Salary Statement </th>
             
 
                         <?php
+
+                                        
+                    $levelTitles = [
+                        1 => 'Sales Executive',
+                        2 => 'Marketing Executive',
+                        3 => 'Marketing Manager',
+                        4 => 'Sales & Marketing Supervisor',
+                        5 => 'HR',
+                        6 => 'AGM',
+                        7 => 'GM',
+                    ];
+ 
+
                     $incomeTypes = [ 
                         '1st Label  ' => '1',
                         '2nd Label  ' => '2',
@@ -223,18 +236,32 @@ Target-Based Salary Statement </th>
 
                 ?>
 
-                <?php $__currentLoopData = $incomeTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $label => $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+               
+
                 <?php
-                    $data = $savedData->get($type, ['referar' => '', 'pay_per_order' => '', 'pay_limit' => '']);
-                ?>
-                <tr>
-                    <th class="text-center"><?php echo e($label); ?></th>
-                    <th class="text-center">
-                    <?php echo e($user->{'income_layer_' . $type}); ?> 
-                
-                    </th>
-                </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> 
+    // Reverse the array to start checking from 7 down to 1
+    $reversedIncomeTypes = array_reverse($incomeTypes, true);
+    $shown = false; 
+?>
+
+<?php $__currentLoopData = $reversedIncomeTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $label => $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php
+        $value = $user->{'income_layer_' . $type};
+         $finalLabel = $levelTitles[$type] ?? "";
+    ?>
+
+    
+    <?php if(!empty($value) && !$shown): ?>
+        <tr>
+            <th class="text-center"><?php echo e($finalLabel); ?></th>
+            <th class="text-center">
+                <?php echo e($value); ?> 
+            </th>
+        </tr>
+        <?php $shown = true; ?> 
+        <?php break; ?> 
+    <?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </tbody>
     </table>
