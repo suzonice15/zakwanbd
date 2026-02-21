@@ -9,7 +9,9 @@
             <?php
 
 
-            $days=cal_days_in_month(CAL_GREGORIAN,$month,$years);
+            // $days=cal_days_in_month(CAL_GREGORIAN,$month,$years);
+                    $days=\Carbon\Carbon::createFromDate($years, $month, 1)->daysInMonth;
+
 
             ?>
 

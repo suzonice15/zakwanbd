@@ -254,7 +254,8 @@ if(session::get('status')==1 || session::get('status')=='admin'){
         <?php
             $years=date('Y');
             $month=date('m');
-        $days=cal_days_in_month(CAL_GREGORIAN,$month,$years);
+        // $days=cal_days_in_month(CAL_GREGORIAN,$month,$years);
+        $days=\Carbon\Carbon::createFromDate($years, $month, 1)->daysInMonth;
 
         ?>
 

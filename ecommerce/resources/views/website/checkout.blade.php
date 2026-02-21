@@ -206,7 +206,7 @@ if(Session::get('email')){
                         </div>
                         
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="billing_name"><b>Payment</b></label>
                             <span style="color:red;font-size: 18px;margin-top: -7px;position: absolute;">*</span>
                             <select required=""  name="payment_method" id="payment_method" class="form-control">
@@ -215,7 +215,7 @@ if(Session::get('email')){
                                 <option value="Nagod">Nagod</option>
                                 <option value="Bank">Bank</option>  
                             </select>
-                        </div> -->
+                        </div>
                         <div class="form-group mobile-payment-section">
                             <p style="color:red;margin-bottom: -2px;">Please Pay Total Bill To This <span id="bkah_number_id"></span></p>  
                             <h5 style="color:green" id="mobile_number">01571133188</h5> 
