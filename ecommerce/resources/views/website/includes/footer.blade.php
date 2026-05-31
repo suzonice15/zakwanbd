@@ -77,7 +77,7 @@
         <div class="row">
             <div class="col-md-12 col-lg-7 col-12 pt-2">
                 <div class="text-start text-white ms-1"><p> © {{date('Y')}} All Rights Reserved by zakwanbd.com Developed by <a
-                                target="_blank "  href="https://sujon.tablighshop.com/dev/zakwanbd.com" style="color:#ffffff" >SIS Solution Limited.</a></p></div>
+                                target="_blank "  href="https://sujon.tablighshop.com/dev/zakwanbd.com" style="color:#ffffff" >SIS Solution</a></p></div>
             </div>
             <div class="col-md-12 col-lg-5 col-12 d-inline-block pt-2">
                 <ul class="social">

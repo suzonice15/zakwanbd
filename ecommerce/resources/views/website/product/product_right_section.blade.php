@@ -63,17 +63,19 @@
             </div>
          
 
-                <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 col-xxl-8">
-                    <a data-product_id="{{ $product->product_id}}"
-                       data-picture="{{ url('/public/uploads') }}/{{ $product->folder }}/small/{{ $product->feasured_image}}"
-                       class="btn btn-primary add_to_cart text-white" href="javascript:void(0)"> ADD TO CART</a>
+                <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 col-xxl-8"  >
+             
                     <a href="javascript:void(0)" data-product_id="{{ $product->product_id}}"
                        data-picture="{{ url('/public/uploads') }}/{{ $product->folder }}/small/{{ $product->feasured_image}}"
-                       class="btn btn-success buy-now-cart text-white"> BUY NOW </a>
-                    <button  style="background: white;border: 1px solid red;" data-product_id="{{ $product->product_id}}" class="btn btn-success add-to-wishlist icon"
+                       class="btn btn-success buy-now-cart text-white"  style="width: 47%;"> অর্ডার করুন </a>
+
+                              <a data-product_id="{{ $product->product_id}}"
+                       data-picture="{{ url('/public/uploads') }}/{{ $product->folder }}/small/{{ $product->feasured_image}}"
+                       class="btn btn-primary add_to_cart text-white" href="javascript:void(0)" style="width: 47%;"> কার্টে যোগ করুন</a>
+                    <!-- <button  style="background: white;border: 1px solid red;" data-product_id="{{ $product->product_id}}" class="btn btn-success add-to-wishlist icon"
                              data-toggle="dropdown" type="button">
                         <i style="color: red;" class="icon fa fa-heart"></i>
-                    </button>
+                    </button> -->
                 </div>
            
 

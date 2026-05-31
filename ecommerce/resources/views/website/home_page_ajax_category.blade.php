@@ -39,7 +39,7 @@ $products= getHomeProductByCategoryId($category_id);
                         <?php } ?>
 
                     <p>@money($sell_price)</p>
-                </div>
+                </div>  
 
                 @include('website.includes.add_to_cart')
             </div>
