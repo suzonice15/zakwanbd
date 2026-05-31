@@ -273,8 +273,8 @@ if(Session::get('email')){
                             <p id="coupon_message"></p>
                         </div> 
                     </div>
-                    <button type="submit" class="btn btn-info text-white">Confirm Order</button>
-                    <a href="{{url('/')}}" style="background-color:#FF6061;border: none" class="btn btn-info text-white">Continue   Shopping</a>
+                    <button type="submit" class="btn btn-info text-white"> অর্ডার কনফার্ম করুন</button>
+                    <!-- <a href="{{url('/')}}" style="background-color:#FF6061;border: none" class="btn btn-info text-white">Continue   Shopping</a> -->
 
                 </div>
             </div>
