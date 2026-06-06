@@ -383,6 +383,7 @@ Route::get('/clear-cache', function() {
       return redirect('dashboard');
 });
 Route::get('/product/{id}', 'HomeController@product');
+Route::get('/healthtips/{id}', 'HomeController@healthtips');
 Route::get('/{id}', 'HomeController@product')->name('product_route');
 Route::get('/{name}/{id}', 'HomeController@affiliate_check_controller');
 

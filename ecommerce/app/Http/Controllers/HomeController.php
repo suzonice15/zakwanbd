@@ -317,6 +317,29 @@ class HomeController extends Controller
         }
     }
 
+     public function healthtips(Request $request,$product_name)
+    {
+        $coin = $request->coin;
+        $data['product'] = DB::table('product')->select('*')
+            ->where('product_name', $product_name)
+            ->where('status', '=', 1)
+            ->first();
+
+        if ($data['product']) {
+            $data['category_name_last'] = '';
+            $data['category_title_last'] = '';         
+            $data['page_title'] = $data['product']->product_title;
+            $data['seo_title'] = $data['product']->seo_title;
+            $data['seo_keywords'] = $data['product']->seo_keywords;
+            $data['seo_description'] = $data['product']->seo_content;
+            $data['share_picture'] = url('/public/uploads/') . '/' . $data['product']->folder . '/' . $data['product']->feasured_image;
+        
+            return view('website.product.onepage', $data);
+        }  
+    }
+
+    
+
     public function search_engine(Request $request)
     {
         $search_query = $request->search_query;

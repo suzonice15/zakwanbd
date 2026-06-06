@@ -57,6 +57,7 @@
                                     <input  type="hidden" class="form-control"
                                             name="folder" id="folder"
                                             value="{{ $product->folder }}" >
+                                           
                                     <div class="form-group ">
                                         <label for="sku">Product Code(sku)<span class="required">*</span></label>
                                         <input required type="text" class="form-control" name="sku" id="sku"
