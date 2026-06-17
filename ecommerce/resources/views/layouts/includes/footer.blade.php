@@ -17,7 +17,7 @@
 <script src="{{ asset('assets/adminfile')}}/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="{{ asset('assets/adminfile')}}/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="//cdn.ckeditor.com/4.14.1/full/ckeditor.js"></script>
+<script src="//cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'summary-ckeditor' );
 </script>

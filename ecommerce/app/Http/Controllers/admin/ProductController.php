@@ -128,6 +128,7 @@ public  function  unpublishedProduct(){
         $data['active'] = 'Add New Product';
         $data['title'] = '  ';
         $data['categories'] = DB::table('category')->where('parent_id', 0)->orderBy('category_id', 'ASC')->get();
+        $data['products'] = DB::table('product')->select('product_id', 'product_title', 'sku')->get();
         return view('admin.product.create', $data);
     }
 
@@ -203,12 +204,42 @@ public  function  unpublishedProduct(){
         $data['seo_title'] = $request->seo_title;
         $data['seo_keywords'] = $request->seo_keywords;
         $data['seo_content'] = $request->seo_content;
+        $data['one_page_title'] = $request->one_page_title;
+        $data['one_page_subtitle'] = $request->one_page_subtitle;
+        $data['one_page_why'] = $request->one_page_why;
+        $data['one_page_description'] = $request->one_page_description;
+        $data['khawa_niyom'] = $request->khawa_niyom;
+        $data['allahr_opor_voro'] = $request->allahr_opor_voro;
+        $data['best_selling'] = $request->best_selling;
+        $data['product_weight'] = $request->product_weight;
+        $data['review_video_id'] = $request->review_video_id;
+        $data['package'] = $request->package ? json_encode($request->package) : null;
         if ($request->discount_price) {
             $price = $request->product_price - $request->discount_price;
             $discount = round(($price * 100) / ($request->product_price));
             $data['discount'] = $discount;
         }
         $product_id = DB::table('product')->insertGetId($data);
+
+        $reviewPhotos = [];
+        if ($request->hasFile('review_photos')) {
+            foreach ($request->file('review_photos') as $photo) {
+                $photoName = rand(10,999) . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('uploads/' . $request->folder), $photoName);
+                $reviewPhotos[] = 'uploads/' . $request->folder . '/' . $photoName;
+            }
+        }
+        DB::table('product')->where('product_id', $product_id)->update(['review_photos' => json_encode($reviewPhotos)]);
+
+        $certImages = [];
+        if ($request->hasFile('certified_images')) {
+            foreach ($request->file('certified_images') as $photo) {
+                $photoName = rand(10,999) . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('uploads/' . $request->folder), $photoName);
+                $certImages[] = 'uploads/' . $request->folder . '/' . $photoName;
+            }
+        }
+        DB::table('product')->where('product_id', $product_id)->update(['certified_images' => json_encode($certImages)]);
         $product_image1 = $request->file('product_image1');
         $product_image2 = $request->file('product_image2');
         $product_image3 = $request->file('product_image3');
@@ -459,8 +490,9 @@ public  function  unpublishedProduct(){
         }
         $data['barcode'] =  $request->barcode;
         if($request->package){
-           // $data['package'] = json_encode($request->package); 
-            DB::table('product')->whereIn('product_id',$request->package)->update(['package'=>json_encode($request->package)]);
+           $data['package'] = json_encode($request->package); 
+        //    dd($data['package']);
+          //  DB::table('product')->whereIn('product_id',$request->package)->update(['package'=>json_encode($request->package)]);
         }
         
         $data['product_subtitle'] =  $request->product_subtitle;
@@ -498,6 +530,41 @@ public  function  unpublishedProduct(){
         $data['seo_title'] = $request->seo_title;
         $data['seo_keywords'] = $request->seo_keywords;
         $data['seo_content'] = $request->seo_content;
+        $data['one_page_title'] = $request->one_page_title;
+        $data['one_page_subtitle'] = $request->one_page_subtitle;
+        $data['one_page_why'] = $request->one_page_why;
+        $data['one_page_description'] = $request->one_page_description;
+        $data['khawa_niyom'] = $request->khawa_niyom;
+        $data['allahr_opor_voro'] = $request->allahr_opor_voro;
+        $data['best_selling'] = $request->best_selling;
+        $data['product_weight'] = $request->product_weight;
+        $data['review_video_id'] = $request->review_video_id;
+        $existingPhotos = json_decode(DB::table('product')->where('product_id', $product_id)->value('review_photos'), true) ?? [];
+        if ($request->remove_review_photos) {
+            foreach ($request->remove_review_photos as $index) { unset($existingPhotos[$index]); }
+            $existingPhotos = array_values($existingPhotos);
+        }
+        if ($request->hasFile('review_photos')) {
+            foreach ($request->file('review_photos') as $photo) {
+                $photoName = rand(10,999) . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('uploads/' . $request->folder), $photoName);
+                $existingPhotos[] = 'uploads/' . $request->folder . '/' . $photoName;
+            }
+        }
+        $data['review_photos'] = json_encode($existingPhotos);
+        $existingCert = json_decode(DB::table('product')->where('product_id', $product_id)->value('certified_images'), true) ?? [];
+        if ($request->remove_certified_images) {
+            foreach ($request->remove_certified_images as $index) { unset($existingCert[$index]); }
+            $existingCert = array_values($existingCert);
+        }
+        if ($request->hasFile('certified_images')) {
+            foreach ($request->file('certified_images') as $photo) {
+                $photoName = rand(10,999) . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('uploads/' . $request->folder), $photoName);
+                $existingCert[] = 'uploads/' . $request->folder . '/' . $photoName;
+            }
+        }
+        $data['certified_images'] = json_encode($existingCert);
         if ($request->discount_price) {
             $price = $request->product_price - $request->discount_price;
             $discount = round(($price * 100) / ($request->product_price));
@@ -511,10 +578,19 @@ public  function  unpublishedProduct(){
         $product_image4 = $request->file('product_image4');
         $product_image5 = $request->file('product_image5');
         $product_image6 = $request->file('product_image6');
+
+        
+
         if ($featured_image_orgianal) {
             // $image_name = time().'.'.$featured_image->getClientOriginalExtension();
             $featured_image = $product_id . '.' . $featured_image_orgianal->getClientOriginalName();
             $destinationPath = $orginalpath;
+
+
+            if (!file_exists($destinationPath)) {
+    mkdir($destinationPath, 0777, true);
+}
+
             $resize_image = Image::make($featured_image_orgianal->getRealPath());
             $resize_image->resize(1000, 1000, function ($constraint) {
             })->save($destinationPath . '/' . $featured_image);

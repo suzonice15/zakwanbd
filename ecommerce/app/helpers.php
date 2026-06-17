@@ -7,7 +7,14 @@ function get_option($key)
         return $result->option_value;
     }
 }
-
+function bn_number($number)
+{
+    return str_replace(
+        ['0','1','2','3','4','5','6','7','8','9'],
+        ['০','১','২','৩','৪','৫','৬','৭','৮','৯'],
+        $number
+    );
+}
 
 function getHomeProductByCategoryId($category_id){
    return DB::table('product')->select('product.product_id','product_subtitle','product_title','product_name','discount_price','product_price','folder','feasured_image')

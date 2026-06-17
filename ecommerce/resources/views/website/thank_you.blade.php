@@ -140,8 +140,8 @@
                                $subtotal=0;
                                 foreach ($order_items  as $key => $item) { 
                                 $product=single_product_information($item->product_id);
-                                $sku=$product->sku;
-                                $name=$product->product_name;
+                                $sku=@$product->sku;
+                                $name=@$product->product_name;
                                 $subtotal +=$item->price*$item->qnt;
                                 ?>
                                 <tr>

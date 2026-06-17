@@ -7,9 +7,10 @@ use DB;
 use  Cart;
 use Jenssegers\Agent\Agent;
 use Session;
-
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cookie;
-
 class HomeController extends Controller
 {
     /**
@@ -20,6 +21,53 @@ class HomeController extends Controller
     public function __construct()
     {
         date_default_timezone_set("Asia/Dhaka");     //Country which we are selecting.
+    }
+
+     public function autoTable()
+    {
+
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+
+        if (!Schema::hasColumn('product', 'one_page_title')) {
+            Schema::table('product', function (Blueprint $table) {
+                $table->string('one_page_title')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('product', 'one_page_subtitle')) {
+            Schema::table('product', function (Blueprint $table) {
+                $table->string('one_page_subtitle')->nullable();
+            });
+        }
+
+        if (!Schema::hasColumn('product', 'one_page_why')) {
+            Schema::table('product', function (Blueprint $table) {
+                $table->string('one_page_why')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('product', 'one_page_description')) {
+            Schema::table('product', function (Blueprint $table) {
+                $table->text('one_page_description')->nullable();
+            });
+        }
+        foreach (
+            [
+                'khawa_niyom'      => 'text',
+                'allahr_opor_voro' => 'text',
+                'best_selling'     => 'text',
+                'review_video_id'  => 'string',
+                'review_photos'    => 'text',
+                'certified_images' => 'text',
+                'product_weight'   => 'string',
+            ] as $column => $type
+        ) {
+            if (!Schema::hasColumn('product', $column)) {
+                Schema::table('product', function (Blueprint $table) use ($column, $type) {
+                    $table->$type($column)->nullable();
+                });
+            }
+        }
+        return redirect()->back();
     }
 
     public function index()
@@ -315,6 +363,24 @@ class HomeController extends Controller
             }
 
         }
+    }
+
+     public function healthtips(Request $request, $product_name)
+    {
+        $data['product'] = DB::table('product')->where('product_name', $product_name)->where('status', 1)->first();
+        if (!$data['product']) {
+            return redirect('/');
+        }
+        
+        $data['review_photos'] = json_decode($data['product']->review_photos ?? '[]', true) ?? [];
+        $data['certified_images'] = json_decode($data['product']->certified_images ?? '[]', true) ?? [];
+
+        $packageIds = json_decode($data['product']->package, true) ?? [];
+
+        $data['products'] = !empty($packageIds) ? DB::table('product')->whereIn('product_id', $packageIds)->get() : collect();
+ 
+
+        return view('website.onepage', $data);
     }
 
     public function search_engine(Request $request)
