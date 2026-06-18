@@ -93,6 +93,7 @@ class SettingController extends Controller
         $data['main'] = 'Setting';
         $data['active'] = 'Update Setting';
         $data['title'] = '  ';
+        $data['admin_email'] = DB::table('admin')->where('admin_id', $user_id)->value('email');
         return view('admin.setting.deafualt_setting', $data);
 
     }

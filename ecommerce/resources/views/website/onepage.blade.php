@@ -371,8 +371,13 @@
     <div style="margin-top:15px;">
       <a href="javascript:void(0)" onclick="openModal('privacy')" style="color:white; margin:0 10px; text-decoration:none;">Privacy Policy</a> |
       <a href="javascript:void(0)" onclick="openModal('terms')" style="color:white; margin:0 10px; text-decoration:none;">Terms & conditions</a>
-      <p style="margin-top:12px; color:#a5d6a7;">Copyright © {{ date('Y') }} {{ get_option('site_name') ?? 'Laam BD' }} | All Rights Reserved | Developed by <a href="https://sujon.tablighshop.com/dev/zakwanbd.com" target="_blank" style="color:#ffd700; text-decoration:none;">SIS Solution</a></p>
-    </div>
+<p style="margin-top:12px; color:#a5d6a7;">
+    © {{ date('Y') }} {{ get_option('site_name') ?? 'Your Website Name' }} | All Rights Reserved | 
+    Design & Developed by 
+    <a href="{{ get_option('dev_web_site') ?? '#' }}" target="_blank" style="color:#ffd700; text-decoration:none;">
+        SIS Solution
+    </a>
+</p>    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

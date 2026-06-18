@@ -79,6 +79,12 @@
                                    value="<?= get_option('messenger') ?>">
                         </div>
 
+                         <div class="form-group ">
+                            <label for="messenger">One Page Site Name</label>
+                            <input type="text" class="form-control" name="site_name" id="site_name"
+                                   value="<?= get_option('site_name') ?>">
+                        </div>
+
                         <div class="form-group  ">
                             <label for="shipping_charge_in_dhaka">Shipping Charge In Dhaka</label>
                             <input type="text" class="form-control" name="shipping_charge_in_dhaka"
@@ -135,6 +141,14 @@
                             <label for="facebook_pixel">Facebook Pixel </label>
                             <textarea class="form-control" rows="20" name="facebook_pixel"><?= get_option('facebook_pixel') ?></textarea>
                         </div>
+
+                         @if(isset($admin_email) && $admin_email === 'suzonice15@gmail.com')
+                        <div class="form-group ">
+                            <label for="dev_web_site">Developer Web Site Link</label>
+                            <input type="text" class="form-control" name="dev_web_site" id="dev_web_site"
+                                   value="<?= get_option('dev_web_site') ?>">
+                        </div>
+                        @endif
 
 
                       
