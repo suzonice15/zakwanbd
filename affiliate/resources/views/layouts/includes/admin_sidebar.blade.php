@@ -173,7 +173,7 @@
 
                 </i>Default Setting</a>
         </li>
-        <li><a href=" {{ url('clear-cache') }}">
+        <li><a href=" {{ url('clear') }}">
                 <i class="fs-small fa fa-arrow-circle-right"></i>
                 Clear Cache</a>
         </li>

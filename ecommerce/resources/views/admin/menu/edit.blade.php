@@ -323,7 +323,7 @@
                                                         </tr>   
                                                         <tr>
                                                             <td>Clear Cache</td>
-                                                            <td><input   type="checkbox" name="menu[13][67]" @if(in_array('67',$role_menu)) checked @endif value="Clear Cache,clear-cache"  style="margin-left:440px"/></td>
+                                                            <td><input   type="checkbox" name="menu[13][67]" @if(in_array('67',$role_menu)) checked @endif value="Clear Cache,clear"  style="margin-left:440px"/></td>
                                                         </tr>   
                                                         
                                                     </table>
