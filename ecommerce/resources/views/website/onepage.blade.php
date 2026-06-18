@@ -365,8 +365,8 @@
 
   {{-- Footer --}}
   <div class="footer-section">
-    <a href="tel:{{ get_option('phone') ?? '+8801606700289' }}" style="border:2px solid #ffd700; display:inline-block; padding:10px 25px; border-radius:25px; margin-bottom:20px; color:white; text-decoration:none;">
-      <i class="fas fa-phone-alt"></i> যেকোন প্রয়োজনে যোগাযোগ করুন : {{ get_option('phone') ?? '+880 1606-700289' }}
+    <a href="tel:{{ get_option('one_page_mobile') ?? get_option('phone') ?? '+8801606700289' }}" style="border:2px solid #ffd700; display:inline-block; padding:10px 25px; border-radius:25px; margin-bottom:20px; color:white; text-decoration:none;">
+      <i class="fas fa-phone-alt"></i> যেকোন প্রয়োজনে যোগাযোগ করুন : {{ get_option('one_page_mobile') ?? get_option('phone') ?? '+880 1606-700289' }}
     </a>
     <div style="margin-top:15px;">
       <a href="javascript:void(0)" onclick="openModal('privacy')" style="color:white; margin:0 10px; text-decoration:none;">Privacy Policy</a> |
@@ -520,21 +520,25 @@
 
   {{-- Floating contact buttons --}}
   @php
-    $phone = get_option('phone');
-    $fb = get_option('facebook');
-    $wa = $phone ? 'https://wa.me/' . preg_replace('/[^0-9]/', '', $phone) : '#';
-    $msg = $fb ? 'https://m.me/' . basename(rtrim($fb, '/')) : '#';
+    $whatsapp = get_option('whatsapp');
+    $onepagePhone = get_option('one_page_mobile');
+    $messengerLink = get_option('messenger');
+    $wa = $whatsapp ? 'https://wa.me/' . preg_replace('/[^0-9]/', '', $whatsapp) : '#';
   @endphp
   <div class="float-contact" id="floatContact">
     <div class="float-items" id="floatItems">
+      @if($whatsapp)
       <a href="{{ $wa }}" target="_blank" class="float-item whatsapp" title="WhatsApp">
         <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
       </a>
-      <a href="tel:{{ $phone }}" class="float-item call" title="কল করুন">
+      @endif
+      @if($onepagePhone)
+      <a href="tel:{{ $onepagePhone }}" class="float-item call" title="কল করুন">
         <i class="fas fa-phone-alt"></i><span>কল</span>
       </a>
-      @if($fb)
-      <a href="{{ $msg }}" target="_blank" class="float-item messenger" title="Messenger">
+      @endif
+      @if($messengerLink)
+      <a href="{{ $messengerLink }}" target="_blank" class="float-item messenger" title="Messenger">
         <i class="fab fa-facebook-messenger"></i><span>Messenger</span>
       </a>
       @endif

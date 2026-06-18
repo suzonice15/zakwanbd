@@ -61,6 +61,24 @@
                                    value="<?= get_option('admin_email') ?>">
                         </div>
 
+                        <div class="form-group ">
+                            <label for="whatsapp">WhatsApp Number (for onepage)</label>
+                            <input type="text" class="form-control" name="whatsapp" id="whatsapp"
+                                   value="<?= get_option('whatsapp') ?>">
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="one_page_mobile">Onepage Mobile Number (for call button)</label>
+                            <input type="text" class="form-control" name="one_page_mobile" id="one_page_mobile"
+                                   value="<?= get_option('one_page_mobile') ?>">
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="messenger">Messenger Link (Facebook page URL or m.me link)</label>
+                            <input type="text" class="form-control" name="messenger" id="messenger"
+                                   value="<?= get_option('messenger') ?>">
+                        </div>
+
                         <div class="form-group  ">
                             <label for="shipping_charge_in_dhaka">Shipping Charge In Dhaka</label>
                             <input type="text" class="form-control" name="shipping_charge_in_dhaka"
