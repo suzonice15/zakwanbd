@@ -379,6 +379,14 @@ class HomeController extends Controller
 
         $data['products'] = !empty($packageIds) ? DB::table('product')->whereIn('product_id', $packageIds)->get() : collect();
  
+           
+
+        $staticPages = DB::table('page')->select('page_link', 'page_content')
+            ->whereIn('page_link', ['onepage_privacy_policy', 'one_page_terms_and_conditions'])
+            ->get()
+            ->keyBy('page_link');
+        $data['privacy_page'] = $staticPages->get('onepage_privacy_policy');
+        $data['terms_page'] = $staticPages->get('one_page_terms_and_conditions');
 
         return view('website.onepage', $data);
     }

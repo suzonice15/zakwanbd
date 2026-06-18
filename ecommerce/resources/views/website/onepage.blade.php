@@ -583,21 +583,10 @@
       const body = document.getElementById('infoModalBody');
       if (type === 'privacy') {
         title.innerText = 'Privacy Policy';
-        body.innerHTML =
-          '<h5 style="color:#064e03;">গোপনীয়তা নীতি</h5>' +
-          '<p>আমরা আপনার ব্যক্তিগত তথ্যের গোপনীয়তাকে সম্মান করি এবং সুরক্ষিত রাখি।您的私人信息将严格保密。收集的数据仅用于订单处理和客户服务。</p>' +
-          '<p>আমরা আপনার নাম, ফোন নম্বর এবং ঠিকানা শুধুমাত্র অর্ডার ডেলিভারির জন্য ব্যবহার করি।</p>' +
-          '<p>আমরা কোনো তৃতীয় পক্ষের সাথে আপনার তথ্য শেয়ার করি না।</p>';
+        body.innerHTML = {!! json_encode($privacy_page->page_content ?? '<h5 style="color:#064e03;">Privacy Policy</h5><p>Content not found.</p>') !!};
       } else {
         title.innerText = 'Terms & Conditions';
-        body.innerHTML =
-          '<h5 style="color:#064e03;">শর্তাবলী</h5>' +
-          '<p>অর্ডার দেওয়ার মাধ্যমে আপনি নিম্নলিখিত শর্তাবলী মেনে নিচ্ছেন:</p>' +
-          '<ul>' +
-          '<li>পণ্য হাতে পেয়ে টাকা পরিশোধ করুন (Cash on Delivery)</li>' +
-          '<li>ডেলিভারির সময় পণ্য চেক করে নিন</li>' +
-          '<li>প্রোডাক্ট পরিবর্তনের জন্য ২৪ ঘন্টার মধ্যে যোগাযোগ করুন</li>' +
-          '</ul>';
+        body.innerHTML = {!! json_encode($terms_page->page_content ?? '<h5 style="color:#064e03;">Terms & Conditions</h5><p>Content not found.</p>') !!};
       }
       const modal = new bootstrap.Modal(document.getElementById('infoModal'));
       modal.show();
