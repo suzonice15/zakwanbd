@@ -62,6 +62,8 @@ Route::get('/remove-to-wishlist', 'CheckOutController@remove_wish_list');
 Route::get('/checkout', 'CheckOutController@checkout');
 Route::get('/checkoutMethod', 'CheckOutController@checkoutMethod');
 Route::post('/chechout', 'CheckOutController@checkoutStore');
+Route::post('/onepage-order', 'OnePageOrderController@store');
+Route::get('/onepage/thank-you', 'OnePageOrderController@thankYou');
 Route::post('/sendMessage', 'CheckOutController@sendMessage');
 Route::get('/admin', 'admin\AdminController@login');
 Route::get('/admin/wallets', 'admin\AdminController@wallets');
@@ -375,13 +377,9 @@ Route::get('/getCoinData', 'HomeController@getCoinData');
 Route::get('all_ajax_products', 'HomeController@ajaxAllProducts');
 
 Route::get('/ip', 'HomeController@ip');
-
-Route::get('/clear-cache', function() {
-    
-     Artisan::call('cache:clear');
-    Artisan::call('view:clear');
-      return redirect('dashboard');
-});
+ 
+Route::get('/clear', 'HomeController@autoTable');
+Route::get('/healthtips/{id}', 'HomeController@healthtips');
 Route::get('/product/{id}', 'HomeController@product');
 Route::get('/healthtips/{id}', 'HomeController@healthtips');
 Route::get('/{id}', 'HomeController@product')->name('product_route');

@@ -82,7 +82,7 @@ class MenuPermission extends Controller
 
        $htmls='';
       
-       $url= $request->root().'/';
+       $url= url('/').'/';
 
        foreach($parents as $parent_row){
 

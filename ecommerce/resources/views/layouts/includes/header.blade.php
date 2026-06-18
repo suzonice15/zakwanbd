@@ -65,6 +65,14 @@
                     <!-- Messages: style can be found in dropdown.less-->
 
                     <li class="dropdown user user-menu">
+                        <a href="{{url('/clear')}}"  class="btn btn-danger btn-sm" style="padding:5px;margin-top:7px">
+                            
+                             Clear Cache
+                        </a>
+                       
+                    </li>
+                    
+                    <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src=" {{url('public/uploads/users')}}/{{ Session::get('picture') }}" class="user-image" alt="User Image">
                             <span class="hidden-xs"> {{ Session::get('name') }}</span>

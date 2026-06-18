@@ -74,7 +74,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2018-<?=date('Y')?> Developed by Jibonpata IT</strong>
+        <strong>Copyright &copy; 2018-<?=date('Y')?> Developed by SIS Solution</strong>
     </footer>
 
     <!-- Control Sidebar -->

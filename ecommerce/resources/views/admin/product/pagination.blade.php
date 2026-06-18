@@ -9,6 +9,7 @@
             <td>
                 <img src="{{ url('/public/uploads') }}/{{ $product->folder }}/small/{{ $product->feasured_image }}">
                 <a target="_blank" href="{{ url('/') }}/{{$product->product_name}}"> {{$product->product_title}} </a>
+                <a target="_blank" style="color:red;front-weight:bold;" href="{{ url('/') }}/healthtips/{{$product->product_name}}"> One Page </a>
 
             </td>
             @if(Session::get('status') !=4)
