@@ -366,7 +366,7 @@
   {{-- Footer --}}
   <div class="footer-section">
     <a href="tel:{{ get_option('phone') ?? '+8801606700289' }}" style="border:2px solid #ffd700; display:inline-block; padding:10px 25px; border-radius:25px; margin-bottom:20px; color:white; text-decoration:none;">
-      যেকোন প্রয়োজনে যোগাযোগ করুন : 📞 {{ get_option('phone') ?? '+880 1606-700289' }}
+      <i class="fas fa-phone-alt"></i> যেকোন প্রয়োজনে যোগাযোগ করুন : {{ get_option('phone') ?? '+880 1606-700289' }}
     </a>
     <div style="margin-top:15px;">
       <a href="javascript:void(0)" onclick="openModal('privacy')" style="color:white; margin:0 10px; text-decoration:none;">Privacy Policy</a> |
