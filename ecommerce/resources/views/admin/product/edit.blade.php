@@ -227,7 +227,7 @@ Update Product
                 </div>
 
                 {{-- Image & Gallery --}}
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
                         <div class="box-header" style="background-color: #bdbdbf;">
                             <h3 class="box-title">Image and Gallery</h3>
@@ -240,51 +240,49 @@ Update Product
                                 }
                             </style>
                             <div class="row">
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Featured Image<span class="required">* Size(800*800)</span></label>
                                         <img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/small/<?php echo $product->feasured_image; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;">
                                         <input type="file" class="form-control" name="featured_image" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 1<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_1) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_1; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
                                         <input type="file" class="form-control" name="product_image1" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 2<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_2) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_2; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
                                         <input type="file" class="form-control" name="product_image2" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 3<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_3) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_3; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
                                         <input type="file" class="form-control" name="product_image3" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-top:10px;">
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 4<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_4) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_4; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
                                         <input type="file" class="form-control" name="product_image4" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 5<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_5) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_5; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
                                         <input type="file" class="form-control" name="product_image5" />
                                     </div>
                                 </div>
-                                <div class="col-md-3 gallery-col">
+                                <div class="col-md-4 gallery-col">
                                     <div class="form-group">
                                         <label>Gallery Image 6<span class="required">* Size(800*800)</span></label>
                                         <?php if ($product->galary_image_6) { ?><img src="<?= url('/') ?>/public/uploads/<?php echo $product->folder; ?>/<?php echo $product->galary_image_6; ?>" style="width:80px; height:80px; object-fit:cover; margin-bottom:5px;"><?php } ?>
@@ -297,12 +295,12 @@ Update Product
                 </div>
 
                 {{-- Categories --}}
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
                         <div class="box-header" style="background-color: #bdbdbf;">
                             <h3 class="box-title">Categories<span class="required">*</span></h3>
                         </div>
-                        <div class="box-body" style="padding: 22px; height: 300px; overflow: scroll">
+                        <div class="box-body" style="padding: 22px; height: 400px; overflow-y: scroll">
                             <?php if (isset($categories)) {
                                 foreach ($categories as $category) {
                                     $subCategory_id = $category->category_id;
@@ -337,6 +335,42 @@ Update Product
                                     } ?>
                             <?php }
                             } ?>
+                        </div>
+                    </div>
+                </div>
+
+                 {{-- Product Summary --}}
+                <div class="col-md-12">
+                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
+                        <div class="box-header" style="background-color: #ddd;">
+                            <h3 class="box-title">Product Summary</h3>
+                        </div>
+                        <div class="box-body" style="padding: 22px;">
+                            <textarea class="form-control ckeditor" rows="10" name="product_specification" id="product_specification"> {{ $product->product_specification }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Description --}}
+                <div class="col-md-12">
+                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
+                        <div class="box-header" style="background-color: #bdbdbf;">
+                            <h3 class="box-title">Description</h3>
+                        </div>
+                        <div class="box-body" style="padding: 22px;">
+                            <textarea class="form-control ckeditor" rows="10" name="product_description" id="product_description">{{ $product->product_description }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Terms & Conditions --}}
+                <div class="col-md-12">
+                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
+                        <div class="box-header" style="background-color: #bdbdbf;">
+                            <h3 class="box-title">Terms &amp; Conditions</h3>
+                        </div>
+                        <div class="box-body" style="padding: 22px;">
+                            <textarea class="form-control ckeditor" rows="5" name="product_terms" id="product_terms">{{ $product->product_terms }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -475,41 +509,7 @@ Update Product
                     </div>
                 </div>
 
-                {{-- Product Summary --}}
-                <div class="col-md-12">
-                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
-                        <div class="box-header" style="background-color: #ddd;">
-                            <h3 class="box-title">Product Summary</h3>
-                        </div>
-                        <div class="box-body" style="padding: 22px;">
-                            <textarea class="form-control ckeditor" rows="10" name="product_specification" id="product_specification"> {{ $product->product_specification }}</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Description --}}
-                <div class="col-md-12">
-                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
-                        <div class="box-header" style="background-color: #bdbdbf;">
-                            <h3 class="box-title">Description</h3>
-                        </div>
-                        <div class="box-body" style="padding: 22px;">
-                            <textarea class="form-control ckeditor" rows="10" name="product_description" id="product_description">{{ $product->product_description }}</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Terms & Conditions --}}
-                <div class="col-md-12">
-                    <div class="box box-primary" style="border: 2px solid #ddd; margin-top: 15px;">
-                        <div class="box-header" style="background-color: #bdbdbf;">
-                            <h3 class="box-title">Terms &amp; Conditions</h3>
-                        </div>
-                        <div class="box-body" style="padding: 22px;">
-                            <textarea class="form-control ckeditor" rows="5" name="product_terms" id="product_terms">{{ $product->product_terms }}</textarea>
-                        </div>
-                    </div>
-                </div>
+               
 
 
 
