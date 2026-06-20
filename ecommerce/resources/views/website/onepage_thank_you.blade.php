@@ -154,7 +154,7 @@
         </div>
         <div class="row-item">
           <span class="label">মোট মূল্য</span>
-          <span class="value">{{ $order->advabced_price }} ৳</span>
+          <span class="value">{{ $order->order_total }} ৳</span>
         </div>
       </div>
 
