@@ -180,14 +180,14 @@
         <i class="fas fa-phone-alt me-1"></i> যেকোনো প্রয়োজনে কল করুন: {{ get_option('phone') }}
       </p>
 
-      <a href="{{ url('/') }}" class="btn-home">
+      <!-- <a href="{{ url('/') }}" class="btn-home">
         <i class="fas fa-home me-2"></i>হোম পেজে ফিরে যান
-      </a>
+      </a> -->
       @else
       <div class="text-center py-4">
         <i class="fas fa-exclamation-triangle" style="font-size:48px; color:#dc3545;"></i>
         <h5 style="color:#dc3545; margin-top:15px;">ভুল অর্ডার তথ্য!</h5>
-        <a href="{{ url('/') }}" class="btn-home mt-3">হোম পেজে যান</a>
+        <!-- <a href="{{ url('/') }}" class="btn-home mt-3">হোম পেজে যান</a> -->
       </div>
       @endif
     </div>
