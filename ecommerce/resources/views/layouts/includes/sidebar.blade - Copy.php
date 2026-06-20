@@ -17,10 +17,9 @@
         ?>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
-            <li>
+             <li>
                 <a href="{{ url('/dashboard') }}">
-                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    <i class="fa fa-home"></i> <span>Dashboard</span>
                     <span class="pull-right-container">
             </span>
                 </a>
