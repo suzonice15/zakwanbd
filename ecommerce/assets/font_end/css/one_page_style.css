@@ -226,7 +226,7 @@
       font-weight: bold;
       color: #ffd700;
       margin-bottom: 20px;
-      text-align: center;
+      text-align: left;
     }
 
     .btn-order-now {
@@ -472,6 +472,10 @@
     .courier-option.selected {
       border-color: #28a745;
       background: #f0fff4;
+    }
+
+    .courier-option label {
+      cursor: pointer;
     }
 
     .courier-option input[type=radio] {

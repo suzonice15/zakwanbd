@@ -34,7 +34,7 @@
           @if($product->product_video)
           <div class="video-box">
             <div class="ratio ratio-16x9">
-              <iframe src="https://www.youtube.com/embed/{{ $product->product_video }}?autoplay=1&mute=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/{{ $product->product_video }}?autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           @endif
@@ -73,7 +73,7 @@
   @if(count($certified_images) > 0)
   <div class="cert-section">
     <div class="container">
-      <h2 class="section-title">ISO এবং BSTI ও BCSIR থেকে সার্টিফাইড</h2>
+      <h2 class="section-title">{{ $product->iso_heading ?? 'এই রোগ অবহেলা করলে হতে পারে মারাত্মক বিপদ' }}</h2>
       {{-- Mobile: 1 image per slide --}}
       <div id="certCarouselMobile" class="carousel slide d-md-none" data-bs-ride="false">
         <div class="carousel-inner">
@@ -155,12 +155,12 @@
       <a href="#order-form" class="btn-order"><i class="fa-solid fa-cart-arrow-down"></i> অর্ডার করতে ক্লিক করুন</a>
 
       @if($product->review_video_id || count($review_photos) > 0)
-      <div class="stars mt-4">★★★ সম্মানিত কাস্টমারদের মতামত ★★★</div>
+      <div class="stars mt-4">সম্মানিত কাস্টমারদের মতামত</div>
       <div class="row justify-content-center mt-3">
         @if($product->review_video_id)
         <div class="col-12 col-md-4 mb-3">
           <div class="media-box">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=1&mute=0" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
           </div>
         </div>
         @endif
@@ -247,10 +247,11 @@
 
       @if($product->allahr_opor_voro)
       <div class="row mt-4 align-items-center">
-        <div class="col-12 col-md-6 message-text">{{ $product->allahr_opor_voro }}</div>
-        <div class="col-12 col-md-6 delivery-offer">
+        <div class="col-12 col-md-8 message-text">{{ $product->allahr_opor_voro }}</div>
+        <div class="col-12 col-md-4 delivery-offer" style="font-size: 20px;text-align:left">
           @if(($product->delivery_in_dhaka ?? 0) > 0 || ($product->delivery_out_dhaka ?? 0) > 0)
-          ডেলিভারি চার্জ  ঢাকার ভেতরে: {{ $product->delivery_in_dhaka }} টাকা |ডেলিভারি চার্জ ঢাকার বাইরে: {{ $product->delivery_out_dhaka }} টাকা |
+          ডেলিভারি চার্জ: </br>
+           ঢাকার ভেতরে: {{ $product->delivery_in_dhaka }} টাকা | <br/> ঢাকার বাইরে: {{ $product->delivery_out_dhaka }} টাকা |
           @else
             এখন অর্ডার করলে<br>হোম ডেলিভারি চার্জ ফ্রি।
           @endif
@@ -314,18 +315,21 @@
               @if(($product->delivery_in_dhaka ?? 0) > 0 || ($product->delivery_out_dhaka ?? 0) > 0)
               <label class="mt-3 d-block">ডেলিভারি চার্জ *</label>
               <div class="d-flex gap-3 mt-2" id="courier-options-container">
-                <div class="courier-option" id="opt_inside" onclick="selectCourier('inside')">
-                  <input type="radio" name="courier_area" id="courier_inside" value="inside" checked>
-                  <label for="courier_inside">
-                     <span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">{{ $product->delivery_in_dhaka }} টাকা</strong></span>
-                  </label>
-                </div>
-                <div class="courier-option" id="opt_outside" onclick="selectCourier('outside')">
-                  <input type="radio" name="courier_area" id="courier_outside" value="outside">
+                
+              <div class="courier-option" id="opt_outside" onclick="selectCourier('outside')">
+                  <input type="radio" name="courier_area" id="courier_outside" value="outside" checked>
                   <label for="courier_outside">
                      <span class="courier-charge">ঢাকার বাইরে : <strong id="chargeOutside">{{ $product->delivery_out_dhaka }} টাকা</strong></span>
                   </label>
                 </div>
+
+              <div class="courier-option" id="opt_inside" onclick="selectCourier('inside')">
+                  <input type="radio" name="courier_area" id="courier_inside" value="inside" >
+                  <label for="courier_inside">
+                     <span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">{{ $product->delivery_in_dhaka }} টাকা</strong></span>
+                  </label>
+                </div>
+                
               </div>
               @else
               <label class="mt-3 d-block">ডেলিভারি চার্জ</label>
@@ -339,9 +343,9 @@
             <h5 class="mb-3">আপনার অর্ডার</h5>
             <div class="order-summary">
               <p id="summaryProduct">Product: {{ $product->product_title }} <b>{{ $product->discount_price ?: $product->product_price }} ৳</b></p>
-              <p>ডেলিভারি চার্জ: <b id="summaryDelivery">@if(($product->delivery_in_dhaka ?? 0) > 0){{ $product->delivery_in_dhaka }} ৳ @elseফ্রি @endif</b></p>
+              <p>ডেলিভারি চার্জ: <b id="summaryDelivery">@if(($product->delivery_out_dhaka ?? 0) > 0){{ $product->delivery_out_dhaka }} ৳ @elseফ্রি @endif</b></p>
               <hr>
-              <p>মোট মূল্য: <b id="summaryTotal">{{ (($product->discount_price ?: $product->product_price) + ($product->delivery_in_dhaka ?? 0)) }} ৳</b></p>
+              <p>মোট মূল্য: <b id="summaryTotal">{{ (($product->discount_price ?: $product->product_price) + ($product->delivery_out_dhaka ?? 0)) }} ৳</b></p>
               <p><small>ক্যাশ অন ডেলিভারি</small></p>
               <button class="submit-btn  " onclick="submitOrder()" type="button"><i class="fa-solid fa-cart-arrow-down me-2"></i>এখনই অর্ডার সম্পন্ন করুন</button>
             </div>
@@ -399,7 +403,7 @@
     let selectedProductTitle = @json($product->product_title);
     let deliveryInDhaka = @json((float)($product->delivery_in_dhaka ?? 0));
     let deliveryOutDhaka = @json((float)($product->delivery_out_dhaka ?? 0));
-    let deliveryCharge = deliveryInDhaka;
+    let deliveryCharge = deliveryOutDhaka;
 
     function fmtCharge(val) {
       return val > 0 ? val + ' টাকা' : 'ফ্রি';
@@ -412,20 +416,21 @@
         section.innerHTML =
           '<label class="mt-3 d-block">ডেলিভারি চার্জ *</label>' +
           '<div class="d-flex gap-3 mt-2" id="courier-options-container">' +
-            '<div class="courier-option selected" id="opt_inside" onclick="selectCourier(\'inside\')">' +
-              '<input type="radio" name="courier_area" id="courier_inside" value="inside" checked>' +
-              '<label for="courier_inside">' +
-                '<span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">' + fmtCharge(deliveryInDhaka) + '</strong></span>' +
-              '</label>' +
-            '</div>' +
-            '<div class="courier-option" id="opt_outside" onclick="selectCourier(\'outside\')">' +
-              '<input type="radio" name="courier_area" id="courier_outside" value="outside">' +
+            '<div class="courier-option selected" id="opt_outside" onclick="selectCourier(\'outside\')">' +
+              '<input type="radio" name="courier_area" id="courier_outside" value="outside" checked>' +
               '<label for="courier_outside">' +
                 '<span class="courier-charge">ঢাকার বাইরে : <strong id="chargeOutside">' + fmtCharge(deliveryOutDhaka) + '</strong></span>' +
               '</label>' +
             '</div>' +
+             '<div class="courier-option " id="opt_inside" onclick="selectCourier(\'inside\')">' +
+              '<input type="radio" name="courier_area" id="courier_inside" value="inside" >' +
+              '<label for="courier_inside">' +
+                '<span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">' + fmtCharge(deliveryInDhaka) + '</strong></span>' +
+              '</label>' +
+            '</div>' 
+           
           '</div>';
-        deliveryCharge = deliveryInDhaka > 0 ? deliveryInDhaka : deliveryOutDhaka;
+        deliveryCharge = deliveryOutDhaka > 0 ? deliveryOutDhaka : deliveryInDhaka;
       } else {
         section.innerHTML =
           '<label class="mt-3 d-block">ডেলিভারি চার্জ</label>' +

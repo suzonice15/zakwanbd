@@ -405,7 +405,16 @@
                             <h3 class="box-title">কাস্টমারদের মতামত & ISO এবং BSTI ও BCSIR থেকে সার্টিফাইড</h3>
                         </div>
                         <div class="box-body" style="padding: 22px;">
+
                             <div class="row customer-info">
+                                     
+ <div class="col-md-12 customer-info-col">
+                                    <div class="form-group">
+                                        <label>ISO এবং BSTI ও BCSIR Heading
+</label>
+                                        <input type="text" class="form-control" name="iso_heading" value="" placeholder="" autocomplete="off">
+                                    </div>
+                                </div>
                                 <div class="col-md-6 customer-info-col">
                                     <div class="form-group">
                                         <label>ISO এবং BSTI ও BCSIR থেকে সার্টিফাইড</label>
