@@ -34,7 +34,7 @@
           @if($product->product_video)
           <div class="video-box">
             <div class="ratio ratio-16x9">
-              <iframe src="https://www.youtube.com/embed/{{ $product->product_video }}?autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/{{ $product->product_video }}?autoplay=1&mute=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           @endif
@@ -160,7 +160,7 @@
         @if($product->review_video_id)
         <div class="col-12 col-md-4 mb-3">
           <div class="media-box">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>
           </div>
         </div>
         @endif
