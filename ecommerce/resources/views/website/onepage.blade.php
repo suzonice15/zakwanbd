@@ -26,10 +26,10 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           @if($product->one_page_title)
-          <div class="title-box">{{ $product->one_page_title }}</div>
+          <div class="title-box" style="text-align: justify;font-size:20px;color: #ffd700;">{{ $product->one_page_title }}</div>
           @endif
           @if($product->one_page_subtitle)
-          <p class="sub-text">{{ $product->one_page_subtitle }}</p>
+          <p class="sub-text" style="text-align: justify;">{{ $product->one_page_subtitle }}</p>
           @endif
           @if($product->product_video)
           <div class="video-box">
@@ -51,13 +51,13 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           @if($product->one_page_why)
-          <div class="title-box">{{ $product->one_page_why }}</div>
+          <div class="title-box" style="text-align: justify;font-size:20px;color: #ffd700;">{{ $product->one_page_why }}</div>
           @endif
           @if($product->one_page_description)
           <div class="content-box">
             @foreach(explode("\n", $product->one_page_description) as $line)
             @if(trim($line))
-            <div class="list-item"><i class="fas fa-check-circle"></i> {{ trim($line) }}</div>
+            <div class="list-item" style="text-align: justify;color: #ffd700;font-weight: 500;"><i class="fas fa-check-circle"></i> {{ trim($line) }}</div>
             @endif
             @endforeach
           </div>
@@ -79,7 +79,7 @@
         <div class="carousel-inner">
           @foreach($certified_images as $i => $img)
           <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-            <img src="{{ url('/') }}/public/{{ $img }}" class="d-block w-100 cert-img" alt="Certificate {{ $i+1 }}">
+            <img src="{{ url('/') }}/public/{{ $img }}" class="d-block w-100 cert-img" style=" object-fit: contain;" alt="Certificate {{ $i+1 }}">
           </div>
           @endforeach
         </div>
@@ -100,7 +100,7 @@
             <div class="row g-2">
               @foreach($chunk as $photo)
               <div class="col-4">
-                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 cert-img" alt="Certificate">
+                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 cert-img"   alt="Certificate">
               </div>
               @endforeach
             </div>
@@ -125,12 +125,12 @@
   <div class="section-bg-other">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-md-1"></div>
-        <div class="col-12 col-md-5 instructions mb-4 mb-md-0">
+        <div class="col-md-1 col-1"></div>
+        <div class="col-11 col-md-5 instructions mb-4 mb-md-0">
           <div class="rule-title">খাওয়ার নিয়মাবলীঃ</div>
           @foreach(explode("\n", $product->khawa_niyom) as $rule)
           @if(trim($rule))
-          <div class="rule-item"><i class="fas fa-check-circle me-2" style="color:#ffd700;"></i>{{ trim($rule) }}</div>
+          <div class="rule-item" style="text-align: justify;"><i class="fas fa-check-circle me-2" style="color:#ffd700;"></i>{{ trim($rule) }}</div>
           @endif
           @endforeach
           <a href="#order-form" class="btn-order"><i class="fa-solid fa-cart-arrow-down"></i> অর্ডার করতে ক্লিক করুন</a>
@@ -150,12 +150,13 @@
   @if($product->allahr_opor_voro || $product->review_video_id || count($review_photos) > 0)
   <div class="section-bg">
     <div class="container">
-      <h4 class="mb-2">এটি সম্পূর্ণ হোমমেড একটি প্রোডাক্ট তাই কোন পার্শ্ব প্রতিক্রিয়া নেই। <span
-          style="color:#ffd700;">লিমিটেড স্টক, তাই দেরি না করে এখন-ই অর্ডার করুন।</span></h4>
+      <h4 class="mb-2" style="font-size: 18px;
+    text-align: justify;
+    line-height: 30px;color:#ffd700">{{ $product->customer_heading ?? 'প্রস্রাবের ইনফেকশন, ক্ষয় ও অণ্ডকোষের ব্যথা অবহেলা করলে কিডনি ড্যামেজ হতে পারে! পার্শ্বপ্রতিক্রিয়াহীন প্রাকৃতিক ভেষজ "ইউরি কেয়ার" সেবনে রোগ নির্মূল করুন গোড়া থেকেই' }} </h4>
       <a href="#order-form" class="btn-order"><i class="fa-solid fa-cart-arrow-down"></i> অর্ডার করতে ক্লিক করুন</a>
 
       @if($product->review_video_id || count($review_photos) > 0)
-      <div class="stars mt-4">সম্মানিত কাস্টমারদের মতামত</div>
+      <div class="stars mt-4">কাস্টমারদের মতামত</div>
       <div class="row justify-content-center mt-3">
         @if($product->review_video_id)
         <div class="col-12 col-md-4 mb-3">
@@ -171,7 +172,7 @@
             <div class="carousel-inner">
               @foreach($review_photos as $i => $photo)
               <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 review-img" alt="Review">
+                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 review-img"  style=" object-fit: contain;" alt="Review">
               </div>
               @endforeach
             </div>
@@ -247,7 +248,7 @@
 
       @if($product->allahr_opor_voro)
       <div class="row mt-4 align-items-center">
-        <div class="col-12 col-md-8 message-text">{{ $product->allahr_opor_voro }}</div>
+        <div class="col-12 col-md-8 message-text" style="text-align: justify;">{{ $product->allahr_opor_voro }}</div>
         <div class="col-12 col-md-4 delivery-offer" style="font-size: 20px;text-align:left">
           @if(($product->delivery_in_dhaka ?? 0) > 0 || ($product->delivery_out_dhaka ?? 0) > 0)
           ডেলিভারি চার্জ: </br>
