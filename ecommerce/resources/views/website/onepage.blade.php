@@ -15,7 +15,8 @@
   <link href="{{url('/assets/font_end/css/one_page_style.css')}}" rel="stylesheet">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
+      <?= get_option('facebook_pixel') ?>
+
 </head>
 
 <body>
