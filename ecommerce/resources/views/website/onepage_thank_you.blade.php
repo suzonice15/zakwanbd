@@ -5,6 +5,7 @@
   <title>অর্ডার সফল হয়েছে</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <?= get_option('facebook_pixel') ?>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -192,6 +193,33 @@
       @endif
     </div>
   </div>
+
+  @if(isset($order))
+  <script>
+    (function() {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+          value: {{ $order->order_total }},
+          currency: 'BDT',
+          content_ids: [
+            @foreach($order_items as $item) '{{ $item->product_id }}'@if(!$loop->last), @endif @endforeach
+          ],
+          content_type: 'product',
+          order_id: '{{ $order->order_id }}'
+        });
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '{{ url('/onepage/capi-event') }}', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+      xhr.send(JSON.stringify({
+        order_id: '{{ $order->order_id }}',
+        event_name: 'Purchase'
+      }));
+    })();
+  </script>
+  @endif
 
 </body>
 </html>

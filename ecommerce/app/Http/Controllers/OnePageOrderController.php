@@ -9,6 +9,23 @@ use Session;
 
 class OnePageOrderController extends Controller
 {
+    private function sendFacebookCapiEvent(array $eventData)
+    {
+        $pixelId = get_option('facebook_pixel_id');
+        $accessToken = get_option('facebook_capi_token');
+        if (!$pixelId || !$accessToken) return;
+
+        $ch = curl_init("https://graph.facebook.com/v22.0/{$pixelId}/events?access_token={$accessToken}");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['data' => [$eventData]]));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
     public function store(Request $request)
     {
         $set_user_id2 = 0;
@@ -110,7 +127,7 @@ class OnePageOrderController extends Controller
             $order_details['price'] = $price;
             $order_details['sub_total'] = $price;
             
-            $product = DB::table('product')->select('top_deal')->where('product_id', $product_id)->first();
+            $product = DB::table('product')->select('top_deal', 'product_title')->where('product_id', $product_id)->first();
             $order_details['commision'] = ($product ? $product->top_deal : 0);
             $order_details['order_date'] = date("Y-m-d");
             
@@ -131,11 +148,50 @@ class OnePageOrderController extends Controller
         }
     }
 
+    public function capiEvent(Request $request)
+    {
+        $orderId = $request->order_id;
+        $eventName = $request->event_name ?: 'Lead';
+        $order = DB::table('order_data')->where('order_id', $orderId)->first();
+        if (!$order) return response()->json(['error' => 'Order not found'], 404);
+
+        $items = DB::table('order_details')->where('order_id', $orderId)->get();
+        $productTitle = '';
+        if ($items->first()) {
+            $p = DB::table('product')->select('product_title')
+                ->where('product_id', $items->first()->product_id)->first();
+            $productTitle = $p->product_title ?? '';
+        }
+
+        $this->sendFacebookCapiEvent([
+            'event_name' => $eventName,
+            'event_time' => time(),
+            'action_source' => 'website',
+            'event_source_url' => url('/onepage/thank-you?order_id=' . $orderId),
+            'user_data' => [
+                'ph' => hash('sha256', $order->customer_phone),
+                'client_ip_address' => $request->ip(),
+                'client_user_agent' => $request->userAgent() ?? '',
+            ],
+            'custom_data' => [
+                'value' => (float) $order->order_total,
+                'currency' => 'BDT',
+                'content_name' => $productTitle,
+                'content_ids' => $items->pluck('product_id')->map(function($v) { return (string) $v; })->toArray(),
+                'content_type' => 'product',
+                'order_id' => (string) $order->order_id,
+            ],
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function thankYou(Request $request)
     {
         $id = $request->order_id;
         $data['order'] = DB::table('order_data')->where('order_id', $id)->first();
         $data['order_items'] = DB::table('order_details')->where('order_id', $id)->get();
+
         return view('website.onepage_thank_you', $data);
     }
 }

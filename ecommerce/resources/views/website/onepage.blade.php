@@ -16,7 +16,6 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
       <?= get_option('facebook_pixel') ?>
-
 </head>
 
 <body>
@@ -401,6 +400,7 @@
       });
     });
 
+    let selectedProductId = @json($product->product_id);
     let selectedProductPrice = @json((float)($product->discount_price ?: $product->product_price));
     let selectedProductTitle = @json($product->product_title);
     let deliveryInDhaka = @json((float)($product->delivery_in_dhaka ?? 0));
@@ -451,17 +451,44 @@
       const input = document.getElementById('product_' + index);
       if (!input) return;
       input.checked = true;
+      selectedProductId = input.value;
       selectedProductPrice = Number(input.dataset.price) || 0;
       selectedProductTitle = input.dataset.title || selectedProductTitle;
       deliveryInDhaka = Number(input.dataset.deliveryIn) || 0;
       deliveryOutDhaka = Number(input.dataset.deliveryOut) || 0;
       renderDeliverySection();
       document.getElementById('summaryProduct').innerHTML = 'Product: ' + selectedProductTitle + ' <b>' + selectedProductPrice + ' ৳</b>';
+      fbViewContent();
+    }
+
+    function fbViewContent() {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'ViewContent', {
+          content_name: selectedProductTitle,
+          content_ids: [selectedProductId],
+          content_type: 'product',
+          value: selectedProductPrice,
+          currency: 'BDT'
+        });
+      }
+    }
+
+    function fbLead(value) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+          value: value,
+          currency: 'BDT',
+          content_name: selectedProductTitle,
+          content_ids: [selectedProductId],
+          content_type: 'product'
+        });
+      }
     }
 
     // default selected
     document.addEventListener('DOMContentLoaded', function() {
       selectProduct(0);
+      setTimeout(fbViewContent, 500);
     });
 
     function selectCourier(area) {
@@ -508,6 +535,7 @@
         document.getElementById('form_shipping_charge').value = deliveryCharge;
         document.getElementById('form_order_total').value = selectedProductPrice + deliveryCharge;
         
+        fbLead(selectedProductPrice + deliveryCharge);
         document.getElementById('onePageOrderForm').submit();
       }
     }
