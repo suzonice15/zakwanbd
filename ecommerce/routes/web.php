@@ -64,6 +64,7 @@ Route::get('/checkoutMethod', 'CheckOutController@checkoutMethod');
 Route::post('/chechout', 'CheckOutController@checkoutStore');
 Route::post('/onepage-order', 'OnePageOrderController@store');
 Route::get('/onepage/thank-you', 'OnePageOrderController@thankYou');
+Route::post('/onepage/capi-event', 'OnePageOrderController@capiEvent');
 Route::post('/sendMessage', 'CheckOutController@sendMessage');
 Route::get('/admin', 'admin\AdminController@login');
 Route::get('/admin/wallets', 'admin\AdminController@wallets');

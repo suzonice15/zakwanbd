@@ -45,6 +45,13 @@ class HomeController extends Controller
                 $table->string('one_page_why')->nullable();
             });
         }
+
+         if (!Schema::hasColumn('product', 'iso_heading')) {
+            Schema::table('product', function (Blueprint $table) {
+                $table->string('iso_heading')->nullable();
+            });
+        }
+        
         if (!Schema::hasColumn('product', 'one_page_description')) {
             Schema::table('product', function (Blueprint $table) {
                 $table->text('one_page_description')->nullable();

@@ -202,6 +202,7 @@ public  function  unpublishedProduct(){
         $data['created_time'] = date('Y-m-d H:i:s');
         $data['modified_time'] = date('Y-m-d H:i:s');
         $data['seo_title'] = $request->seo_title;
+        $data['iso_heading'] = $request->iso_heading;
         $data['seo_keywords'] = $request->seo_keywords;
         $data['seo_content'] = $request->seo_content;
         $data['one_page_title'] = $request->one_page_title;
@@ -530,6 +531,7 @@ public  function  unpublishedProduct(){
         $data['seo_title'] = $request->seo_title;
         $data['seo_keywords'] = $request->seo_keywords;
         $data['seo_content'] = $request->seo_content;
+        $data['iso_heading'] = $request->iso_heading;
         $data['one_page_title'] = $request->one_page_title;
         $data['one_page_subtitle'] = $request->one_page_subtitle;
         $data['one_page_why'] = $request->one_page_why;
@@ -744,8 +746,7 @@ public  function  unpublishedProduct(){
 
 
         if ($product_id) {
-            return redirect('admin/products')
-                ->with('success', 'Update successfully.');
+            return redirect()->back()->with('success', 'Update successfully.');
         } else {
             return redirect('admin/product/create')
                 ->with('error', 'No successfully.');

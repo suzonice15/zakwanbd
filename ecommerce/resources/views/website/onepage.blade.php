@@ -15,7 +15,7 @@
   <link href="{{url('/assets/font_end/css/one_page_style.css')}}" rel="stylesheet">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
+      <?= get_option('facebook_pixel') ?>
 </head>
 
 <body>
@@ -26,10 +26,10 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           @if($product->one_page_title)
-          <div class="title-box">{{ $product->one_page_title }}</div>
+          <div class="title-box" style="text-align: justify;font-size:20px;color: #ffd700;">{{ $product->one_page_title }}</div>
           @endif
           @if($product->one_page_subtitle)
-          <p class="sub-text">{{ $product->one_page_subtitle }}</p>
+          <p class="sub-text" style="text-align: justify;">{{ $product->one_page_subtitle }}</p>
           @endif
           @if($product->product_video)
           <div class="video-box">
@@ -51,13 +51,13 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           @if($product->one_page_why)
-          <div class="title-box">{{ $product->one_page_why }}</div>
+          <div class="title-box" style="text-align: justify;font-size:20px;color: #ffd700;">{{ $product->one_page_why }}</div>
           @endif
           @if($product->one_page_description)
           <div class="content-box">
             @foreach(explode("\n", $product->one_page_description) as $line)
             @if(trim($line))
-            <div class="list-item"><i class="fas fa-check-circle"></i> {{ trim($line) }}</div>
+            <div class="list-item" style="text-align: justify;color: #ffd700;font-weight: 500;"><i class="fas fa-check-circle"></i> {{ trim($line) }}</div>
             @endif
             @endforeach
           </div>
@@ -73,13 +73,13 @@
   @if(count($certified_images) > 0)
   <div class="cert-section">
     <div class="container">
-      <h2 class="section-title">ISO এবং BSTI ও BCSIR থেকে সার্টিফাইড</h2>
+      <h2 class="section-title">{{ $product->iso_heading ?? 'এই রোগ অবহেলা করলে হতে পারে মারাত্মক বিপদ' }}</h2>
       {{-- Mobile: 1 image per slide --}}
       <div id="certCarouselMobile" class="carousel slide d-md-none" data-bs-ride="false">
         <div class="carousel-inner">
           @foreach($certified_images as $i => $img)
           <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-            <img src="{{ url('/') }}/public/{{ $img }}" class="d-block w-100 cert-img" alt="Certificate {{ $i+1 }}">
+            <img src="{{ url('/') }}/public/{{ $img }}" class="d-block w-100 cert-img" style=" object-fit: contain;" alt="Certificate {{ $i+1 }}">
           </div>
           @endforeach
         </div>
@@ -100,7 +100,7 @@
             <div class="row g-2">
               @foreach($chunk as $photo)
               <div class="col-4">
-                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 cert-img" alt="Certificate">
+                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 cert-img"   alt="Certificate">
               </div>
               @endforeach
             </div>
@@ -125,12 +125,12 @@
   <div class="section-bg-other">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-md-1"></div>
-        <div class="col-12 col-md-5 instructions mb-4 mb-md-0">
+        <div class="col-md-1 col-1"></div>
+        <div class="col-11 col-md-5 instructions mb-4 mb-md-0">
           <div class="rule-title">খাওয়ার নিয়মাবলীঃ</div>
           @foreach(explode("\n", $product->khawa_niyom) as $rule)
           @if(trim($rule))
-          <div class="rule-item"><i class="fas fa-check-circle me-2" style="color:#ffd700;"></i>{{ trim($rule) }}</div>
+          <div class="rule-item" style="text-align: justify;"><i class="fas fa-check-circle me-2" style="color:#ffd700;"></i>{{ trim($rule) }}</div>
           @endif
           @endforeach
           <a href="#order-form" class="btn-order"><i class="fa-solid fa-cart-arrow-down"></i> অর্ডার করতে ক্লিক করুন</a>
@@ -150,17 +150,18 @@
   @if($product->allahr_opor_voro || $product->review_video_id || count($review_photos) > 0)
   <div class="section-bg">
     <div class="container">
-      <h4 class="mb-2">এটি সম্পূর্ণ হোমমেড একটি প্রোডাক্ট তাই কোন পার্শ্ব প্রতিক্রিয়া নেই। <span
-          style="color:#ffd700;">লিমিটেড স্টক, তাই দেরি না করে এখন-ই অর্ডার করুন।</span></h4>
+      <h4 class="mb-2" style="font-size: 18px;
+    text-align: justify;
+    line-height: 30px;color:#ffd700">{{ $product->customer_heading ?? 'প্রস্রাবের ইনফেকশন, ক্ষয় ও অণ্ডকোষের ব্যথা অবহেলা করলে কিডনি ড্যামেজ হতে পারে! পার্শ্বপ্রতিক্রিয়াহীন প্রাকৃতিক ভেষজ "ইউরি কেয়ার" সেবনে রোগ নির্মূল করুন গোড়া থেকেই' }} </h4>
       <a href="#order-form" class="btn-order"><i class="fa-solid fa-cart-arrow-down"></i> অর্ডার করতে ক্লিক করুন</a>
 
       @if($product->review_video_id || count($review_photos) > 0)
-      <div class="stars mt-4">★★★ সম্মানিত কাস্টমারদের মতামত ★★★</div>
+      <div class="stars mt-4">কাস্টমারদের মতামত</div>
       <div class="row justify-content-center mt-3">
         @if($product->review_video_id)
         <div class="col-12 col-md-4 mb-3">
           <div class="media-box">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=1&mute=0" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $product->review_video_id }}?autoplay=0&mute=0" frameborder="0" allowfullscreen></iframe>
           </div>
         </div>
         @endif
@@ -171,7 +172,7 @@
             <div class="carousel-inner">
               @foreach($review_photos as $i => $photo)
               <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 review-img" alt="Review">
+                <img src="{{ url('/') }}/public/{{ $photo }}" class="d-block w-100 review-img"  style=" object-fit: contain;" alt="Review">
               </div>
               @endforeach
             </div>
@@ -247,10 +248,11 @@
 
       @if($product->allahr_opor_voro)
       <div class="row mt-4 align-items-center">
-        <div class="col-12 col-md-6 message-text">{{ $product->allahr_opor_voro }}</div>
-        <div class="col-12 col-md-6 delivery-offer">
+        <div class="col-12 col-md-8 message-text" style="text-align: justify;">{{ $product->allahr_opor_voro }}</div>
+        <div class="col-12 col-md-4 delivery-offer" style="font-size: 20px;text-align:left">
           @if(($product->delivery_in_dhaka ?? 0) > 0 || ($product->delivery_out_dhaka ?? 0) > 0)
-          ডেলিভারি চার্জ  ঢাকার ভেতরে: {{ $product->delivery_in_dhaka }} টাকা |ডেলিভারি চার্জ ঢাকার বাইরে: {{ $product->delivery_out_dhaka }} টাকা |
+          ডেলিভারি চার্জ: </br>
+           ঢাকার ভেতরে: {{ $product->delivery_in_dhaka }} টাকা | <br/> ঢাকার বাইরে: {{ $product->delivery_out_dhaka }} টাকা |
           @else
             এখন অর্ডার করলে<br>হোম ডেলিভারি চার্জ ফ্রি।
           @endif
@@ -314,18 +316,21 @@
               @if(($product->delivery_in_dhaka ?? 0) > 0 || ($product->delivery_out_dhaka ?? 0) > 0)
               <label class="mt-3 d-block">ডেলিভারি চার্জ *</label>
               <div class="d-flex gap-3 mt-2" id="courier-options-container">
-                <div class="courier-option" id="opt_inside" onclick="selectCourier('inside')">
-                  <input type="radio" name="courier_area" id="courier_inside" value="inside" checked>
-                  <label for="courier_inside">
-                     <span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">{{ $product->delivery_in_dhaka }} টাকা</strong></span>
-                  </label>
-                </div>
-                <div class="courier-option" id="opt_outside" onclick="selectCourier('outside')">
-                  <input type="radio" name="courier_area" id="courier_outside" value="outside">
+                
+              <div class="courier-option" id="opt_outside" onclick="selectCourier('outside')">
+                  <input type="radio" name="courier_area" id="courier_outside" value="outside" checked>
                   <label for="courier_outside">
                      <span class="courier-charge">ঢাকার বাইরে : <strong id="chargeOutside">{{ $product->delivery_out_dhaka }} টাকা</strong></span>
                   </label>
                 </div>
+
+              <div class="courier-option" id="opt_inside" onclick="selectCourier('inside')">
+                  <input type="radio" name="courier_area" id="courier_inside" value="inside" >
+                  <label for="courier_inside">
+                     <span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">{{ $product->delivery_in_dhaka }} টাকা</strong></span>
+                  </label>
+                </div>
+                
               </div>
               @else
               <label class="mt-3 d-block">ডেলিভারি চার্জ</label>
@@ -339,9 +344,9 @@
             <h5 class="mb-3">আপনার অর্ডার</h5>
             <div class="order-summary">
               <p id="summaryProduct">Product: {{ $product->product_title }} <b>{{ $product->discount_price ?: $product->product_price }} ৳</b></p>
-              <p>ডেলিভারি চার্জ: <b id="summaryDelivery">@if(($product->delivery_in_dhaka ?? 0) > 0){{ $product->delivery_in_dhaka }} ৳ @elseফ্রি @endif</b></p>
+              <p>ডেলিভারি চার্জ: <b id="summaryDelivery">@if(($product->delivery_out_dhaka ?? 0) > 0){{ $product->delivery_out_dhaka }} ৳ @elseফ্রি @endif</b></p>
               <hr>
-              <p>মোট মূল্য: <b id="summaryTotal">{{ (($product->discount_price ?: $product->product_price) + ($product->delivery_in_dhaka ?? 0)) }} ৳</b></p>
+              <p>মোট মূল্য: <b id="summaryTotal">{{ (($product->discount_price ?: $product->product_price) + ($product->delivery_out_dhaka ?? 0)) }} ৳</b></p>
               <p><small>ক্যাশ অন ডেলিভারি</small></p>
               <button class="submit-btn  " onclick="submitOrder()" type="button"><i class="fa-solid fa-cart-arrow-down me-2"></i>এখনই অর্ডার সম্পন্ন করুন</button>
             </div>
@@ -395,11 +400,12 @@
       });
     });
 
+    let selectedProductId = @json($product->product_id);
     let selectedProductPrice = @json((float)($product->discount_price ?: $product->product_price));
     let selectedProductTitle = @json($product->product_title);
     let deliveryInDhaka = @json((float)($product->delivery_in_dhaka ?? 0));
     let deliveryOutDhaka = @json((float)($product->delivery_out_dhaka ?? 0));
-    let deliveryCharge = deliveryInDhaka;
+    let deliveryCharge = deliveryOutDhaka;
 
     function fmtCharge(val) {
       return val > 0 ? val + ' টাকা' : 'ফ্রি';
@@ -412,20 +418,21 @@
         section.innerHTML =
           '<label class="mt-3 d-block">ডেলিভারি চার্জ *</label>' +
           '<div class="d-flex gap-3 mt-2" id="courier-options-container">' +
-            '<div class="courier-option selected" id="opt_inside" onclick="selectCourier(\'inside\')">' +
-              '<input type="radio" name="courier_area" id="courier_inside" value="inside" checked>' +
-              '<label for="courier_inside">' +
-                '<span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">' + fmtCharge(deliveryInDhaka) + '</strong></span>' +
-              '</label>' +
-            '</div>' +
-            '<div class="courier-option" id="opt_outside" onclick="selectCourier(\'outside\')">' +
-              '<input type="radio" name="courier_area" id="courier_outside" value="outside">' +
+            '<div class="courier-option selected" id="opt_outside" onclick="selectCourier(\'outside\')">' +
+              '<input type="radio" name="courier_area" id="courier_outside" value="outside" checked>' +
               '<label for="courier_outside">' +
                 '<span class="courier-charge">ঢাকার বাইরে : <strong id="chargeOutside">' + fmtCharge(deliveryOutDhaka) + '</strong></span>' +
               '</label>' +
             '</div>' +
+             '<div class="courier-option " id="opt_inside" onclick="selectCourier(\'inside\')">' +
+              '<input type="radio" name="courier_area" id="courier_inside" value="inside" >' +
+              '<label for="courier_inside">' +
+                '<span class="courier-charge">ঢাকার ভেতরে : <strong id="chargeInside">' + fmtCharge(deliveryInDhaka) + '</strong></span>' +
+              '</label>' +
+            '</div>' 
+           
           '</div>';
-        deliveryCharge = deliveryInDhaka > 0 ? deliveryInDhaka : deliveryOutDhaka;
+        deliveryCharge = deliveryOutDhaka > 0 ? deliveryOutDhaka : deliveryInDhaka;
       } else {
         section.innerHTML =
           '<label class="mt-3 d-block">ডেলিভারি চার্জ</label>' +
@@ -444,17 +451,44 @@
       const input = document.getElementById('product_' + index);
       if (!input) return;
       input.checked = true;
+      selectedProductId = input.value;
       selectedProductPrice = Number(input.dataset.price) || 0;
       selectedProductTitle = input.dataset.title || selectedProductTitle;
       deliveryInDhaka = Number(input.dataset.deliveryIn) || 0;
       deliveryOutDhaka = Number(input.dataset.deliveryOut) || 0;
       renderDeliverySection();
       document.getElementById('summaryProduct').innerHTML = 'Product: ' + selectedProductTitle + ' <b>' + selectedProductPrice + ' ৳</b>';
+      fbViewContent();
+    }
+
+    function fbViewContent() {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'ViewContent', {
+          content_name: selectedProductTitle,
+          content_ids: [selectedProductId],
+          content_type: 'product',
+          value: selectedProductPrice,
+          currency: 'BDT'
+        });
+      }
+    }
+
+    function fbLead(value) {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+          value: value,
+          currency: 'BDT',
+          content_name: selectedProductTitle,
+          content_ids: [selectedProductId],
+          content_type: 'product'
+        });
+      }
     }
 
     // default selected
     document.addEventListener('DOMContentLoaded', function() {
       selectProduct(0);
+      setTimeout(fbViewContent, 500);
     });
 
     function selectCourier(area) {
@@ -501,6 +535,7 @@
         document.getElementById('form_shipping_charge').value = deliveryCharge;
         document.getElementById('form_order_total').value = selectedProductPrice + deliveryCharge;
         
+        fbLead(selectedProductPrice + deliveryCharge);
         document.getElementById('onePageOrderForm').submit();
       }
     }

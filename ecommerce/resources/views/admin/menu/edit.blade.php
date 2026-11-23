@@ -18,7 +18,7 @@
                         <div> 
                              <li>
                                         <span>Orders</span>   
-                                        <input   type="checkbox" name="parent[1]" @if(in_array('1',$role_menu)) checked @endif  value="Orders,fa fa-dashboard"  style="margin-left:460px"/>
+                                        <input   type="checkbox" name="parent[1]" @if(in_array('1',$role_menu)) checked @endif  value="Orders,fa fa-shopping-cart"  style="margin-left:460px"/>
                                                 <table>
                                                     <tr>
                                                         <td>Add New Order</td>
@@ -57,7 +57,7 @@
                              <div> 
                                     <li>
                                             <span>Products</span>   
-                                            <input   type="checkbox" name="parent[2]"  @if(in_array('2',$role_menu)) checked @endif value="Products,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[2]"  @if(in_array('2',$role_menu)) checked @endif value="Products,fa fa-cubes"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Product</td>
@@ -93,7 +93,7 @@
                              <div> 
                                     <li>
                                             <span>Categories</span>   
-                                            <input   type="checkbox" name="parent[3]"  @if(in_array('3',$role_menu)) checked @endif  value="Categories,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[3]"  @if(in_array('3',$role_menu)) checked @endif  value="Categories,fa fa-folder"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Category</td>
@@ -112,7 +112,7 @@
                              <div> 
                                     <li>
                                             <span>Users</span>   
-                                            <input   type="checkbox" name="parent[4]"  @if(in_array('4',$role_menu)) checked @endif value="Users,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[4]"  @if(in_array('4',$role_menu)) checked @endif value="Users,fa fa-users"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New User</td>
@@ -135,7 +135,7 @@
                              <div> 
                                     <li>
                                             <span>Sliders</span>   
-                                            <input   type="checkbox" name="parent[5]"  @if(in_array('5',$role_menu)) checked @endif value="Sliders,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[5]"  @if(in_array('5',$role_menu)) checked @endif value="Sliders,fa fa-picture-o"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Slider</td>
@@ -155,7 +155,7 @@
                              <div> 
                                     <li>
                                             <span>Reports</span>   
-                                            <input   type="checkbox" name="parent[6]" @if(in_array('6',$role_menu)) checked @endif  value="Reports,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[6]" @if(in_array('6',$role_menu)) checked @endif  value="Reports,fa fa-bar-chart"  style="margin-left:460px"/>
                                                     <table>
                                                     <tr>
                                                             <td> Top Sell Product</td>
@@ -193,7 +193,7 @@
                              <div> 
                                     <li>
                                             <span>Zone Management</span>   
-                                            <input   type="checkbox" name="parent[7]" @if(in_array('7',$role_menu)) checked @endif value="Zone Management,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[7]" @if(in_array('7',$role_menu)) checked @endif value="Zone Management,fa fa-globe"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Zone Stock</td>
@@ -208,7 +208,7 @@
                              <div> 
                                     <li>
                                             <span>Courier</span>   
-                                            <input   type="checkbox" name="parent[8]"  @if(in_array('8',$role_menu)) checked @endif value="Courier,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[8]"  @if(in_array('8',$role_menu)) checked @endif value="Courier,fa fa-truck"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Courier</td>
@@ -227,7 +227,7 @@
                              <div> 
                                     <li>
                                             <span>Suppliyer</span>   
-                                            <input   type="checkbox" name="parent[9]" @if(in_array('9',$role_menu)) checked @endif value="Suppliyer,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[9]" @if(in_array('9',$role_menu)) checked @endif value="Suppliyer,fa fa-handshake-o"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Suppliyer</td>
@@ -246,7 +246,7 @@
                              <div> 
                                     <li>
                                             <span>Media</span>   
-                                            <input   type="checkbox" name="parent[10]"  @if(in_array('10',$role_menu)) checked @endif value="Media,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[10]"  @if(in_array('10',$role_menu)) checked @endif value="Media,fa fa-picture-o"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Media Image</td>
@@ -265,7 +265,7 @@
                              <div> 
                                     <li>
                                             <span>Zone & Shop</span>   
-                                            <input   type="checkbox" name="parent[11]" @if(in_array('11',$role_menu)) checked @endif value="Zone & Shop,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[11]" @if(in_array('11',$role_menu)) checked @endif value="Zone & Shop,fa fa-map-marker"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Zone</td>
@@ -284,7 +284,7 @@
                              <div> 
                                     <li>
                                             <span>Pages</span>   
-                                            <input   type="checkbox" name="parent[12]" @if(in_array('12',$role_menu)) checked @endif  value="Pages,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[12]" @if(in_array('12',$role_menu)) checked @endif  value="Pages,fa fa-file-text-o"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Add New Page</td>
@@ -303,7 +303,7 @@
                              <div> 
                                     <li>
                                             <span>Setting</span>   
-                                            <input   type="checkbox" name="parent[13]" @if(in_array('13',$role_menu)) checked @endif value="Setting,fa fa-dashboard"  style="margin-left:460px"/>
+                                            <input   type="checkbox" name="parent[13]" @if(in_array('13',$role_menu)) checked @endif value="Setting,fa fa-cog"  style="margin-left:460px"/>
                                                     <table>
                                                         <tr>
                                                             <td>Default Setting</td>
