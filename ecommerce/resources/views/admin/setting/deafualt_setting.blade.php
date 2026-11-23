@@ -142,6 +142,14 @@
                             <textarea class="form-control" rows="20" name="facebook_pixel"><?= get_option('facebook_pixel') ?></textarea>
                         </div>
 
+                        <div class="form-group ">
+                            <label for="inspect_off">Disable Inspect / Right Click (One Page)</label>
+                            <select class="form-control" name="inspect_off" id="inspect_off">
+                                <option value="1" <?= get_option('inspect_off') == '1' ? 'selected' : '' ?>>On</option>
+                                <option value="0" <?= get_option('inspect_off') != '1' ? 'selected' : '' ?>>Off</option>
+                            </select>
+                        </div>
+
                          @if(isset($admin_email) && $admin_email === 'suzonice15@gmail.com')
                         <div class="form-group ">
                             <label for="dev_web_site">Developer Web Site Link</label>
